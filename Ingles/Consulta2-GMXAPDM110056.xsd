@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Consulta2" targetNamespace="http://tempuri.org/Consulta2.xsd" xmlns:mstns="http://tempuri.org/Consulta2.xsd" xmlns="http://tempuri.org/Consulta2.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="MySettings" AppSettingsPropertyName="InglesConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="InglesConnectionString (MySettings)" PropertyReference="ApplicationSettings.WindowsApplication1.My.MySettings.GlobalReference.Default.InglesConnectionString" Provider="System.Data.OleDb" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="Consulta2TableAdapter" GeneratorDataComponentClassName="Consulta2TableAdapter" Name="Consulta2" UserDataComponentName="Consulta2TableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="InglesConnectionString (MySettings)" DbObjectName="Consulta2" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT Id, Descripcion, ESTATUS, IDGrupoII, TipoID, Total, Aprendido, Usadas, Transparentes, Avance, Faltan, Orden, TSEL FROM Consulta2</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="Id" DataSetColumn="Id" />
+              <Mapping SourceColumn="Descripcion" DataSetColumn="Descripcion" />
+              <Mapping SourceColumn="ESTATUS" DataSetColumn="ESTATUS" />
+              <Mapping SourceColumn="IDGrupoII" DataSetColumn="IDGrupoII" />
+              <Mapping SourceColumn="TipoID" DataSetColumn="TipoID" />
+              <Mapping SourceColumn="Total" DataSetColumn="Total" />
+              <Mapping SourceColumn="Aprendido" DataSetColumn="Aprendido" />
+              <Mapping SourceColumn="Usadas" DataSetColumn="Usadas" />
+              <Mapping SourceColumn="Transparentes" DataSetColumn="Transparentes" />
+              <Mapping SourceColumn="Avance" DataSetColumn="Avance" />
+              <Mapping SourceColumn="Faltan" DataSetColumn="Faltan" />
+              <Mapping SourceColumn="Orden" DataSetColumn="Orden" />
+              <Mapping SourceColumn="TSEL" DataSetColumn="TSEL" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="Consulta2" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="Consulta2" msprop:Generator_UserDSName="Consulta2">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Consulta2" msprop:Generator_TableClassName="Consulta2DataTable" msprop:Generator_TableVarName="tableConsulta2" msprop:Generator_TablePropName="_Consulta2" msprop:Generator_RowDeletingName="Consulta2RowDeleting" msprop:Generator_RowChangingName="Consulta2RowChanging" msprop:Generator_RowEvHandlerName="Consulta2RowChangeEventHandler" msprop:Generator_RowDeletedName="Consulta2RowDeleted" msprop:Generator_UserTableName="Consulta2" msprop:Generator_RowChangedName="Consulta2RowChanged" msprop:Generator_RowEvArgName="Consulta2RowChangeEvent" msprop:Generator_RowClassName="Consulta2Row">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Id" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnId" msprop:Generator_ColumnPropNameInRow="Id" msprop:Generator_ColumnPropNameInTable="IdColumn" msprop:Generator_UserColumnName="Id" type="xs:int" minOccurs="0" />
+              <xs:element name="Descripcion" msprop:Generator_ColumnVarNameInTable="columnDescripcion" msprop:Generator_ColumnPropNameInRow="Descripcion" msprop:Generator_ColumnPropNameInTable="DescripcionColumn" msprop:Generator_UserColumnName="Descripcion" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ESTATUS" msprop:Generator_ColumnVarNameInTable="columnESTATUS" msprop:Generator_ColumnPropNameInRow="ESTATUS" msprop:Generator_ColumnPropNameInTable="ESTATUSColumn" msprop:Generator_UserColumnName="ESTATUS" type="xs:boolean" minOccurs="0" />
+              <xs:element name="IDGrupoII" msprop:Generator_ColumnVarNameInTable="columnIDGrupoII" msprop:Generator_ColumnPropNameInRow="IDGrupoII" msprop:Generator_ColumnPropNameInTable="IDGrupoIIColumn" msprop:Generator_UserColumnName="IDGrupoII" type="xs:int" minOccurs="0" />
+              <xs:element name="TipoID" msprop:Generator_ColumnVarNameInTable="columnTipoID" msprop:Generator_ColumnPropNameInRow="TipoID" msprop:Generator_ColumnPropNameInTable="TipoIDColumn" msprop:Generator_UserColumnName="TipoID" type="xs:int" minOccurs="0" />
+              <xs:element name="Total" msprop:Generator_ColumnVarNameInTable="columnTotal" msprop:Generator_ColumnPropNameInRow="Total" msprop:Generator_ColumnPropNameInTable="TotalColumn" msprop:Generator_UserColumnName="Total" type="xs:int" minOccurs="0" />
+              <xs:element name="Aprendido" msprop:Generator_ColumnVarNameInTable="columnAprendido" msprop:Generator_ColumnPropNameInRow="Aprendido" msprop:Generator_ColumnPropNameInTable="AprendidoColumn" msprop:Generator_UserColumnName="Aprendido" type="xs:int" minOccurs="0" />
+              <xs:element name="Usadas" msprop:Generator_ColumnVarNameInTable="columnUsadas" msprop:Generator_ColumnPropNameInRow="Usadas" msprop:Generator_ColumnPropNameInTable="UsadasColumn" msprop:Generator_UserColumnName="Usadas" type="xs:int" minOccurs="0" />
+              <xs:element name="Transparentes" msprop:Generator_ColumnVarNameInTable="columnTransparentes" msprop:Generator_ColumnPropNameInRow="Transparentes" msprop:Generator_ColumnPropNameInTable="TransparentesColumn" msprop:Generator_UserColumnName="Transparentes" type="xs:int" minOccurs="0" />
+              <xs:element name="Avance" msprop:Generator_ColumnVarNameInTable="columnAvance" msprop:Generator_ColumnPropNameInRow="Avance" msprop:Generator_ColumnPropNameInTable="AvanceColumn" msprop:Generator_UserColumnName="Avance" type="xs:double" minOccurs="0" />
+              <xs:element name="Faltan" msprop:Generator_ColumnVarNameInTable="columnFaltan" msprop:Generator_ColumnPropNameInRow="Faltan" msprop:Generator_ColumnPropNameInTable="FaltanColumn" msprop:Generator_UserColumnName="Faltan" type="xs:double" minOccurs="0" />
+              <xs:element name="Orden" msprop:Generator_ColumnVarNameInTable="columnOrden" msprop:Generator_ColumnPropNameInRow="Orden" msprop:Generator_ColumnPropNameInTable="OrdenColumn" msprop:Generator_UserColumnName="Orden" type="xs:int" minOccurs="0" />
+              <xs:element name="TSEL" msprop:Generator_ColumnVarNameInTable="columnTSEL" msprop:Generator_ColumnPropNameInRow="TSEL" msprop:Generator_ColumnPropNameInTable="TSELColumn" msprop:Generator_UserColumnName="TSEL" type="xs:boolean" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

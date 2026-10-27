@@ -1,0 +1,766 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+Idiomas
+</name>
+</assembly>
+<members>
+<member name="M:Idiomas.ListViewCustomReorder.ListViewEx.DrawInsertionLine(System.Int32,System.Int32,System.Int32)">
+	<summary> 
+ Draw a line with insertion marks at each end 
+ </summary>
+	<param name="X1">Starting position (X) of the line</param>
+	<param name="X2">Ending position (X) of the line</param>
+	<param name="Y">Position (Y) of the line</param>
+</member><member name="M:Idiomas.ListViewCustomReorder.ListViewEx.CreateCursor(System.Drawing.Bitmap)">
+	<summary>
+ CreateCursor
+ </summary>
+	<param name="bmp"></param>
+	<returns>custom Cursor</returns>
+	<remarks>creates a custom cursor from a bitmap</remarks>
+</member><member name="T:Idiomas.ListViewCustomReorder.ListViewEx">
+	<summary> 
+ A slightly extended version of the standard ListView. 
+ </summary>
+</member><member name="T:Idiomas.DataSet1">
+	<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member><member name="T:Idiomas.DataSet1TableAdapters.QueriesTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.Grupos.Grupos_TemasDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.Grupos.Grupos_TemasRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.Grupos.Grupos_TemasRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.Grupos">
+	<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member><member name="T:Idiomas.GruposTableAdapters.Grupos_TemasTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.ConceptosDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Copia_de_SubFrasesDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Copia_de_TiposDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Copia_de_VerbosDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Errores_de_pegadoDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.FrasesDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.GruposDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Grupos_oracionDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Grupos_TemasDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Grupos1DataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Hoja1DataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.irregularDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.OracionesDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Palabras_UsadasDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.RaizDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.regularDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.RelacionadosDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.SinonimosDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.SubconceptosDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.SuboracionDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet._Suboracion_conceptoDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.SubtemasDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.SubtipoDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Tabla_RespaldoDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Tabla1DataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Tabla10DataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Tabla2DataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Tabla3DataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Tabla4DataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.TemasDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.TiposDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.VerbosDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet._Verbos___ExcelDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.ConceptosRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Copia_de_SubFrasesRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Copia_de_TiposRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Copia_de_VerbosRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Errores_de_pegadoRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.FrasesRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.GruposRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Grupos_oracionRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Grupos_TemasRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Grupos1Row">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Hoja1Row">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.irregularRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.OracionesRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Palabras_UsadasRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.RaizRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.regularRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.RelacionadosRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.SinonimosRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.SubconceptosRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.SuboracionRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet._Suboracion_conceptoRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.SubtemasRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.SubtipoRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Tabla_RespaldoRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Tabla1Row">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Tabla10Row">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Tabla2Row">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Tabla3Row">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Tabla4Row">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.TemasRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.TiposRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.VerbosRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet._Verbos___ExcelRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.ConceptosRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Copia_de_SubFrasesRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Copia_de_TiposRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Copia_de_VerbosRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Errores_de_pegadoRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.FrasesRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.GruposRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Grupos_oracionRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Grupos_TemasRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Grupos1RowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Hoja1RowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.irregularRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.OracionesRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Palabras_UsadasRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.RaizRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.regularRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.RelacionadosRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.SinonimosRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.SubconceptosRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.SuboracionRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet._Suboracion_conceptoRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.SubtemasRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.SubtipoRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Tabla_RespaldoRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Tabla1RowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Tabla10RowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Tabla2RowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Tabla3RowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.Tabla4RowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.TemasRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.TiposRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet.VerbosRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet._Verbos___ExcelRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.InglesDataSet">
+	<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.ConceptosTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.Copia_de_SubFrasesTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.Copia_de_TiposTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.Copia_de_VerbosTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.Errores_de_pegadoTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.FrasesTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.GruposTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.Grupos_oracionTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.Grupos_TemasTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.Grupos1TableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.Hoja1TableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.irregularTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.OracionesTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.Palabras_UsadasTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.RaizTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.regularTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.RelacionadosTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.SinonimosTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.SubconceptosTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.SuboracionTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.Suboracion_conceptoTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.SubtemasTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.SubtipoTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.Tabla_RespaldoTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.Tabla1TableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.Tabla10TableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.Tabla2TableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.Tabla3TableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.Tabla4TableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.TemasTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.TiposTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.VerbosTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.InglesDataSetTableAdapters.Verbos___ExcelTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="M:Idiomas.Bar.PintaDegradado(System.Drawing.Color,System.Windows.Forms.DataGridViewCellPaintingEventArgs)">
+	<summary>
+ Draws a glass bar into a cell
+ </summary>
+	<param name="oColor">Color of the bar.</param>
+	<param name="e">CellPainting event's parameters</param>
+	<remarks></remarks>
+</member><member name="M:Idiomas.Bar.PintaDegradado(System.Drawing.Color,System.Windows.Forms.DataGridViewCellPaintingEventArgs,System.Int32)">
+	<summary>
+ Draws a partial glass bar into a cell
+ </summary>
+	<param name="oColor">Color of the bar.</param>
+	<param name="e">CellPainting event's parameters</param>
+	<param name="iPorcentaje">Percent value to represent.</param>
+	<remarks></remarks>
+</member><member name="M:Idiomas.Bar.PintaDegradado(System.Drawing.Color,System.Windows.Forms.DataGridViewCellPaintingEventArgs,System.Int32,System.Int32,System.Drawing.Color)">
+	<summary>
+ Draws a partial glass bar into a cell with target indicator.
+ </summary>
+	<param name="oColor">Color of the bar.</param>
+	<param name="e">CellPainting event's parameters</param>
+	<param name="iPorcentaje">Percent value to represent.</param>
+	<param name="iObjetivo">Target to show.</param>
+	<param name="oColorObjetivo">Target indicator color.</param>
+	<remarks></remarks>
+</member><member name="M:Idiomas.Bar.PintaDegradado(System.Drawing.Color[],System.Windows.Forms.DataGridViewCellPaintingEventArgs,System.Int32[])">
+	<summary>
+ Does the hard job
+ </summary>
+	<param name="aColores">Color array to use.</param>
+	<param name="e">CellPainting event's parameters</param>
+	<param name="aPorcentajes">Percent array to show. It can be one or two. 
+ First shows bar percent and second shows target percent. 
+ If only one percent is passed and it's cero, it will fill all cell width with the glass bar.</param>
+	<remarks></remarks>
+</member><member name="T:Idiomas.Bar">
+	<summary>
+ Draws a bar in a DatGridView cell.
+ </summary>
+	<remarks></remarks>
+</member><member name="P:Idiomas.My.Resources.Resources.ResourceManager">
+	<summary>
+  Devuelve la instancia de ResourceManager almacenada en caché utilizada por esta clase.
+</summary>
+</member><member name="P:Idiomas.My.Resources.Resources.Culture">
+	<summary>
+  Reemplaza la propiedad CurrentUICulture del subproceso actual para todas las
+  búsquedas de recursos mediante esta clase de recurso fuertemente tipado.
+</summary>
+</member><member name="P:Idiomas.My.Resources.Resources._default">
+	<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Idiomas.My.Resources.Resources._like">
+	<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Idiomas.My.Resources.Resources.adios">
+	<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Idiomas.My.Resources.Resources.avion">
+	<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Idiomas.My.Resources.Resources.balanza">
+	<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Idiomas.My.Resources.Resources.clima">
+	<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Idiomas.My.Resources.Resources.deporte">
+	<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Idiomas.My.Resources.Resources.dialogo">
+	<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Idiomas.My.Resources.Resources.direccion">
+	<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Idiomas.My.Resources.Resources.estrellaGris">
+	<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Idiomas.My.Resources.Resources.Expresion">
+	<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Idiomas.My.Resources.Resources.familia">
+	<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Idiomas.My.Resources.Resources.Hamburguesa">
+	<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Idiomas.My.Resources.Resources.manor">
+	<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Idiomas.My.Resources.Resources.mazo">
+	<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Idiomas.My.Resources.Resources.mute">
+	<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Idiomas.My.Resources.Resources.personal">
+	<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Idiomas.My.Resources.Resources.rutina">
+	<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Idiomas.My.Resources.Resources.shop_remove">
+	<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Idiomas.My.Resources.Resources.sombrero">
+	<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Idiomas.My.Resources.Resources.Sonido">
+	<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Idiomas.My.Resources.Resources.sonido1">
+	<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Idiomas.My.Resources.Resources.sonidogris">
+	<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Idiomas.My.Resources.Resources.tiempo">
+	<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="T:Idiomas.My.Resources.Resources">
+	<summary>
+  Clase de recurso fuertemente tipado, para buscar cadenas traducidas, etc.
+</summary>
+</member><member name="T:Idiomas.Consulta2.Consulta2DataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:Idiomas.Consulta2.Consulta2Row">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:Idiomas.Consulta2.Consulta2RowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:Idiomas.Consulta2">
+	<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member><member name="T:Idiomas.Consulta2TableAdapters.Consulta2TableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:Idiomas.DataSet2">
+	<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member><member name="T:Idiomas.DataSet2TableAdapters.QueriesTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+</members>
+</doc>

@@ -1,0 +1,821 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8986527E-64AE-4434-9739-574B68B820B7}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>Idiomas.My.MyApplication</StartupObject>
+    <RootNamespace>Idiomas</RootNamespace>
+    <AssemblyName>Idiomas</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsForms</MyType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>Compilado\</OutputPath>
+    <DocumentationFile>Idiomas.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Idiomas.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>Off</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Ingles, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <ExecutableExtension>.exe</ExecutableExtension>
+    </Reference>
+    <Reference Include="Interop.SpeechLib">
+      <HintPath>..\..\..\..\..\..\Downloads\TextoaVozConVB\TextoaVozConVB\TextoaVozConVB\bin\Debug\Interop.SpeechLib.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Speech" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BufferPanel.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CircularPictureBox.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="clsBar.vb" />
+    <Compile Include="clsItem.vb" />
+    <Compile Include="ColorProgressbar.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Consulta2.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Consulta2.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Data.vb" />
+    <Compile Include="DataGridViewProgressCell.vb" />
+    <Compile Include="DataGridViewProgressColumn.vb" />
+    <Compile Include="DataSet1.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet1.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DataSet2.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet2.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Datos.vb" />
+    <Compile Include="DBConfiguracion.vb" />
+    <Compile Include="Form1.Designer.vb">
+      <DependentUpon>Form1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAgregarAudio.Designer.vb">
+      <DependentUpon>frmAgregarAudio.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmAgregarAudio.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAudios.Designer.vb">
+      <DependentUpon>frmAudios.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmAudios.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConversaciones.Designer.vb">
+      <DependentUpon>frmConversaciones.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmConversaciones.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmConversation.Designer.vb">
+      <DependentUpon>FrmConversation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmConversation.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDetConversation.Designer.vb">
+      <DependentUpon>frmDetConversation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmDetConversation.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmDetEst.Designer.vb">
+      <DependentUpon>FrmDetEst.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmDetEst.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDetGrupo.Designer.vb">
+      <DependentUpon>frmDetGrupo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmDetGrupo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmDetOracion.Designer.vb">
+      <DependentUpon>FrmDetOracion.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmDetOracion.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDetSubtema.Designer.vb">
+      <DependentUpon>frmDetSubtema.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmDetSubtema.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmDetVocabulario.Designer.vb">
+      <DependentUpon>FrmDetVocabulario.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmDetVocabulario.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmDocumentos.Designer.vb">
+      <DependentUpon>FrmDocumentos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmDocumentos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDocuments.Designer.vb">
+      <DependentUpon>frmDocuments.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmDocuments.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDuplicados.Designer.vb">
+      <DependentUpon>frmDuplicados.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmDuplicados.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEscenas.Designer.vb">
+      <DependentUpon>frmEscenas.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmEscenas.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEstrategia.Designer.vb">
+      <DependentUpon>frmEstrategia.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmEstrategia.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEstructuras.Designer.vb">
+      <DependentUpon>frmEstructuras.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmEstructuras.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmGrafica.Designer.vb">
+      <DependentUpon>frmGrafica.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmGrafica.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmGrupos.Designer.vb">
+      <DependentUpon>frmGrupos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmGrupos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmItemAudio.Designer.vb">
+      <DependentUpon>frmItemAudio.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmItemAudio.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmItemsConversation.Designer.vb">
+      <DependentUpon>frmItemsConversation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmItemsConversation.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmListAudios.Designer.vb">
+      <DependentUpon>frmListAudios.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmListAudios.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMain.Designer.vb">
+      <DependentUpon>frmMain.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmMain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMoverDetalleConversacion.Designer.vb">
+      <DependentUpon>frmMoverDetalleConversacion.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmMoverDetalleConversacion.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMoverDialogo.Designer.vb">
+      <DependentUpon>frmMoverDialogo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmMoverDialogo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNewConversation.Designer.vb">
+      <DependentUpon>frmNewConversation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmNewConversation.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmNewDocument.Designer.vb">
+      <DependentUpon>FrmNewDocument.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmNewDocument.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNewOracion.Designer.vb">
+      <DependentUpon>frmNewOracion.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmNewOracion.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmNewWord.Designer.vb">
+      <DependentUpon>FrmNewWord.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmNewWord.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNuevaEstructura.Designer.vb">
+      <DependentUpon>frmNuevaEstructura.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmNuevaEstructura.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmObjetivo.Designer.vb">
+      <DependentUpon>frmObjetivo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmObjetivo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmOraciones.Designer.vb">
+      <DependentUpon>FrmOraciones.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmOraciones.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmOracionesDialogos.Designer.vb">
+      <DependentUpon>frmOracionesDialogos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmOracionesDialogos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmOracionesRead.Designer.vb">
+      <DependentUpon>frmOracionesRead.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmOracionesRead.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmOrdenar.Designer.vb">
+      <DependentUpon>frmOrdenar.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmOrdenar.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmOrdenarConversacion.Designer.vb">
+      <DependentUpon>frmOrdenarConversacion.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmOrdenarConversacion.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmOrdenarDialogos.Designer.vb">
+      <DependentUpon>frmOrdenarDialogos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmOrdenarDialogos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPlayer.Designer.vb">
+      <DependentUpon>frmPlayer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmPlayer.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPrincipal.Designer.vb">
+      <DependentUpon>FrmPrincipal.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmPrincipal.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPrueba.Designer.vb">
+      <DependentUpon>frmPrueba.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmPrueba.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRegistrarAvance.Designer.vb">
+      <DependentUpon>frmRegistrarAvance.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmRegistrarAvance.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSubtema.Designer.vb">
+      <DependentUpon>frmSubtema.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmSubtema.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmTemas.Designer.vb">
+      <DependentUpon>FrmTemas.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmTemas.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmtest.Designer.vb">
+      <DependentUpon>frmtest.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmtest.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTexto.Designer.vb">
+      <DependentUpon>frmTexto.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmTexto.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTextoOrdenarDialogos.Designer.vb">
+      <DependentUpon>frmTextoOrdenarDialogos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmTextoOrdenarDialogos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTextoToDgv.Designer.vb">
+      <DependentUpon>frmTextoToDgv.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmTextoToDgv.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTraducciones.Designer.vb">
+      <DependentUpon>frmTraducciones.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmTraducciones.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTransferir.Designer.vb">
+      <DependentUpon>frmTransferir.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmTransferir.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmVerbs.Designer.vb">
+      <DependentUpon>frmVerbs.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmVerbs.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmVocabulario.Designer.vb">
+      <DependentUpon>FrmVocabulario.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmVocabulario.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gastos.vb" />
+    <Compile Include="Grupos.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Grupos.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="InglesDataSet.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InglesDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="InglesDataSet.vb">
+      <DependentUpon>InglesDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ItemPanel.vb" />
+    <Compile Include="ListViewColumnSort.vb" />
+    <Compile Include="listviewEx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ListViewItemComparer.vb" />
+    <Compile Include="MetodoDatos.vb" />
+    <Compile Include="ModVar.vb" />
+    <Compile Include="Pago.vb" />
+    <Compile Include="PanelData.vb" />
+    <Compile Include="PanelOptimizado.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Perro.vb" />
+    <Compile Include="FrmAvance.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmAvance.Designer.vb">
+      <DependentUpon>FrmAvance.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Module1.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Program.vb" />
+    <Compile Include="RegistroBitacora.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAgregarAudio.resx">
+      <DependentUpon>frmAgregarAudio.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAudios.resx">
+      <DependentUpon>frmAudios.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmAvance.resx">
+      <DependentUpon>FrmAvance.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmConversaciones.resx">
+      <DependentUpon>frmConversaciones.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmConversation.resx">
+      <DependentUpon>FrmConversation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDetConversation.resx">
+      <DependentUpon>frmDetConversation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmDetEst.resx">
+      <DependentUpon>FrmDetEst.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDetGrupo.resx">
+      <DependentUpon>frmDetGrupo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmDetOracion.resx">
+      <DependentUpon>FrmDetOracion.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDetSubtema.resx">
+      <DependentUpon>frmDetSubtema.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmDetVocabulario.resx">
+      <DependentUpon>FrmDetVocabulario.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmDocumentos.resx">
+      <DependentUpon>FrmDocumentos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDocuments.resx">
+      <DependentUpon>frmDocuments.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDuplicados.resx">
+      <DependentUpon>frmDuplicados.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEscenas.resx">
+      <DependentUpon>frmEscenas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEstrategia.resx">
+      <DependentUpon>frmEstrategia.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEstructuras.resx">
+      <DependentUpon>frmEstructuras.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmGrafica.resx">
+      <DependentUpon>frmGrafica.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmGrupos.resx">
+      <DependentUpon>frmGrupos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmItemAudio.resx">
+      <DependentUpon>frmItemAudio.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmItemsConversation.resx">
+      <DependentUpon>frmItemsConversation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmListAudios.resx">
+      <DependentUpon>frmListAudios.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMoverDetalleConversacion.resx">
+      <DependentUpon>frmMoverDetalleConversacion.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMoverDialogo.resx">
+      <DependentUpon>frmMoverDialogo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmNewConversation.resx">
+      <DependentUpon>frmNewConversation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmNewDocument.resx">
+      <DependentUpon>FrmNewDocument.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmNewOracion.resx">
+      <DependentUpon>frmNewOracion.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmNewWord.resx">
+      <DependentUpon>FrmNewWord.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmNuevaEstructura.resx">
+      <DependentUpon>frmNuevaEstructura.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmObjetivo.resx">
+      <DependentUpon>frmObjetivo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmOraciones.resx">
+      <DependentUpon>FrmOraciones.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmOracionesDialogos.resx">
+      <DependentUpon>frmOracionesDialogos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmOracionesRead.resx">
+      <DependentUpon>frmOracionesRead.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmOrdenar.resx">
+      <DependentUpon>frmOrdenar.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmOrdenarConversacion.resx">
+      <DependentUpon>frmOrdenarConversacion.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmOrdenarDialogos.resx">
+      <DependentUpon>frmOrdenarDialogos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPlayer.resx">
+      <DependentUpon>frmPlayer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPrincipal.resx">
+      <DependentUpon>FrmPrincipal.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPrueba.resx">
+      <DependentUpon>frmPrueba.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRegistrarAvance.resx">
+      <DependentUpon>frmRegistrarAvance.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSubtema.resx">
+      <DependentUpon>frmSubtema.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmTemas.resx">
+      <DependentUpon>FrmTemas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmtest.resx">
+      <DependentUpon>frmtest.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTexto.resx">
+      <DependentUpon>frmTexto.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTextoOrdenarDialogos.resx">
+      <DependentUpon>frmTextoOrdenarDialogos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTextoToDgv.resx">
+      <DependentUpon>frmTextoToDgv.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTraducciones.resx">
+      <DependentUpon>frmTraducciones.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTransferir.resx">
+      <DependentUpon>frmTransferir.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmVerbs.resx">
+      <DependentUpon>frmVerbs.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmVocabulario.resx">
+      <DependentUpon>FrmVocabulario.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
+    <None Include="ClassDiagram3.cd" />
+    <None Include="ClassDiagram4.cd" />
+    <None Include="ClassDiagram5.cd" />
+    <None Include="ClassDiagram6.cd" />
+    <None Include="ClassDiagram7.cd" />
+    <None Include="Consulta2.xsc">
+      <DependentUpon>Consulta2.xsd</DependentUpon>
+    </None>
+    <None Include="Consulta2.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Consulta2.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Consulta2.xss">
+      <DependentUpon>Consulta2.xsd</DependentUpon>
+    </None>
+    <None Include="DataSet1.xsc">
+      <DependentUpon>DataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="DataSet1.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet1.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="DataSet1.xss">
+      <DependentUpon>DataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="DataSet2.xsc">
+      <DependentUpon>DataSet2.xsd</DependentUpon>
+    </None>
+    <None Include="DataSet2.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet2.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="DataSet2.xss">
+      <DependentUpon>DataSet2.xsd</DependentUpon>
+    </None>
+    <None Include="en-US.dic" />
+    <None Include="Grupos.xsc">
+      <DependentUpon>Grupos.xsd</DependentUpon>
+    </None>
+    <None Include="Grupos.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Grupos.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Grupos.xss">
+      <DependentUpon>Grupos.xsd</DependentUpon>
+    </None>
+    <None Include="InglesDataSet.xsc">
+      <DependentUpon>InglesDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="InglesDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>InglesDataSet.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="InglesDataSet.xss">
+      <DependentUpon>InglesDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="ADODB">
+      <Guid>{B691E011-1797-432E-907A-4D8C69339129}</Guid>
+      <VersionMajor>6</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="AxWMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="MSAdodcLib">
+      <Guid>{67397AA1-7FB1-11D0-B148-00A0C922E820}</Guid>
+      <VersionMajor>6</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="SpeechLib">
+      <Guid>{C866CA3A-32F7-11D2-9602-00C04F8EE628}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>4</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sonidogris.png" />
+    <None Include="Resources\estrellaGris.png" />
+    <None Include="Resources\default.png" />
+    <None Include="Resources\sonido.png" />
+    <None Include="Resources\Sonido.gif" />
+    <None Include="Resources\mute.png" />
+    <None Include="Resources\cerrada.png" />
+    <None Include="Resources\Like.png" />
+    <None Include="Resources\familia.png" />
+    <None Include="Resources\tiempo.png" />
+    <None Include="Resources\mazo.png" />
+    <None Include="Resources\direccion.png" />
+    <None Include="Resources\Expresion.png" />
+    <None Include="Resources\dialogo.png" />
+    <None Include="Resources\avion.png" />
+    <None Include="Resources\personal.png" />
+    <None Include="Resources\adios.png" />
+    <None Include="Resources\deporte.png" />
+    <None Include="Resources\clima.png" />
+    <None Include="Resources\rutina.png" />
+    <None Include="Resources\Hamburguesa.png" />
+    <None Include="Resources\manor.png" />
+    <None Include="Resources\sombrero.png" />
+    <None Include="Resources\shop-remove.png" />
+    <None Include="Resources\balanza.png" />
+    <None Include="Resources\2025-11-13 18_56_26-Ingles - Microsoft Visual Studio.png" />
+    <None Include="Resources\shared image %284%29.jpg" />
+    <None Include="Resources\Image1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

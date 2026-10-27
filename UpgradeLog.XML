@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="Ingles">
+</Property><Property Name="Archivo de la solución" Value="C:\Users\jolvera.SSWTECHNOLOGIES\OneDrive - SSW Holding Company, LLC\Documents\Personal\VS2010-Proyectos\Ingles\Ingles.sln">
+</Property><Property Name="Date" Value="lunes, 5 de agosto de 2024">
+</Property><Property Name="Time" Value="06:56:32 a.m.">
+</Property></Properties><Event ErrorLevel="1" Project="RichTextBoxEx" Source="..\RichTextBoxEx\RichTextBoxEx\RichTextBoxEx.vbproj" Description="La versión de destino de su proyecto es .NET Framework 2.0 ó 3.0. Si el proyecto utiliza ensamblados que requieren una versión más reciente de .NET Framework, no se podrá compilar. Puede cambiar la versión de .NET Framework haciendo clic en Propiedades en el menú del proyecto y seleccionando una nueva versión en el cuadro desplegable '.NET Framework'. (En Visual Basic, haga clic en el botón 'Opciones avanzadas del compilador...' en la pestaña Compilar).">
+</Event><Event ErrorLevel="0" Project="RichTextBoxEx" Source="..\RichTextBoxEx\RichTextBoxEx\RichTextBoxEx.vbproj" Description="Proyecto convertido correctamente">
+</Event><Event ErrorLevel="3" Project="RichTextBoxEx" Source="..\RichTextBoxEx\RichTextBoxEx\RichTextBoxEx.vbproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="RichTextBoxEx" Source="..\RichTextBoxEx\RichTextBoxEx\RichTextBoxEx.vbproj" Description="Examen completo: no es necesario actualizar los archivos de proyecto.">
+</Event></UpgradeLog>
