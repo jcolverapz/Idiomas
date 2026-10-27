@@ -140,6 +140,7 @@ Partial Class FrmDetOracion
         Me.Label35 = New System.Windows.Forms.Label()
         Me.txtIntencion = New System.Windows.Forms.TextBox()
         Me.txtStatus = New System.Windows.Forms.TextBox()
+        Me.Label36 = New System.Windows.Forms.Label()
         Me.Panel2.SuspendLayout()
         CType(Me.NumRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -546,10 +547,10 @@ Partial Class FrmDetOracion
         '
         'WebBrowser1
         '
-        Me.WebBrowser1.Location = New System.Drawing.Point(614, 208)
+        Me.WebBrowser1.Location = New System.Drawing.Point(626, 208)
         Me.WebBrowser1.MinimumSize = New System.Drawing.Size(20, 20)
         Me.WebBrowser1.Name = "WebBrowser1"
-        Me.WebBrowser1.Size = New System.Drawing.Size(344, 104)
+        Me.WebBrowser1.Size = New System.Drawing.Size(332, 104)
         Me.WebBrowser1.TabIndex = 379
         '
         'Label2
@@ -579,7 +580,7 @@ Partial Class FrmDetOracion
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(77, 26)
         Me.Button1.TabIndex = 382
-        Me.Button1.Text = "Button1"
+        Me.Button1.Text = "rtf"
         Me.Button1.UseVisualStyleBackColor = True
         '
         'txtHTML
@@ -1062,7 +1063,7 @@ Partial Class FrmDetOracion
         'cmdtraducir
         '
         Me.cmdtraducir.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.cmdtraducir.Location = New System.Drawing.Point(561, 161)
+        Me.cmdtraducir.Location = New System.Drawing.Point(561, 191)
         Me.cmdtraducir.Name = "cmdtraducir"
         Me.cmdtraducir.Size = New System.Drawing.Size(59, 32)
         Me.cmdtraducir.TabIndex = 392
@@ -1375,11 +1376,22 @@ Partial Class FrmDetOracion
         Me.txtStatus.Size = New System.Drawing.Size(1154, 72)
         Me.txtStatus.TabIndex = 473
         '
+        'Label36
+        '
+        Me.Label36.AutoSize = True
+        Me.Label36.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label36.Location = New System.Drawing.Point(33, 167)
+        Me.Label36.Name = "Label36"
+        Me.Label36.Size = New System.Drawing.Size(29, 16)
+        Me.Label36.TabIndex = 474
+        Me.Label36.Text = "IPA"
+        '
         'FrmDetOracion
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1171, 831)
+        Me.Controls.Add(Me.Label36)
         Me.Controls.Add(Me.txtStatus)
         Me.Controls.Add(Me.Label35)
         Me.Controls.Add(Me.txtIntencion)
@@ -1600,5 +1612,6 @@ Partial Class FrmDetOracion
     Public WithEvents Label35 As System.Windows.Forms.Label
     Friend WithEvents txtIntencion As System.Windows.Forms.TextBox
     Friend WithEvents txtStatus As System.Windows.Forms.TextBox
+    Friend WithEvents Label36 As System.Windows.Forms.Label
 
 End Class

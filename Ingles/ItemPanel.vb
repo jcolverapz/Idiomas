@@ -3,6 +3,7 @@
     Public pd As PictureBox
     Public txt As RichTextBox
     Public trad As RichTextBox
+    Public IPA As RichTextBox
     Public audio As CircularPictureBox
     Public falta As Button
     Public favorito As PictureBox

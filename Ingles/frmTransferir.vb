@@ -1137,12 +1137,12 @@ Public Class frmTransferir
 
                 _comando.Parameters.Clear()
 
-                sqlstring = "Insert into Det_Conversation (Det_Orden, Con_Id)"
-                sqlstring = sqlstring & " Values (@Det_Orden, '" & Id & "')"
+                sqlstring = "Insert into Det_Conversation (Orden, Con_Id)"
+                sqlstring = sqlstring & " Values (@Orden, '" & IdEnc & "')"
 
                 _comando.CommandText = sqlstring
 
-                _comando.Parameters.AddWithValue("@Det_Orden", 0)
+                _comando.Parameters.AddWithValue("@Orden", 0)
 
                 Try
 

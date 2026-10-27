@@ -3880,7 +3880,7 @@ Public Class FrmDetOracion
 
             _comando.Parameters.Clear()
 
-            sqlstring = "UPDATE Oraciones SET IMG='pensando'"
+            sqlstring = "UPDATE Oraciones_FR SET IMG='pensando'"
             sqlstring = sqlstring & " WHERE Id = @Id"
             _comando.CommandText = sqlstring
 

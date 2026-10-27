@@ -177,10 +177,19 @@ Public Class FrmOraciones
 
         If filtro = Nothing Then Exit Sub
 
-        sqlstring = "Select  Oraciones.Id, Oraciones.orden,  Oraciones.Audio, Oraciones.STL,  Oraciones.TextoPlano, Oraciones.Traduccion, Oraciones.Estatus, Oraciones.Tema, Oraciones.GrupoO, Grupos_oracion.Grupo, "
-        sqlstring = sqlstring & "Oraciones.foco, Oraciones.Palabras, Oraciones.Reproduccion"
-        sqlstring = sqlstring & " FROM            Oraciones INNER JOIN  Grupos_oracion ON Oraciones.GrupoO = Grupos_oracion.Id"
-        sqlstring = sqlstring & filtro
+        If ModVar.Idioma = "EN" Then
+            sqlstring = "Select  Oraciones.Id, Oraciones.orden,  Oraciones.Audio, Oraciones.STL,  Oraciones.TextoPlano, Oraciones.Traduccion, Oraciones.Estatus, Oraciones.Tema, Oraciones.GrupoO, Grupos_oracion.Grupo, "
+            sqlstring = sqlstring & "Oraciones.foco, Oraciones.Palabras, Oraciones.Reproduccion"
+            sqlstring = sqlstring & " FROM            Oraciones INNER JOIN  Grupos_oracion ON Oraciones.GrupoO = Grupos_oracion.Id"
+            sqlstring = sqlstring & filtro
+        Else
+            sqlstring = "Select  o.Id, o.orden,  o.Audio, o.STL,  o.TextoPlano, o.Traduccion, o.Estatus, o.Tema, o.GrupoO, Grupos_oracion.Grupo, "
+            sqlstring = sqlstring & "o.foco, o.Palabras, o.Reproduccion"
+            sqlstring = sqlstring & " FROM            Oraciones_FR o INNER JOIN  Grupos_oracion ON o.GrupoO = Grupos_oracion.Id"
+            sqlstring = sqlstring & filtro
+        End If
+
+     
         'sqlstring = sqlstring & " Order By orden ASC"
 
         dgvOraciones.DataSource = Nothing

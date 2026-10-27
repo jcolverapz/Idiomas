@@ -147,7 +147,7 @@ Public Class frmEscenas
 
     Private poolPanels As New List(Of Panel)
 
-    Private Const PANEL_HEIGHT As Integer = 260
+    Private Const PANEL_HEIGHT As Integer = 300 '260
     Private Const MAX_VISIBLE As Integer = 12
 
     Private listaGrupos As List(Of IGrouping(Of Object, DataRow))
@@ -888,6 +888,7 @@ Public Class frmEscenas
             '   pd.BackColor = Color.Black
             pd.Cursor = Cursors.Hand
             pd.Size = New Size(320, 180)
+            ' pd.Size = New Size(320, 200)
             pd.SizeMode = PictureBoxSizeMode.Zoom
 
             '  pd.Visible = False
@@ -981,6 +982,33 @@ Public Class frmEscenas
 
             pAux.Controls.Add(txt)
 
+          
+
+            ' ===============================
+            ' IPA
+            ' ===============================
+
+            Dim IPA As New RichTextBox
+            IPA.Name = "IPA_" & j
+
+            IPA.AutoSize = True
+            IPA.ForeColor = Color.Gray
+            IPA.BackColor = Color.LightGray
+
+            IPA.MaximumSize = New Size(400, 0)
+            ' IPA.Font = New Font("Arial", 8)
+            IPA.Font = New System.Drawing.Font("Consolas", 10, FontStyle.Regular)
+
+            IPA.BorderStyle = BorderStyle.None
+
+            IPA.Width = 300
+            IPA.Height = IPA.PreferredHeight
+
+            IPA.Visible = True
+
+            IPA.Location = New Point(txt.Left, txt.Bottom + 2)
+
+            pAux.Controls.Add(IPA)
             ' ===============================
             ' TRADUCCIÓN
             ' ===============================
@@ -993,16 +1021,16 @@ Public Class frmEscenas
             traduccion.BackColor = Color.LightGray
 
             traduccion.MaximumSize = New Size(400, 0)
-            traduccion.Font = New Font("Arial", 10)
+            ' traduccion.Font = New Font("Arial", 10)
             traduccion.Font = New System.Drawing.Font("Arial", 10, FontStyle.Regular)
 
             traduccion.BorderStyle = BorderStyle.None
 
             traduccion.Width = 300
             traduccion.Height = traduccion.PreferredHeight
-            traduccion.Visible = False
+            traduccion.Visible = True
 
-            ' traduccion.Location = New Point(txt.Left + 5, txt.Bottom + 1)
+            traduccion.Location = New Point(IPA.Left + 5, IPA.Bottom + 2)
 
             pAux.Controls.Add(traduccion)
 
@@ -1299,6 +1327,7 @@ Public Class frmEscenas
                 .pd = pd,
                 .txt = txt,
                 .trad = traduccion,
+                .IPA = IPA,
                 .audio = pAudio,
                 .btnHide = btnHide,
                 .favorito = Favorito,
@@ -1418,6 +1447,7 @@ Public Class frmEscenas
             Dim pd = item.pd
             Dim txt = item.txt
             Dim trad = item.trad
+            Dim IPA = item.IPA
             Dim pAudio = item.audio
             Dim fav = item.favorito
             Dim score = item.score
@@ -1555,8 +1585,17 @@ Public Class frmEscenas
                 'Else
                 '    txt.Text = "NULL"
             End If
-            trad.Location = New Point(txt.Left + 5, txt.Bottom + 1)
+            trad.Location = New Point(IPA.Left, IPA.Bottom + 1)
 
+            '============================
+            ' IPA
+            '============================
+            If Not IsDBNull(row("IPA")) Then
+                IPA.Text = row("IPA")
+            Else
+                IPA.Text = "NULL"
+            End If
+            IPA.Location = New Point(txt.Left, txt.Bottom)
             ' ===============================
             ''  Favorito
             ' ===============================
@@ -1571,7 +1610,7 @@ Public Class frmEscenas
                     fav.Image = ImageList1.Images(5)
                 End If
             End If
-
+         
             ' ===============================
             ' Reproducciones
             ' ===============================' 
@@ -5883,11 +5922,13 @@ Public Class frmEscenas
 
         ' PicFavorito = panel.Controls.Item("btnFavorito_" & IdDialogo)
         sqlstring = " SELECT          d.Id, d.IdOracion, o.favorito"
-        sqlstring = sqlstring & " FROM            Tbl_Dialogos d INNER JOIN"
+
 
         If ModVar.Idioma = "EN" Then
+            sqlstring = sqlstring & " FROM            Tbl_Dialogos d INNER JOIN"
             sqlstring = sqlstring & "  Oraciones o ON d.IdOracion = o.Id"
         Else
+            sqlstring = sqlstring & " FROM            Tbl_Dialogos_FR d INNER JOIN"
             sqlstring = sqlstring & "   Oraciones_FR o ON d.IdOracion = o.Id"
 
         End If
@@ -5914,7 +5955,7 @@ Public Class frmEscenas
                 If ModVar.Idioma = "EN" Then
                     sqlstring = "UPDATE Oraciones SET Favorito = @Favorito, MasUsada= @masUsada"
                 Else
-                    sqlstring = "UPDATE Oraciones SET Favorito = @Favorito, MasUsada= @masUsada"
+                    sqlstring = "UPDATE Oraciones_FR SET Favorito = @Favorito, MasUsada= @masUsada"
                 End If
 
                 sqlstring = sqlstring & " WHERE Id = @Id"
@@ -6396,7 +6437,7 @@ Public Class frmEscenas
         _comando = MetodosDatos.CrearComando()
 
         sqlstring = " SELECT          Id, IdOracion, Orden, Personaje"
-        sqlstring = sqlstring & " FROM            Tbl_Dialogos "
+        sqlstring = sqlstring & " FROM            Tbl_Dialogos_FR "
         sqlstring = sqlstring & " WHERE  Id='" & IdDialogo & "'"
         _comando.CommandText = sqlstring
 
@@ -6429,7 +6470,7 @@ Public Class frmEscenas
         Dim FileToMove As String
         Dim valor As String
 
-        sqlstring = "UPDATE Oraciones SET IMG = @IMG, personaje ='A'"
+        sqlstring = "UPDATE Oraciones_FR SET IMG = @IMG, personaje ='A'"
         sqlstring = sqlstring & " WHERE Id = @Id"
         _comando.CommandText = sqlstring
         _comando.Parameters.Clear()
@@ -9226,7 +9267,7 @@ Public Class frmEscenas
 
             Case WMPLib.WMPPlayState.wmppsBuffering
                 ' picDet.Visible = True
-                picDet.BringToFront()
+                ' picDet.BringToFront()
                 ' picDet.Refresh()
 
                 ' picDet.BringToFront()
@@ -9347,7 +9388,7 @@ Public Class frmEscenas
             If duracion - posicion <= 0.1 Then
                 yaMostro = True
                 TimerEnd.Stop()
-                picDet.Visible = True
+                '    picDet.Visible = True
                 'picDet.BringToFront()
 
             End If
@@ -9363,7 +9404,7 @@ Public Class frmEscenas
         TimerVideo.Enabled = False
 
         ' picDet.SendToBack()
-        picDet.Visible = False
+        'picDet.Visible = False
     End Sub
 
     Private Sub ReproducirAudio(sender, e)
@@ -9402,8 +9443,6 @@ Public Class frmEscenas
         picDet = CType(panel.Controls("pd_" & _Item), PictureBox)
 
         wmp.Location = picDet.Location
-
- 
 
         panel.Controls.Add(wmp)
 
@@ -9516,7 +9555,7 @@ Public Class frmEscenas
         wmp.settings.rate = _rate
 
         Dim n As UInteger = 0
-        Dim archivo As String
+        Dim archivo_audio As String
 
         If voice = "Matilda" Then
 
@@ -9596,6 +9635,7 @@ Public Class frmEscenas
         pic = sender
 
         Dim imgGif As Image
+
         If IMG <> "" Then
             If IMG = "like" And personaje = "A" Then
                 ' AxWindowsMediaPlayer1.URL = "C:\Legacy\video.mp4"
@@ -9619,15 +9659,32 @@ Public Class frmEscenas
 
         Dim resp As Integer
 
-        archivo = "C:\Ingles\Videos\" & IdOracionItem & ".mp4"
+        '==============
+        ' Mostrar Imagen si Personaje = C 
+        '===============
 
-        If picDet.Image IsNot Imagenes(NombreImagen) Then
-            picDet.Image = Imagenes(NombreImagen)
+        If personaje <> "C" Then
+            If picDet.Image IsNot Imagenes(NombreImagen) Then
+                picDet.Image = Imagenes(NombreImagen)
+            End If
+
+
+
+
+        Else
+            'Imagen
+            If File.Exists("C:\Ingles\Imagenes_Ingles\Sustantivos\" & IMG & ".png") Then
+                picDet.Image = Image.FromFile("C:\Ingles\Imagenes_Ingles\Sustantivos\" & IMG & ".png")
+
+            End If
+
         End If
 
+
+        video = "C:\Ingles\Videos\" & IdOracionItem & ".mp4"
         '  picDet.Visible = False  'Quitar esta linea
 
-        If File.Exists(archivo) Then ' El archivo existe
+        If File.Exists(video) Then ' El archivo existe
 
             'picDet.BringToFront()
             'picDet.Visible = True
@@ -9635,7 +9692,7 @@ Public Class frmEscenas
 
             wmp.Ctlcontrols.play()
 
-           
+
             pic.Image = Image.FromFile("C:\Ingles\Imagenes_Ingles\sonido.gif")
 
             If btn.Text = "-" Then
@@ -9651,26 +9708,31 @@ Public Class frmEscenas
             ' texto.Visible = False
 
         Else '' El archivo no existe
-            picDet.SendToBack()
+            'picDet.SendToBack()
 
             If Idioma = "EN" Then
-                archivo = "C:\Ingles\Audios3\femenino\" & IdOracionItem & ".mp3"
+                archivo_audio = "C:\Ingles\Audios3\femenino\" & IdOracionItem & ".mp3"
             Else
-                archivo = "C:\frances\Audios\femenino\" & IdOracionItem & ".mp3"
+                archivo_audio = "C:\frances\Audios\femenino\" & IdOracionItem & ".mp3"
 
             End If
 
-            If File.Exists(archivo) Then
-                wmp.URL = archivo
+            If File.Exists(archivo_audio) Then
+                wmp.URL = archivo_audio
 
                 wmp.Ctlcontrols.play()
 
+
+                '=============
+                ' Reproducciones
+                '===============
                 If ModVar.Idioma = "EN" Then
                     sqlstring = "UPDATE Oraciones SET Reproduccion = @Reproduccion"
                 Else
                     sqlstring = "UPDATE Oraciones_FR SET Reproduccion = @Reproduccion"
 
                 End If
+
                 sqlstring = sqlstring & " WHERE Id = @Id"
                 _comando.CommandText = sqlstring
                 _comando.Parameters.Clear()
