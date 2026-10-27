@@ -16,6 +16,10 @@ Imports System.Diagnostics
 Imports System.Uri
 Imports System.Windows.Forms.DataVisualization.Charting
 
+Imports System
+ 
+Imports System.Text
+
 Public Class FrmPrincipal
     Dim voice As SpVoice = New SpVoice()
     Private synthesizer As New SpeechSynthesizer()
@@ -27,6 +31,10 @@ Public Class FrmPrincipal
     ' Private voices As System.Collections.ObjectModel.ReadOnlyCollection(Of System.Speech.Synthesis.)
     Dim handler As EventHandler(Of SpeakCompletedEventArgs)
     Dim speaker As New SpeechSynthesizer()
+
+    Private Const CARPETA_PROYECTO As String = "C:\legacy\Proyectos\Personal\Idiomas"
+    Private Const RUTA_GIT As String = "C:\Program Files\Git\cmd\git.exe"
+
 #Region "Menu"
     Private Sub FrmPrincipal_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
       
@@ -2159,4 +2167,137 @@ Public Class FrmPrincipal
     End Sub
 
     
+    Private Sub btnPush_Click(sender As System.Object, e As System.EventArgs) Handles btnPush.Click
+
+        btnPush.Enabled = False
+
+        Try
+            If Not File.Exists(RUTA_GIT) Then
+                Throw New Exception( _
+                    "No se encontró Git en:" & vbCrLf & RUTA_GIT & _
+                    vbCrLf & "Verifica la ruta de instalación.")
+            End If
+
+            If Not Directory.Exists(CARPETA_PROYECTO) Then
+                Throw New Exception( _
+                    "No existe la carpeta del proyecto.")
+            End If
+
+            If Not Directory.Exists( _
+                Path.Combine(CARPETA_PROYECTO, ".git")) Then
+                Throw New Exception( _
+                    "La carpeta no contiene un repositorio Git.")
+            End If
+
+            ' Verificar que exista el remoto origin.
+            Dim remoto As String =
+                EjecutarGit("remote get-url origin")
+
+            ' Obtener la rama actual.
+            Dim rama As String =
+                EjecutarGit("rev-parse --abbrev-ref HEAD").Trim()
+
+            If rama = "" OrElse rama = "HEAD" Then
+                Throw New Exception( _
+                    "No hay una rama activa para sincronizar.")
+            End If
+
+            ' Preparar archivos nuevos, modificados y eliminados.
+            EjecutarGit("add -A")
+
+            ' Comprobar si hay cambios preparados.
+            Dim codigo As Integer
+            Dim cambios As String
+
+            cambios = EjecutarGit("diff --cached --quiet", codigo)
+
+            If codigo = 1 Then
+
+                ' Hay cambios preparados.
+                Dim resultadoCommit As String
+                resultadoCommit = EjecutarGit( _
+                    "commit -m ""Actualización desde VB.NET""", codigo)
+
+                If codigo <> 0 Then
+                    Throw New Exception( _
+                        "Error al crear el commit:" & vbCrLf & resultadoCommit)
+                End If
+
+            ElseIf codigo <> 0 Then
+
+                Throw New Exception( _
+                    "Error al comprobar los cambios:" & vbCrLf & cambios)
+
+            End If
+
+            ' Publicar la rama en GitHub.
+            Dim resultado As String =
+                EjecutarGit("push -u origin " & rama)
+
+            MessageBox.Show( _
+                "Sincronización completada." & vbCrLf & vbCrLf & _
+                "Repositorio: " & remoto.Trim() & vbCrLf & _
+                "Rama: " & rama & vbCrLf & vbCrLf & resultado, _
+                "GitHub", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+        Catch ex As Exception
+
+            MessageBox.Show( _
+                ex.Message, "Error al sincronizar", _
+                MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+        Finally
+
+            btnPush.Enabled = True
+
+        End Try
+
+    End Sub
+
+    Private Function EjecutarGit(ByVal argumentos As String) As String
+
+        Dim codigo As Integer = 0
+
+        Return EjecutarGit(argumentos, codigo)
+
+    End Function
+
+
+    Private Function EjecutarGit( _
+        ByVal argumentos As String, _
+        ByRef codigo As Integer) As String
+
+        Dim proceso As New Process()
+        Dim salida As New System.Text.StringBuilder()
+        Dim errores As New System.Text.StringBuilder()
+
+        proceso.StartInfo.FileName = RUTA_GIT
+        proceso.StartInfo.Arguments = argumentos
+        proceso.StartInfo.WorkingDirectory = CARPETA_PROYECTO
+        proceso.StartInfo.UseShellExecute = False
+        proceso.StartInfo.CreateNoWindow = True
+        proceso.StartInfo.RedirectStandardOutput = True
+        proceso.StartInfo.RedirectStandardError = True
+
+        proceso.Start()
+
+        salida.Append(proceso.StandardOutput.ReadToEnd())
+        errores.Append(proceso.StandardError.ReadToEnd())
+
+        proceso.WaitForExit()
+        codigo = proceso.ExitCode
+
+        Dim resultado As String = salida.ToString()
+
+        If errores.Length > 0 Then
+            resultado &= vbCrLf & errores.ToString()
+        End If
+
+        proceso.Dispose()
+
+        Return resultado
+
+    End Function
+
+
 End Class

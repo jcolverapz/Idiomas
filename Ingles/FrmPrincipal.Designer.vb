@@ -94,6 +94,7 @@ Partial Class FrmPrincipal
         Me.InglesDataSet = New Ingles.InglesDataSet()
         Me.Grupos_TemasBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.ConceptosBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.btnPush = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         CType(Me.Chart3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -749,11 +750,23 @@ Partial Class FrmPrincipal
         Me.ConceptosBindingSource.DataMember = "Conceptos"
         Me.ConceptosBindingSource.DataSource = Me.InglesDataSet
         '
+        'btnPush
+        '
+        Me.btnPush.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnPush.Font = New System.Drawing.Font("Consolas", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPush.Location = New System.Drawing.Point(36, 572)
+        Me.btnPush.Name = "btnPush"
+        Me.btnPush.Size = New System.Drawing.Size(136, 42)
+        Me.btnPush.TabIndex = 430
+        Me.btnPush.Text = "Push"
+        Me.btnPush.UseVisualStyleBackColor = False
+        '
         'FrmPrincipal
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1694, 653)
+        Me.Controls.Add(Me.btnPush)
         Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.Chart2)
         Me.Controls.Add(Me.cmdActualizaStatus)
@@ -866,4 +879,5 @@ Partial Class FrmPrincipal
     Friend WithEvents cmdActualizaStatus As System.Windows.Forms.Button
     Friend WithEvents Chart2 As System.Windows.Forms.DataVisualization.Charting.Chart
     Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
+    Friend WithEvents btnPush As System.Windows.Forms.Button
 End Class
