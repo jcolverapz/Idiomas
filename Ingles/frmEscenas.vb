@@ -152,14 +152,15 @@ Public Class frmEscenas
 
     Private listaGrupos As List(Of IGrouping(Of Object, DataRow))
     Dim RutaAudios As String
-    Dim RutaImagenesFemenino As String = "C:\Ingles\Imagenes_Ingles\Femenino\"
-    Dim RutaImagenes As String = "C:\Ingles\Imagenes_Ingles\"
+    Dim RutaImagenesFemenino As String = "C:\Ingles\Imagenes_Ingles\Personajes\"
+    Dim RutaImagenes As String = "C:\Ingles\Imagenes_Ingles\Personajes\"
     Dim RutaImagenesEstandar As String = "C:\Legacy\Ingles\Imagenes_Ingles\Sustantivos\"
 
     Dim RutaImagenesMasculino As String = "C:\Legacy\Ingles\Imagenes_Ingles\Masculino\"
-    Dim RutaAudiosFemenino2 As String = "C:\Legacy\Ingles\Audios2\Femenino\"
-    Dim RutaAudiosFemenino3 As String = "C:\Legacy\Ingles\Audios3\Femenino\"
-    Dim RutaAudiosMasculino As String = "C:\Legacy\Ingles\Audios3\Masculino\"
+
+    Dim RutaAudiosFemenino2 As String
+    Dim RutaAudiosFemenino3 As String
+    Dim RutaAudiosMasculino As String
 
     Dim btnSolution As Button
 
@@ -352,6 +353,21 @@ Public Class frmEscenas
         Dim prop = GetType(Panel).GetProperty("DoubleBuffered", Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Instance)
         prop.SetValue(pEtapa, True, Nothing)
 
+
+
+        '================================
+        ' Ruta Audios
+        '=================================
+        If ModVar.Idioma = "EN" Then
+            RutaAudiosFemenino2 = "C:\frances\Audios2\Femenino\"
+            RutaAudiosFemenino3 = "C:\frances\Audios3\Femenino\"
+            RutaAudiosMasculino = "C:\frances\Audios3\Masculino\"
+        Else
+            RutaAudiosFemenino2 = "C:\frances\Audios\Femenino\"
+            RutaAudiosFemenino3 = "C:\frances\Audios\Femenino\"
+            RutaAudiosMasculino = "C:\frances\Audios\Masculino\"
+        End If
+
         '===================================
         ' Imagenes
         '===================================
@@ -458,18 +474,55 @@ Public Class frmEscenas
 
 
     Private Sub CargarImagenes()
+        Dim archivos As New List(Of String)
+        '=================================================
+        'Voces
+        '=================================================
+        Dim voces As New DataTable
+        Dim _comando As SqlCommand = MetodosDatos.CrearComando()
+        Dim n As Integer
 
-        Dim archivos() As String = {
-     "C:\Ingles\Imagenes_Ingles\Matilda_Normal.jpg",
-     "C:\Ingles\Imagenes_Ingles\Matilda_Pregunta.jpg",
-     "C:\Ingles\Imagenes_Ingles\Matilda_Seria.jpg",
-     "C:\Ingles\Imagenes_Ingles\Jessica_Normal.jpg",
-     "C:\Ingles\Imagenes_Ingles\Adam_Normal.jpg",
-      "C:\Ingles\Imagenes_Ingles\Adam_Pregunta.jpg",
-      "C:\Ingles\Imagenes_Ingles\Manon_Normal.jpg",
-      "C:\Ingles\Imagenes_Ingles\Alexandre_Normal.jpg",
-      "C:\Ingles\Imagenes_Ingles\Koraly_Normal.jpg"
- }
+        sqlstring = "SELECT       Id, voice"
+        sqlstring = sqlstring & " FROM Tbl_voces"
+
+        If ModVar.Idioma = "EN" Then
+            sqlstring = sqlstring & " Where Idioma='EN'"
+        Else
+            sqlstring = sqlstring & " Where Idioma='FR'"
+        End If
+
+        sqlstring = sqlstring & " ORDER BY voice asc"
+
+
+        Try
+            _comando.CommandText = sqlstring
+            _comando.Connection.Open()
+            da.SelectCommand = _comando
+            da.Fill(voces)
+            _comando.Connection.Close()
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        Finally
+
+        End Try
+        n = voces.Rows.Count
+
+        Do While i <= n - 1
+
+            archivos.Add("C:\Ingles\Imagenes_Ingles\Personajes\" & voces.Rows(i).Item(1) & "_Serio.jpg")
+            archivos.Add("C:\Ingles\Imagenes_Ingles\Personajes\" & voces.Rows(i).Item(1) & "_Saludo.jpg")
+            archivos.Add("C:\Ingles\Imagenes_Ingles\Personajes\" & voces.Rows(i).Item(1) & "_Normal.jpg")
+            
+            i = i + 1
+        Loop
+
+      
+
+        archivos.Add("C:\Ingles\Imagenes_Ingles\Personajes\Audia_Porfavor.jpg")
+
+
+
 
         For Each archivo As String In archivos
 
@@ -702,13 +755,13 @@ Public Class frmEscenas
         sqlstring = sqlstring & " WHERE dc.Con_Id='" & Id & "'"
 
         sqlstring = sqlstring & filtro
-        sqlstring = sqlstring & " AND dc.Status='R'"
 
+        sqlstring = sqlstring & " AND dc.Status='R'"
 
         sqlstring = sqlstring & " ORDER BY orden_det ,  d.item "
 
-
         _comando.CommandText = sqlstring
+
         _comando.Connection.Open()
 
         da.SelectCommand = _comando
@@ -3192,7 +3245,12 @@ Public Class frmEscenas
 
         _comando.Connection.Open()
 
-        sqlstring = "DELETE FROM Tbl_Dialogos"
+        If ModVar.Idioma = "EN" Then
+            sqlstring = "DELETE FROM Tbl_Dialogos"
+        Else
+            sqlstring = "DELETE FROM Tbl_Dialogos_FR"
+        End If
+
         sqlstring = sqlstring & " WHERE Id = @Id"
         _comando.CommandText = sqlstring
 
@@ -9546,13 +9604,14 @@ Public Class frmEscenas
 
             End If
 
+            ' Reproducir al x % de velocidad
+            wmp.settings.rate = _rate
+
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try
         _comando.Connection.Close()
 
-        ' Reproducir al x % de velocidad
-        wmp.settings.rate = _rate
 
         Dim n As UInteger = 0
         Dim archivo_audio As String

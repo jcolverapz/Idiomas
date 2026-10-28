@@ -398,13 +398,13 @@ Public Class frmConversaciones
             Else
                 Try
                     If Not IsDBNull(rw.Item(6)) Then
-                        p.Image = Image.FromFile("C:\Legacy\Ingles\Imagenes_Ingles\" & rw.Item(6))
+                        p.Image = Image.FromFile("C:\Ingles\Imagenes_Ingles\" & rw.Item(6))
                     Else
-                        p.Image = Image.FromFile("C:\Legacy\Ingles\Imagenes_Ingles\default.png")
+                        p.Image = Image.FromFile("C:\Ingles\Imagenes_Ingles\default.png")
 
                     End If
                 Catch ex As Exception
-                    p.Image = Image.FromFile("C:\Legacy\Imagenes\vacio.jpg")
+                    p.Image = Image.FromFile("C:\Ingles\Imagenes\vacio.jpg")
                 End Try
             End If
 

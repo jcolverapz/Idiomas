@@ -134,13 +134,13 @@ Partial Class FrmDetOracion
         Me.txtPregunta = New System.Windows.Forms.TextBox()
         Me.cmdGuardarPred = New System.Windows.Forms.Button()
         Me.Label34 = New System.Windows.Forms.Label()
-        Me.txtVoice = New System.Windows.Forms.TextBox()
         Me.cmdEliminarVideo = New System.Windows.Forms.Button()
         Me.cmdGenerarVideoFemenino = New System.Windows.Forms.Button()
         Me.Label35 = New System.Windows.Forms.Label()
-        Me.txtIntencion = New System.Windows.Forms.TextBox()
         Me.txtStatus = New System.Windows.Forms.TextBox()
         Me.Label36 = New System.Windows.Forms.Label()
+        Me.cboVoice = New System.Windows.Forms.ComboBox()
+        Me.cboExpresion = New System.Windows.Forms.ComboBox()
         Me.Panel2.SuspendLayout()
         CType(Me.NumRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1314,16 +1314,6 @@ Partial Class FrmDetOracion
         Me.Label34.Text = "Voice"
         Me.Label34.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
-        'txtVoice
-        '
-        Me.txtVoice.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.txtVoice.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtVoice.Location = New System.Drawing.Point(647, 421)
-        Me.txtVoice.Name = "txtVoice"
-        Me.txtVoice.Size = New System.Drawing.Size(175, 22)
-        Me.txtVoice.TabIndex = 467
-        Me.txtVoice.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
         'cmdEliminarVideo
         '
         Me.cmdEliminarVideo.Cursor = System.Windows.Forms.Cursors.Hand
@@ -1356,16 +1346,6 @@ Partial Class FrmDetOracion
         Me.Label35.Text = "Expresion"
         Me.Label35.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
-        'txtIntencion
-        '
-        Me.txtIntencion.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.txtIntencion.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtIntencion.Location = New System.Drawing.Point(388, 424)
-        Me.txtIntencion.Name = "txtIntencion"
-        Me.txtIntencion.Size = New System.Drawing.Size(175, 22)
-        Me.txtIntencion.TabIndex = 471
-        Me.txtIntencion.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
         'txtStatus
         '
         Me.txtStatus.BackColor = System.Drawing.SystemColors.Control
@@ -1386,19 +1366,37 @@ Partial Class FrmDetOracion
         Me.Label36.TabIndex = 474
         Me.Label36.Text = "IPA"
         '
+        'cboVoice
+        '
+        Me.cboVoice.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboVoice.FormattingEnabled = True
+        Me.cboVoice.Location = New System.Drawing.Point(649, 421)
+        Me.cboVoice.Name = "cboVoice"
+        Me.cboVoice.Size = New System.Drawing.Size(212, 26)
+        Me.cboVoice.TabIndex = 475
+        '
+        'cboExpresion
+        '
+        Me.cboExpresion.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboExpresion.FormattingEnabled = True
+        Me.cboExpresion.Location = New System.Drawing.Point(392, 422)
+        Me.cboExpresion.Name = "cboExpresion"
+        Me.cboExpresion.Size = New System.Drawing.Size(187, 26)
+        Me.cboExpresion.TabIndex = 476
+        '
         'FrmDetOracion
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1171, 831)
+        Me.Controls.Add(Me.cboExpresion)
+        Me.Controls.Add(Me.cboVoice)
         Me.Controls.Add(Me.Label36)
         Me.Controls.Add(Me.txtStatus)
         Me.Controls.Add(Me.Label35)
-        Me.Controls.Add(Me.txtIntencion)
         Me.Controls.Add(Me.cmdGenerarVideoFemenino)
         Me.Controls.Add(Me.cmdEliminarVideo)
         Me.Controls.Add(Me.Label34)
-        Me.Controls.Add(Me.txtVoice)
         Me.Controls.Add(Me.cmdGuardarPred)
         Me.Controls.Add(Me.txtPregunta)
         Me.Controls.Add(Me.cmdGenerar)
@@ -1606,12 +1604,12 @@ Partial Class FrmDetOracion
     Friend WithEvents txtPregunta As System.Windows.Forms.TextBox
     Friend WithEvents cmdGuardarPred As System.Windows.Forms.Button
     Public WithEvents Label34 As System.Windows.Forms.Label
-    Friend WithEvents txtVoice As System.Windows.Forms.TextBox
     Friend WithEvents cmdEliminarVideo As System.Windows.Forms.Button
     Friend WithEvents cmdGenerarVideoFemenino As System.Windows.Forms.Button
     Public WithEvents Label35 As System.Windows.Forms.Label
-    Friend WithEvents txtIntencion As System.Windows.Forms.TextBox
     Friend WithEvents txtStatus As System.Windows.Forms.TextBox
     Friend WithEvents Label36 As System.Windows.Forms.Label
+    Friend WithEvents cboVoice As System.Windows.Forms.ComboBox
+    Friend WithEvents cboExpresion As System.Windows.Forms.ComboBox
 
 End Class

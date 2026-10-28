@@ -446,10 +446,15 @@ Public Class FrmConversation
         Dim _comando As SqlCommand = MetodosDatos.CrearComando()
         Dim sqlstring As String = ""
 
-        sqlstring = " SELECT   Det_Conversation.Det_Con, Det_Conversation.Det_OracionId, Det_Conversation.Det_Orden, Det_Conversation.Con_Id, Oraciones.TextoPlano, Det_Person, Det_Par, Oraciones.traduccion, Oraciones.STL, Oraciones.Exam, Det_Conversation.Det_Tipo"
-        sqlstring = sqlstring & "  ,Oraciones.foco, Oraciones.CuentaSTL"
+        sqlstring = " SELECT   Det_Conversation.Det_Con, Det_Conversation.Det_OracionId, Det_Conversation.Det_Orden, Det_Conversation.Con_Id, o.TextoPlano, Det_Person, Det_Par, o.traduccion, o.STL, o.Exam, Det_Conversation.Det_Tipo"
+        sqlstring = sqlstring & "  ,o.foco, o.CuentaSTL"
         sqlstring = sqlstring & " FROM            Det_Conversation INNER JOIN"
-        sqlstring = sqlstring & "              Oraciones ON Det_Conversation.Det_OracionId = Oraciones.Id"
+
+        If ModVar.Idioma = "EN" Then
+            sqlstring = sqlstring & "              Oraciones o ON Det_Conversation.Det_OracionId = o.Id"
+        Else
+            sqlstring = sqlstring & "              Oraciones_FR o ON Det_Conversation.Det_OracionId = o.Id"
+        End If
         sqlstring = sqlstring & " WHERE  Det_Conversation.Con_Id='" & Id & "'"
         sqlstring = sqlstring & " ORDER BY  Det_Conversation.Det_Orden ASC"
 

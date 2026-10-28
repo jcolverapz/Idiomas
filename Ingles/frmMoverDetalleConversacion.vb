@@ -1148,7 +1148,13 @@ Public Class frmMoverDetalleConversacion
         sqlstring = "  SELECT       L.Id, L.Orden, L.IdConversacion"
         sqlstring = sqlstring & " FROM            Enc_Conversation e INNER JOIN"
         sqlstring = sqlstring & " Det_Conversation d ON e.Con_Id = d.Con_Id INNER JOIN"
-        sqlstring = sqlstring & " Tbl_Dialogos L ON d.Det_Con = L.IdConversacion"
+
+        If ModVar.Idioma = "EN" Then
+            sqlstring = sqlstring & " Tbl_Dialogos L ON d.Det_Con = L.IdConversacion"
+        Else
+            sqlstring = sqlstring & " Tbl_Dialogos_FR L ON d.Det_Con = L.IdConversacion"
+
+        End If
         sqlstring = sqlstring & " Where e.Con_Id = @Con_Id"
         sqlstring = sqlstring & " And L.item = '0' And d.Status='" & STATUS & "'"
 
@@ -1459,6 +1465,7 @@ Public Class frmMoverDetalleConversacion
             Console.WriteLine(r.SubItems(3).Text)
             'Console.WriteLine(r.SubItems(4).Text)
             'Console.WriteLine(r.SubItems(5).Text)
+
             If ModVar.Idioma = "EN" Then
                 sqlstring = "UPDATE Tbl_Dialogos SET IdConversacion = @IdConversacion, item = @item"
             Else
@@ -1895,7 +1902,12 @@ Public Class frmMoverDetalleConversacion
 
             _comando.Parameters.Clear()
 
-            sqlstring = "Update Tbl_Dialogos SET pin='S'"
+            If ModVar.Idioma = "EN" Then
+                sqlstring = "Update Tbl_Dialogos SET pin='S'"
+            Else
+                sqlstring = "Update Tbl_Dialogos_FR SET pin='S'"
+            End If
+
             sqlstring = sqlstring & "  WHERE Id = '" & IdDialogo & "'"
             _comando.CommandText = sqlstring
 
@@ -2119,7 +2131,13 @@ Public Class frmMoverDetalleConversacion
             '    Dim _titulo As String = "Nulo"
 
             sqlstring = ""
-            sqlstring &= "UPDATE Oraciones SET tema = NULL"
+
+            If ModVar.Idioma = "EN" Then
+                sqlstring &= "UPDATE Oraciones SET tema = NULL"
+            Else
+                sqlstring &= "UPDATE Oraciones_FR SET tema = NULL"
+            End If
+
             sqlstring &= " FROM Oraciones"
             sqlstring &= " WHERE Id = @IdOracion"
 
@@ -2134,8 +2152,13 @@ Public Class frmMoverDetalleConversacion
                 MsgBox(ex.Message)
             Finally
             End Try
-             
-            sqlstring = "Delete FROM Tbl_Dialogos"
+
+            If ModVar.Idioma = "EN" Then
+                sqlstring = "Delete FROM Tbl_Dialogos"
+            Else
+                sqlstring = "Delete FROM Tbl_Dialogos_FR"
+            End If
+
             sqlstring = sqlstring & " WHERE Id = @Id"
 
             _comando.CommandText = sqlstring
@@ -2213,7 +2236,13 @@ Public Class frmMoverDetalleConversacion
 
             _comando.Parameters.Clear()
 
-            sqlstring = "Update Oraciones SET Traduccion=''"
+            If ModVar.Idioma = "EN" Then
+                sqlstring = "Update Oraciones SET Traduccion=''"
+            Else
+                sqlstring = "Update Oraciones_FR SET Traduccion=''"
+
+            End If
+
             sqlstring = sqlstring & "  WHERE Id = '" & IdOracion & "'"
             _comando.CommandText = sqlstring
 
@@ -2258,7 +2287,12 @@ Public Class frmMoverDetalleConversacion
 
                 _comando.Parameters.Clear()
 
-                sqlstring = "Update Oraciones SET TipoLongitud=''"
+                If ModVar.Idioma = "EN" Then
+                    sqlstring = "Update Oraciones SET TipoLongitud=''"
+                Else
+                    sqlstring = "Update Oraciones_FR SET TipoLongitud=''"
+                End If
+
                 sqlstring = sqlstring & "  WHERE Id = '" & IdOracion & "'"
                 _comando.CommandText = sqlstring
 
@@ -2304,8 +2338,12 @@ Public Class frmMoverDetalleConversacion
 
             _comando.Connection.Open()
 
+            If ModVar.Idioma = "EN" Then
+                sqlstring = "Delete FROM Tbl_Dialogos"
+            Else
+                sqlstring = "Delete FROM Tbl_Dialogos_FR"
+            End If
 
-            sqlstring = "Delete FROM Tbl_Dialogos"
             sqlstring = sqlstring & " WHERE Id = @Id"
             _comando.CommandText = sqlstring
 
@@ -2318,7 +2356,12 @@ Public Class frmMoverDetalleConversacion
                 MsgBox(ex.Message)
             End Try
 
-            sqlstring = "Delete FROM Oraciones"
+            If ModVar.Idioma = "EN" Then
+                sqlstring = "Delete FROM Oraciones"
+            Else
+                sqlstring = "Delete FROM Oraciones_FR"
+            End If
+
             sqlstring = sqlstring & " WHERE Id = @Id"
             _comando.CommandText = sqlstring
 
@@ -2383,7 +2426,13 @@ Public Class frmMoverDetalleConversacion
             Dim i, n As Integer
 
             sqlstring = "    SELECT        d.Id, o.TextoPlano, d.IdOracion, d.Orden, d.IdConversacion, d.IMG, o.Traduccion, o.EsRespuesta"
-            sqlstring = sqlstring & "  FROM            Tbl_Dialogos d INNER JOIN"
+
+            If ModVar.Idioma = "EN" Then
+                sqlstring = sqlstring & "  FROM            Tbl_Dialogos d INNER JOIN"
+            Else
+                sqlstring = sqlstring & "  FROM            Tbl_Dialogos_FR d INNER JOIN"
+            End If
+
             sqlstring = sqlstring & "                   Det_Conversation c ON d.IdConversacion = c.Det_Con INNER JOIN"
             sqlstring = sqlstring & "                 Oraciones o ON d.IdOracion = o.Id"
             sqlstring = sqlstring & param
@@ -2507,7 +2556,12 @@ Public Class frmMoverDetalleConversacion
             _comando.Connection.Open()
             _comando.Parameters.Clear()
 
-            sqlstring = "Update Oraciones SET Sel=1"
+            If ModVar.Idioma = "EN" Then
+                sqlstring = "Update Oraciones SET Sel=1"
+            Else
+                sqlstring = "Update Oraciones_FR SET Sel=1"
+            End If
+
             sqlstring = sqlstring & "  WHERE Id = '" & IdOracion & "'"
             _comando.CommandText = sqlstring
 
@@ -2549,10 +2603,14 @@ Public Class frmMoverDetalleConversacion
             IdOracion = itemSel.SubItems(7).Text
 
             Dim sqlstring As String
-
-
             sqlstring = ""
-            sqlstring &= "UPDATE Oraciones SET Tipo = @Tipo"
+
+            If ModVar.Idioma = "EN" Then
+                sqlstring &= "UPDATE Oraciones SET Tipo = @Tipo"
+            Else
+                sqlstring &= "UPDATE Oraciones_FR SET Tipo = @Tipo"
+            End If
+
             sqlstring &= " FROM Oraciones"
             sqlstring &= " WHERE Id = @IdOracion"
 
@@ -2570,7 +2628,7 @@ Public Class frmMoverDetalleConversacion
 
             _comando.Connection.Close()
 
-             
+
             If Tipo = "Q" Then
                 itemSel.SubItems(2).ForeColor = Color.LightBlue
                 itemSel.SubItems(3).ForeColor = Color.LightBlue
@@ -2813,9 +2871,17 @@ Public Class frmMoverDetalleConversacion
         Dim i, n As Integer
 
         sqlstring = "    SELECT        L.Id, o.TextoPlano, L.IdOracion, L.Item, L.IdConversacion, L.IMG, o.Traduccion, o.EsRespuesta, d.Observaciones, d.status"
-        sqlstring = sqlstring & "  FROM            Tbl_Dialogos L INNER JOIN"
-        sqlstring = sqlstring & "                   Det_Conversation d ON L.IdConversacion = d.Det_Con INNER JOIN"
-        sqlstring = sqlstring & "                 Oraciones o ON L.IdOracion = o.Id"
+
+        If ModVar.Idioma = "EN" Then
+            sqlstring = sqlstring & "  FROM            Tbl_Dialogos L INNER JOIN"
+            sqlstring = sqlstring & "                   Det_Conversation d ON L.IdConversacion = d.Det_Con INNER JOIN"
+            sqlstring = sqlstring & "                 Oraciones o ON L.IdOracion = o.Id"
+        Else
+            sqlstring = sqlstring & "  FROM            Tbl_Dialogos_FR L INNER JOIN"
+            sqlstring = sqlstring & "                   Det_Conversation d ON L.IdConversacion = d.Det_Con INNER JOIN"
+            sqlstring = sqlstring & "                 Oraciones_FR o ON L.IdOracion = o.Id"
+        End If
+
         sqlstring = sqlstring & param
 
 
@@ -3228,7 +3294,12 @@ Public Class frmMoverDetalleConversacion
 
             _comando.Connection.Open()
 
-            sqlstring = "Update Tbl_Dialogos SET IdConversacion='" & IdDetNuevo & "'"
+            If ModVar.Idioma = "EN" Then
+                sqlstring = "Update Tbl_Dialogos SET IdConversacion='" & IdDetNuevo & "'"
+            Else
+                sqlstring = "Update Tbl_Dialogos_FR SET IdConversacion='" & IdDetNuevo & "'"
+            End If
+
             sqlstring = sqlstring & "  WHERE Id = '" & IdDialogo & "'"
             _comando.CommandText = sqlstring
 
@@ -3259,7 +3330,12 @@ Public Class frmMoverDetalleConversacion
 
             _comando.Connection.Open()
 
-            sqlstring = "Delete FROM Tbl_Dialogos"
+            If ModVar.Idioma = "EN" Then
+                sqlstring = "Delete FROM Tbl_Dialogos"
+            Else
+                sqlstring = "Delete FROM Tbl_Dialogos_FR"
+            End If
+
             sqlstring = sqlstring & " WHERE Id = @Id"
             _comando.CommandText = sqlstring
 
@@ -3277,7 +3353,7 @@ Public Class frmMoverDetalleConversacion
 
             LvwActual.Items.Remove(itemSel)
 
-           
+
         ElseIf e.KeyCode = Keys.E Then
             Dim frm As New FrmDetOracion
             Dim IdOracion As Integer

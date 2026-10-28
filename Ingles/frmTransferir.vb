@@ -1507,7 +1507,12 @@ Public Class frmTransferir
 
                 ' IdDet = GeneraDialogo()
 
-                sqlstring = "Insert into Tbl_Dialogos (IdOracion, Orden, IdConversacion, Item)"
+                If ModVar.Idioma = "EN" Then
+                    sqlstring = "Insert into Tbl_Dialogos (IdOracion, Orden, IdConversacion, Item)"
+                Else
+                    sqlstring = "Insert into Tbl_Dialogos_FR (IdOracion, Orden, IdConversacion, Item)"
+
+                End If
                 sqlstring = sqlstring & " Values ('" & r.SubItems(0).Text & "', @Orden, '" & IdDetalle & "', @Item)"
 
                 _comando.CommandText = sqlstring

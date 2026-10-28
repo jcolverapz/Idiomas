@@ -142,7 +142,7 @@ Public Class FrmDetOracion
         Dim param As String = " WHERE Oraciones_FR.Id=" & Id
         Dim resp As Integer
 
-        Dim i, n As Integer
+        Dim i, n, nv As Integer
         ' Dim IdOracion As Integer
         Dim _comando As SqlCommand = MetodosDatos.CrearComando()
         Dim sql As String
@@ -181,9 +181,58 @@ Public Class FrmDetOracion
         Loop
          
         sql = ""
+        '=================================================
+        'Voces
+        '=================================================
+        Dim voces As New DataTable
 
+        sqlstring = "SELECT       Id, voice"
+        sqlstring = sqlstring & " FROM Tbl_voces"
+
+        If ModVar.Idioma = "EN" Then
+            sqlstring = sqlstring & " Where Idioma='EN'"
+        Else
+            sqlstring = sqlstring & " Where Idioma='FR'"
+        End If
+
+        sqlstring = sqlstring & " ORDER BY voice asc"
+         
+
+        Try
+            _comando.CommandText = sqlstring
+            _comando.Connection.Open()
+
+            da.SelectCommand = _comando
+
+            da.Fill(voces)
+
+            _comando.Connection.Close()
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        Finally
+
+        End Try
+
+        nv = voces.Rows.Count
+        cboVoice.Items.Clear()
+        i = 0
+        Do While i <= nv - 1
+            Me.cboVoice.Items.Add(New clsItem(voces.Rows(i).Item(1), voces.Rows(i).Item(0)))
+            i = i + 1
+        Loop
 
         'cargarConversaciones(IdOracion)
+        '=================================================
+        ' Expresion
+        '=================================================
+        cboExpresion.Items.Clear()
+        ' i = 0
+        'Do While i <= nv - 1
+        Me.cboExpresion.Items.Add("Saludo")
+        Me.cboExpresion.Items.Add("Normal")
+        'i = i + 1
+        'Loop
 
         Dim dt As New DataTable
 
@@ -221,7 +270,7 @@ Public Class FrmDetOracion
         'Loop
 
 
-            If File.Exists("C:\Legacy\Ingles\Audios\" & IdOracion & ".mp3") Then
+        If File.Exists("C:\Legacy\Ingles\Audios\" & IdOracion & ".mp3") Then
 
             '   cmdPlay.Enabled = True
         Else
@@ -265,7 +314,7 @@ Public Class FrmDetOracion
 
         Me.cmbTema.Items.Add("Sin_Tema")
 
- 
+
 
     End Sub
 
@@ -461,13 +510,13 @@ Public Class FrmDetOracion
         If Not IsDBNull(dt.Rows(0).Item(34)) Then
             voice = dt.Rows(0).Item(34)
         End If
-        txtVoice.Text = voice
+        cboVoice.Text = voice
 
 
         If Not IsDBNull(dt.Rows(0).Item(35)) Then
             intencion = dt.Rows(0).Item(35)
         End If
-        txtIntencion.Text = intencion
+        cboExpresion.Text = intencion
 
     End Sub
 
@@ -3122,7 +3171,12 @@ Public Class FrmDetOracion
 
         Try
             Player.settings.rate = rate
-            Player.URL = "C:\Legacy\Ingles\Audios3\femenino\" & IdOracion & ".mp3"
+            If ModVar.Idioma = "EN" Then
+                Player.URL = "C:\Ingles\Audios3\femenino\" & IdOracion & ".mp3"
+            Else
+                Player.URL = "C:\frances\Audios\femenino\" & IdOracion & ".mp3"
+
+            End If
             ' Player.URL = ruta & "AndiesJob.mp3"
             Player.controls.play()
         Catch ex As Exception
@@ -3595,18 +3649,50 @@ Public Class FrmDetOracion
     End Sub
 
     Private Sub GenerarAudioFemenino_Click(sender As System.Object, e As System.EventArgs) Handles GenerarAudioFemenino.Click
+
         My.Computer.Audio.Stop()
 
+
+        '==============
+        ' Eliminar Audio
+        '================
+        Dim i As Integer
+        Dim carpeta As String
+
+        Dim FileToDelete As String
+        Dim MoveLocation As String
+         
+        If Idioma = "IN" Then
+            FileToDelete = "C:\Ingles\Audios3\Femenino\" & IdOracion & ".mp3"
+        Else
+            FileToDelete = "C:\Frances\Audios\Femenino\" & IdOracion & ".mp3"
+
+        End If
+        
+
+        Try
+
+            If File.Exists(FileToDelete) Then
+                File.Delete(FileToDelete)
+                ' MsgBox("Se quito correctamente")
+
+            End If
+
+            'MoveLocation = "C:\Legacy\Ingles\Papelera\" & IdOracion & ".mp3"
+
+            '    If File.Exists("C:\Legacy\Ingles\Audios\" & IdOracion & ".mp3") Then
+            '        System.IO.File.Move(FileToMove, MoveLocation)
+            '    End If
+        Catch ex As Exception
+        End Try
         'Dim psi As New ProcessStartInfo()
         'psi.FileName = "python"
         'psi.UseShellExecute = False
         'psi.RedirectStandardOutput = True
         'psi.CreateNoWindow = True
-
         'Dim p As Process = Process.Start(psi)
         'Dim resultado As String = p.StandardOutput.ReadToEnd()
         'p.WaitForExit()
-
         'MessageBox.Show(resultado)
 
         ''''''
@@ -4066,17 +4152,7 @@ Public Class FrmDetOracion
         _comando.Connection.Close()
     End Sub
 
-    Private Sub txtVoice_TextChanged(sender As System.Object, e As System.EventArgs) Handles txtVoice.TextChanged
-
-        If Me.txtVoice.Text <> voice Then
-            Try
-                DetectChanges("Voice", Voice, txtVoice.Text, "")
-                Voice = txtVoice.Text
-            Catch ex As Exception
-
-            End Try
-        End If
-    End Sub
+     
 
     Private Sub cmdEliminarVideo_Click(sender As System.Object, e As System.EventArgs) Handles cmdEliminarVideo.Click
         Dim i As Integer
@@ -4209,21 +4285,27 @@ Public Class FrmDetOracion
 
     End Sub
 
-    Private Sub txtStatus_Click(sender As System.Object, e As System.EventArgs)
+    
 
-    End Sub
-
-    Private Sub txtIntencion_TextChanged(sender As System.Object, e As System.EventArgs) Handles txtIntencion.TextChanged
-
-        If Me.txtIntencion.Text <> intencion Then
+    Private Sub cboVoice_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles cboVoice.SelectedIndexChanged
+        If Me.cboVoice.Text <> voice Then
             Try
-                DetectChanges("Expresion", intencion, txtIntencion.Text, "")
-                intencion = txtIntencion.Text
+                DetectChanges("Voice", voice, cboVoice.Text, "")
+                voice = cboVoice.Text
             Catch ex As Exception
 
             End Try
         End If
     End Sub
 
+    Private Sub cboExpresion_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles cboExpresion.SelectedIndexChanged
+        If Me.cboExpresion.Text <> intencion Then
+            Try
+                DetectChanges("Expresion", intencion, cboExpresion.Text, "")
+                intencion = cboExpresion.Text
+            Catch ex As Exception
 
+            End Try
+        End If
+    End Sub
 End Class
