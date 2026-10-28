@@ -13,7 +13,9 @@ Imports System.Windows.Forms
 Imports WMPLib
 Imports System.Drawing.Imaging
 Imports AxWMPLib
-
+Imports System.Collections.Generic
+Imports System.Drawing
+Imports System.Web.Script.Serialization
 Public Class frmEscenas
 
 #Region "variables"
@@ -154,7 +156,7 @@ Public Class frmEscenas
     Dim RutaAudios As String
     Dim RutaImagenesFemenino As String = "C:\Ingles\Imagenes_Ingles\Personajes\"
     Dim RutaImagenes As String = "C:\Ingles\Imagenes_Ingles\Personajes\"
-    Dim RutaImagenesEstandar As String = "C:\Legacy\Ingles\Imagenes_Ingles\Sustantivos\"
+    Dim RutaImagenesEstandar As String = "C:\Ingles\Imagenes_Ingles\Sustantivos\"
 
     Dim RutaImagenesMasculino As String = "C:\Legacy\Ingles\Imagenes_Ingles\Masculino\"
 
@@ -243,6 +245,7 @@ Public Class frmEscenas
 
     Dim wmp As AxWindowsMediaPlayer
 
+    Dim LIMITE_MIN As Integer = 50
 #End Region
     Dim pan As New Panel
 
@@ -734,6 +737,7 @@ Public Class frmEscenas
     '    pEtapa.ResumeLayout()
 
     'End Sub
+
     Private Sub ScrollManual(sender As Object, e As ScrollEventArgs)
         ActualizarVista()
     End Sub
@@ -1013,7 +1017,7 @@ Public Class frmEscenas
 
 
             '' ===============================
-            '' Texto en ingles
+            '' Texto en ingles/frances
             '' ===============================
             Dim txt As New RichTextBox
             txt.Name = "txt_" & j
@@ -1029,7 +1033,7 @@ Public Class frmEscenas
             txt.Width = 350
 
             txt.Multiline = True
-            txt.Visible = False
+            ' txt.Visible = False
 
             txt.Location = New Point(pAudio.Right + 10, pd.Bottom + 5)
 
@@ -1525,18 +1529,25 @@ Public Class frmEscenas
                 personaje = row("personaje")
             End If
 
+            Dim ruta As String '= RutaImagenes & row("voice") & "_" & row("expresion") & ".jpg"
+
             'Try
-            If personaje = "1" Then  'Femenino
+            If personaje = "A" Then  'Femenino
                 ' RutaImagenes = RutaImagenesFemenino
                 RutaAudios = RutaAudiosFemenino
-            ElseIf personaje = "2" Then
+                ruta = RutaImagenesFemenino & row("voice") & "_" & row("expresion") & ".jpg"
+            ElseIf personaje = "B" Then
                 'Masculino
                 ' RutaImagenes = RutaImagenesMasculino
                 RutaAudios = RutaAudiosMasculino
-            Else
-                'RutaImagenes = RutaImagenesEstandar
+                ruta = RutaImagenes & row("voice") & "_" & row("expresion") & ".jpg"
+            ElseIf personaje = "C" Then
+                RutaImagenes = RutaImagenesEstandar
+                ruta = RutaImagenes & row("IMG_Oracion") & ".png"
+
                 RutaAudios = RutaAudiosFemenino
             End If
+
 
             Console.WriteLine(personaje)
 
@@ -1546,7 +1557,6 @@ Public Class frmEscenas
             '' ===============================
             'If Not IsDBNull(row("IMG_Oracion")) Then
             If Not IsDBNull(row("voice")) Then
-                Dim ruta As String = RutaImagenes & row("voice") & "_" & row("expresion") & ".jpg"
                 Dim nuevaImagen = GetImagen(ruta)
 
                 If pd.Image IsNot nuevaImagen Then
@@ -1668,7 +1678,7 @@ Public Class frmEscenas
             ' Reproducciones
             ' ===============================' 
             reproduccion.Text = row("Reproduccion")
-            If row("Reproduccion") > 29 Then
+            If row("Reproduccion") > LIMITE_MIN Then
                 reproduccion.ForeColor = Color.Green
             Else
                 reproduccion.ForeColor = Color.Salmon
@@ -1775,7 +1785,7 @@ Public Class frmEscenas
             ' CONTROLES EXISTENTES
             ' ===============================
             If cmdMostrarTexto.Text = "Mostrar Texto" Then
-                txt.Visible = False
+                ' txt.Visible = False
             Else
                 txt.Visible = True
             End If
@@ -1813,8 +1823,8 @@ Public Class frmEscenas
 
             pd.Visible = False
             pAudio.Visible = False
-            txt.Visible = False
-            trad.Visible = False
+            txt.Visible = False 'Texto
+            trad.Visible = False 'Traduccion
             reproduccion.Visible = False
             aprendido.BackColor = Color.LightGray
             falta.BackColor = Color.LightGray
@@ -3225,6 +3235,14 @@ Public Class frmEscenas
         Dim _Item As Integer
         _Item = str(1)
 
+        Dim resp As Integer
+
+        resp = MsgBox("Eliminar ? ", MsgBoxStyle.YesNo)
+
+        If resp <> 6 Then
+
+            Exit Sub
+        End If
 
         Dim panel = CType(delete.Parent, Panel)
 
@@ -7319,6 +7337,22 @@ Public Class frmEscenas
 #End Region
 
 #Region "Player"
+    Private Class TiempoPalabra
+        Public Posicion As Integer
+        Public Longitud As Integer
+        Public InicioMs As Integer
+        Public FinMs As Integer
+
+        Public FondoOriginal As Color
+        Public TextoOriginal As Color
+    End Class
+
+    Private ListaTiempos As New List(Of TiempoPalabra)
+    Private TextoKaraoke As RichTextBox
+    Private IndicePalabraActual As Integer = -1
+
+    Private WithEvents TimerKaraoke As New Windows.Forms.Timer()
+
     Private Sub Player_PlayStateChange(ByVal NewState As Integer) Handles Player.PlayStateChange
         If NewState = WMPPlayState.wmppsMediaEnded Then
 
@@ -7333,7 +7367,845 @@ Public Class frmEscenas
 
     End Sub
 
+    Private Sub wmp_PlayStateChange(sender As Object, e As AxWMPLib._WMPOCXEvents_PlayStateChangeEvent)
 
+        Select Case e.newState
+
+            Case WMPLib.WMPPlayState.wmppsBuffering
+                ' picDet.Visible = True
+                ' picDet.BringToFront()
+                ' picDet.Refresh()
+                TimerKaraoke.Stop()
+                ' picDet.BringToFront()
+
+            Case WMPLib.WMPPlayState.wmppsPlaying
+
+                TimerVideo.Start()
+                TimerEnd.Start()
+
+                If ListaTiempos.Count > 0 AndAlso
+              Not TextoKaraoke Is Nothing Then
+
+                    TimerKaraoke.Start()
+                End If
+
+
+            Case WMPLib.WMPPlayState.wmppsMediaEnded
+                TimerKaraoke.Stop()
+                QuitarResaltado()
+                ' TimerEnd.Start()
+
+        End Select
+
+    End Sub
+
+    '    Private Sub AxWindowsMediaPlayer1_PlayStateChange(
+    '    sender As Object,
+    '    e As AxWMPLib._WMPOCXEvents_PlayStateChangeEvent
+    ') Handles AxWindowsMediaPlayer1.PlayStateChange
+
+    '        Select Case e.newState
+
+    '            Case WMPLib.WMPPlayState.wmppsPlaying
+
+    '                If FadeIniciado = False Then
+
+    '                    FadeIniciado = True
+
+    '                    IniciarFadeIn()
+
+    '                End If
+
+    '            Case WMPLib.WMPPlayState.wmppsMediaEnded
+
+    '                PictureBox1.BringToFront()
+
+    '        End Select
+
+    '    End Sub
+    'Private Sub TimerFade_Tick(sender As Object, e As EventArgs) Handles TimerFade.Tick
+
+    '    If FadeMode = "OUT" Then
+    '        FadeLevel += 10
+    '        If FadeLevel >= 255 Then
+    '            FadeLevel = 255
+    '            TimerFade.Stop()
+    '            PanelFade.BackColor = Color.FromArgb(FadeLevel, 0, 0, 0)
+    '            PanelFade.Refresh()
+    '            PictureBox1.SendToBack()
+    '            AxWindowsMediaPlayer1.URL = ArchivoPendiente
+    '            AxWindowsMediaPlayer1.Ctlcontrols.play()
+    '            Exit Sub
+
+    '        End If
+
+    '    ElseIf FadeMode = "IN" Then
+    '        FadeLevel -= 10
+
+    '        If FadeLevel <= 0 Then
+
+    '            FadeLevel = 0
+
+    '            TimerFade.Stop()
+
+    '            PanelFade.Visible = False
+
+    '            Exit Sub
+
+    '        End If
+
+    '    End If
+
+    '    PanelFade.BackColor = Color.FromArgb(FadeLevel, 0, 0, 0)
+
+    'End Sub
+    'Private Sub IniciarFadeIn()
+    '    If TimerFade.Enabled Then Exit Sub
+
+    '    FadeMode = "IN"
+
+    '    FadeLevel = 255
+
+    '    PanelFade.Visible = True
+    '    PanelFade.BringToFront()
+
+    '    TimerFade.Start()
+    'End Sub
+
+    'Private Sub IniciarFadeOut()
+    '    If TimerFade.Enabled Then Exit Sub
+
+    '    FadeIniciado = False
+
+    '    FadeMode = "OUT"
+
+    '    FadeLevel = 0
+
+    '    PanelFade.Visible = True
+    '    PanelFade.BringToFront()
+
+    '    TimerFade.Start()
+
+
+    'End Sub
+
+    Private Sub TimerEnd_Tick(sender As System.Object, e As System.EventArgs) Handles TimerEnd.Tick
+        Try
+
+            If yaMostro Then Exit Sub
+
+            Dim duracion As Double =
+                wmp.currentMedia.duration
+
+            Dim posicion As Double =
+                wmp.Ctlcontrols.currentPosition
+
+            If duracion - posicion <= 0.1 Then
+                yaMostro = True
+                TimerEnd.Stop()
+                '    picDet.Visible = True
+                'picDet.BringToFront()
+
+            End If
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Private Sub TimerVideo_Tick(sender As System.Object, e As System.EventArgs) Handles TimerVideo.Tick
+
+        TimerVideo.Stop()
+        TimerVideo.Enabled = False
+
+        ' picDet.SendToBack()
+        'picDet.Visible = False
+    End Sub
+
+    Private Sub ReproducirAudio(sender, e)
+        Dim i As Integer
+        Dim nm As String
+        Dim str() As String
+        Dim tp As String
+        Dim param As String = ""
+        Dim q As Integer
+        Dim obj As New Label
+
+        Dim _comando As SqlCommand = MetodosDatos.CrearComando()
+        Dim _rate As Double
+        Dim IdPanel As String
+        Dim Reproducciones As Integer
+        Dim IdOracionItem As Integer
+
+        Dim Idioma As String
+
+        pgrBar.Value = 0
+
+        Dim pAudio = CType(sender, CircularPictureBox)
+        Dim IdDialogo As Integer = CInt(pAudio.Tag)
+
+        nm = sender.Name
+
+        str = nm.Split("_")
+        tp = str(0)
+
+        Dim _Item As Integer
+        _Item = str(1)
+
+
+        Dim panel = CType(pAudio.Parent, Panel)
+        Dim orden As Integer
+        picDet = CType(panel.Controls("pd_" & _Item), PictureBox)
+
+        wmp.Location = picDet.Location
+
+        panel.Controls.Add(wmp)
+
+
+        Dim btn As Button
+        btn = CType(panel.Controls("txtpersonaje_" & _Item), Button)
+
+        Dim txt = CType(panel.Controls("txtReproduccion_" & _Item), Label)
+        Dim texto = CType(panel.Controls("txt_" & _Item), RichTextBox)
+
+        If Not IsNothing(objtextOver) Then
+            'objtextOver.Font = New Font("Consolas", 11, FontStyle.Regular)
+        End If
+
+        Dim myPen As New Pen(Color.Red, 2)
+        Dim myPenClear As New Pen(Color.Beige, 2)
+
+        Dim g As Graphics
+
+        IdCurrent = IdDialogo
+
+        If IdOver > 0 Then
+            'g = pEtapa.Controls("pAux_" & IdPanel).Controls.Item("p_" & IdOver).CreateGraphics
+            ' g.DrawRectangle(myPenClear, 0, 0, 40, 40)
+        End If
+
+        If ModVar.Idioma = "EN" Then
+            sqlstring = " SELECT          d.Id, d.IdOracion, d.Orden, d.IdConversacion, o.IMG, o.audio, o.rate, o.Gif, o.TextoPlano, o.Reproduccion, d.Personaje, o.personaje, o.voice, o.expresion, o.Tiempos"
+            sqlstring = sqlstring & ""
+            sqlstring = sqlstring & " FROM            Tbl_Dialogos_FR d INNER JOIN"
+            sqlstring = sqlstring & "                    Oraciones_FR o ON d.IdOracion = o.Id"
+            sqlstring = sqlstring & " WHERE  d.Id='" & IdDialogo & "'"
+        Else
+            sqlstring = " SELECT          d.Id, d.IdOracion, d.Orden, d.IdConversacion, o.IMG, o.audio, o.rate, o.Gif, o.TextoPlano, o.Reproduccion, d.Personaje, o.personaje, o.voice, o.expresion,"
+            sqlstring = sqlstring & " o.Tiempos"
+            sqlstring = sqlstring & " FROM            Tbl_Dialogos_FR d INNER JOIN"
+            sqlstring = sqlstring & "                    Oraciones_FR o ON d.IdOracion = o.Id"
+            sqlstring = sqlstring & " WHERE  d.Id='" & IdDialogo & "'"
+        End If
+
+
+        Dim objDataReader As SqlDataReader
+
+        Try
+            _comando.CommandText = sqlstring
+
+            _comando.Connection.Open()
+
+        Catch ex As Exception
+        End Try
+
+        Dim audio As String
+        Dim _gif As String = ""
+        Dim _IMG As String = ""
+        Dim _Texto As String = ""
+        Dim previousHeight As Integer = 0
+        Dim personaje As String
+        Dim voice As String
+        Dim jsonTiempos As String = ""
+
+        Try
+            objDataReader = _comando.ExecuteReader
+
+            If objDataReader.HasRows Then
+
+                objDataReader.Read()
+
+                IdOracionItem = objDataReader(1)
+
+                _rate = objDataReader(6)
+
+                If Not IsDBNull(objDataReader(4)) Then
+                    IMG = objDataReader(4)
+                End If
+
+                If Not IsDBNull(objDataReader(9)) Then
+                    Reproducciones = objDataReader(9)
+                End If
+
+                If Not IsDBNull(objDataReader(11)) Then
+                    personaje = objDataReader(11)
+                Else
+                    If Not IsDBNull(objDataReader(10)) Then
+                        personaje = objDataReader(10)
+                    End If
+                End If
+
+                If Not IsDBNull(objDataReader(2)) Then
+                    orden = objDataReader(2)
+                End If
+
+                If Not IsDBNull(objDataReader(12)) Then
+                    voice = objDataReader(12)
+                End If
+
+                If Not IsDBNull(objDataReader(13)) Then
+                    expresion = objDataReader(13)
+                End If
+
+                If Not IsDBNull(objDataReader(14)) Then
+                    jsonTiempos = Convert.ToString(objDataReader(14))
+                End If
+
+            Else
+
+            End If
+
+            ' Reproducir al x % de velocidad
+            wmp.settings.rate = _rate
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+        _comando.Connection.Close()
+
+
+        Dim n As UInteger = 0
+        Dim archivo_audio As String
+
+        If voice = "Matilda" Then
+
+        ElseIf voice = "Jessica" Then
+
+        ElseIf voice = "x" Then
+            picDetImagen = ""
+            NombreImagen = "x.jpg"
+        Else
+            NombreImagen = "Matilda.jpg"
+        End If
+
+        ' Nombre de la Imagen
+        NombreImagen = voice & "_" & expresion & ".jpg"
+
+        '==================
+        ' Audio
+        '===================
+        If ModVar.Idioma = "EN" Then
+            archivo = "C:\Ingles\Audios3\Femenino\" & IdOracionItem & ".mp3"
+        Else
+            archivo = "C:\frances\Audios\Femenino\" & IdOracionItem & ".mp3"
+        End If
+
+
+        If Not File.Exists(archivo) Then ' El archivo existe
+            archivo = "C:\Ingles\Audios2\Femenino\" & IdOracionItem & ".mp3"
+        End If
+
+        ' PictureBox1.Image = Imagenes("matilda.jpg")
+        ' PictureBox1.Image = Image.FromFile(Imagen)
+
+        'If personaje <> "C" Then
+        '    ' If Not IsNothing(picDet) Then
+        '    picDet.Height = 110
+        '    picDet.Width = 120
+        '    'End If
+        'End If
+
+        ' texto.Location = New Point(pAudio.Right + 10, pd.Bottom + 5)
+        ' texto.Visible = True
+        ' btn.BackColor = Color.Yellow
+
+        texto.Location = New Point(sender.Right + 10, picDet.Bottom + 5)
+
+
+        '==================================
+        'Anterior
+        '=================================
+        ' panel.BackColor = Color.LightGray
+
+        Try
+            If Not IsNothing(LastPanel) Then
+                ' Dim picDetAnterior As PictureBox = CType(LastPanel.Controls("pd_" & LastId), PictureBox)
+                ' Dim picAnterior = CType(LastPanel.Controls("pAudio_" & LastId), CircularPictureBox)
+                Dim btnAnterior = CType(pEtapa.Controls(LastPanel.Name).Controls("pAudio_" & LastId), CircularPictureBox)
+
+                ' picAnterior.Image = Image.FromFile("C:\legacy\Ingles\Imagenes_Ingles\Sonido.png")
+                If LastIdItem <> IdDialogo Then
+                    ' picDetAnterior.Height = 110
+                    ' picDetAnterior.Width = 120
+                    ' texto.Location = New Point(picAnterior.Right + 10, picAnterior.Bottom + 5)
+                    'btnAnterior.BackColor = Color.LightGray
+                    ' btnAnterior.Visible = False
+                    ' LastPanel.BackColor = Color.LightGreen
+                    btnAnterior.Image = imgSonido
+                End If
+                ' btnAnterior.Refresh()
+                ' LastPanel.Tag = IdDialogo
+                ' LastPanel.Name = IdDialogo
+
+            End If
+
+        Catch ex As Exception
+        End Try
+
+        pic = sender
+
+        Dim imgGif As Image
+
+        If IMG <> "" Then
+            If IMG = "like" And personaje = "A" Then
+                ' AxWindowsMediaPlayer1.URL = "C:\Legacy\video.mp4"
+                ' AxWindowsMediaPlayer1.settings.autoStart = True
+                'imgGif = Image.FromFile("C:\Legacy\Ingles\Imagenes_Ingles\femenino\animacion.gif")
+                'ImageAnimator.StopAnimate(imgGif, Nothing)
+
+                'picDet.Image = imgGif
+                '' picDet.Tag = "animacion.gif"
+                '' Obtener frames
+                'Dim dimension As New FrameDimension(imgGif.FrameDimensionsList(0))
+                'frameCount = imgGif.GetFrameCount(dimension)
+                'currentFrame = 0
+
+                '' Evitar duplicar handler
+                'RemoveHandler Application.Idle, AddressOf AnimateGif
+                'AddHandler Application.Idle, AddressOf AnimateGif
+
+            End If
+        End If
+
+        '===============================
+        ' Resaltar
+        '================================
+
+        PrepararKaraoke(texto, jsonTiempos)
+
+        Dim resp As Integer
+
+        '==============
+        ' Mostrar Imagen si Personaje = C 
+        '===============
+
+        If personaje <> "C" Then
+            If picDet.Image IsNot Imagenes(NombreImagen) Then
+                picDet.Image = Imagenes(NombreImagen)
+            End If
+
+        Else
+            'Imagen
+            If File.Exists("C:\Ingles\Imagenes_Ingles\Sustantivos\" & IMG & ".jpg") Then
+                picDet.Image = Image.FromFile("C:\Ingles\Imagenes_Ingles\Sustantivos\" & IMG & ".jpg")
+            End If
+
+        End If
+
+
+        video = "C:\Ingles\Videos\" & IdOracionItem & ".mp4"
+        '  picDet.Visible = False  'Quitar esta linea
+
+        If File.Exists(video) Then ' El archivo existe
+
+            'picDet.BringToFront()
+            'picDet.Visible = True
+            wmp.URL = archivo
+
+            wmp.Ctlcontrols.play()
+
+
+            pic.Image = Image.FromFile("C:\Ingles\Imagenes_Ingles\sonido.gif")
+
+            If btn.Text = "-" Then
+                If personaje = "C" Then
+                    ' picDet.Height = 210
+                    ' picDet.Width = 300
+                    texto.Location = New Point(picDet.Left, picDet.Bottom + 1)
+                    '  panel.Controls.Add(textoCopy)
+                End If
+            Else
+            End If
+
+            ' texto.Visible = False
+
+        Else '' El archivo no existe
+            'picDet.SendToBack()
+
+            If Idioma = "EN" Then
+                archivo_audio = "C:\Ingles\Audios3\femenino\" & IdOracionItem & ".mp3"
+            Else
+                archivo_audio = "C:\frances\Audios\femenino\" & IdOracionItem & ".mp3"
+
+            End If
+
+            If File.Exists(archivo_audio) Then
+                Try
+                    wmp.URL = archivo_audio
+
+                    wmp.Ctlcontrols.play()
+
+                Catch ex As Exception
+
+                End Try
+
+
+                '=============
+                ' Reproducciones
+                '===============
+                If ModVar.Idioma = "EN" Then
+                    sqlstring = "UPDATE Oraciones SET Reproduccion = @Reproduccion"
+                Else
+                    sqlstring = "UPDATE Oraciones_FR SET Reproduccion = @Reproduccion"
+
+                End If
+
+                sqlstring = sqlstring & " WHERE Id = @Id"
+                _comando.CommandText = sqlstring
+                _comando.Parameters.Clear()
+
+                _comando.Parameters.AddWithValue("@Reproduccion", Reproducciones + 1)
+                _comando.Parameters.AddWithValue("@Id", IdOracionItem)
+                _comando.Connection.Open()
+
+                Try
+                    i = _comando.ExecuteNonQuery
+                Catch ex As Exception
+                End Try
+                _comando.Connection.Close()
+
+                'pEtapa.Controls(IdPanel).Controls.Item("txtReproduccion_" & IdDialogo).Text = Reproducciones + 1
+                txt.Text = Reproducciones + 1
+
+                If Reproducciones + 1 >= LIMITE_MIN Then
+                    txt.ForeColor = Color.Green
+                Else
+                    txt.ForeColor = Color.Salmon
+                End If
+
+            Else
+                If personaje = "A" Or personaje = "C" Then
+                    resp = MsgBox(" ¿ Crear audio femenino ?", MsgBoxStyle.YesNo + MsgBoxStyle.Question)
+
+                    If resp = 6 Then
+
+                        My.Computer.Audio.Stop()
+
+                        Dim psi As New ProcessStartInfo()
+                        psi.FileName = "python"
+                        psi.Arguments = """C:\legacy\Programas\Voz_Natural\GeneraAudioF3.py"" " & IdOracionItem
+                        psi.UseShellExecute = False
+                        psi.RedirectStandardOutput = True
+                        psi.CreateNoWindow = True
+
+                        Dim p As Process = Process.Start(psi)
+                        Dim resultado As String = p.StandardOutput.ReadToEnd()
+                        p.WaitForExit()
+
+                        'MessageBox.Show(resultado)
+                    End If
+
+                ElseIf personaje = "B" Then 'Audio Masculino
+                    resp = MsgBox(" ¿ Crear audio voz Masculino ?", MsgBoxStyle.YesNo + MsgBoxStyle.Question)
+
+                    If resp = 6 Then
+                        My.Computer.Audio.Stop()
+                        Dim psi As New ProcessStartInfo()
+                        psi.FileName = "python"
+                        psi.Arguments = """C:\legacy\Programas\Voz_Natural\GeneraAudioM.py"" " & IdOracionItem
+                        psi.UseShellExecute = False
+                        psi.RedirectStandardOutput = True
+                        psi.CreateNoWindow = True
+                        Dim p As Process = Process.Start(psi)
+                        Dim resultado As String = p.StandardOutput.ReadToEnd()
+                        p.WaitForExit()
+                        MessageBox.Show(resultado)
+                    End If
+
+                End If
+
+                'Reiniciar contador
+                If Reproducciones > 0 Then
+                    resp = MsgBox("¿ Reiniciar contador ?", MsgBoxStyle.YesNo + MsgBoxStyle.Question)
+
+                    If resp = 6 Then
+                        If ModVar.Idioma = "EN" Then
+                            sqlstring = "UPDATE Oraciones SET Reproduccion = @Reproduccion"
+                        Else
+                            sqlstring = "UPDATE Oraciones_FR SET Reproduccion = @Reproduccion"
+
+                        End If
+                        sqlstring = sqlstring & " WHERE Id = @Id"
+                        _comando.CommandText = sqlstring
+                        _comando.Parameters.Clear()
+
+                        _comando.Parameters.AddWithValue("@Reproduccion", 0)
+                        _comando.Parameters.AddWithValue("@Id", IdOracionItem)
+                        _comando.Connection.Open()
+
+                        Try
+                            i = _comando.ExecuteNonQuery
+
+                        Catch ex As Exception
+                        End Try
+                        _comando.Connection.Close()
+
+                        ' pic = pEtapa.Controls(IdPanel).Controls.Item("p_" & IdDialogo)
+                        pic.Image = Image.FromFile("C:\legacy\Ingles\Imagenes_Ingles\mute.png")
+                        ' pEtapa.Controls(sender.parent.name).Controls.Item("txtReproduccion_" & IdDialogo).Text = 0
+
+                    End If
+                End If
+            End If
+
+
+        End If
+
+        dt.PrimaryKey = New DataColumn() {dt.Columns("Id")}
+        Dim fila As DataRow = dt.Rows.Find(IdDialogo) ' Id = 1
+
+        fila("reproduccion") = Reproducciones + 1
+
+        LastId = _Item
+
+        LastIdItem = IdDialogo
+        LastIdOracion = IdOracionItem
+
+        LastPanel.Name = panel.Name
+
+        Seleccionado = IdDialogo
+
+    End Sub
+
+    Private Sub cmdReproducidos_Click(sender As System.Object, e As System.EventArgs) Handles cmdReproducidos.Click
+
+        pEtapa.SuspendLayout()
+
+        For Each ctrl As Control In pEtapa.Controls
+            ctrl.Dispose()
+        Next
+
+        pEtapa.Controls.Clear()
+        poolPanels.Clear()
+
+        filtro = ""
+
+        If cmdReproducidos.Text = "Reprod" Then
+
+            filtro = filtro & " AND EXISTS ("
+            filtro = filtro & "      Select 1"
+            filtro = filtro & "      FROM Tbl_Dialogos d2"
+            filtro = filtro & "     INNER JOIN Oraciones o2 "
+            filtro = filtro & "         ON d2.IdOracion = o2.Id"
+            filtro = filtro & "     WHERE(d2.IdConversacion = dc.Det_Con)"
+            filtro = filtro & "       AND o2.reproduccion <= '30')"
+
+            CrearControles()
+
+            cmdReproducidos.Text = "No_Reprod"
+
+        Else
+
+            filtro = filtro & " AND EXISTS ("
+            filtro = filtro & "      Select 1"
+            filtro = filtro & "      FROM Tbl_Dialogos d2"
+            filtro = filtro & "     INNER JOIN Oraciones o2 "
+            filtro = filtro & "         ON d2.IdOracion = o2.Id"
+            filtro = filtro & "     WHERE(d2.IdConversacion = dc.Det_Con)"
+            filtro = filtro & "       AND o2.reproduccion > '30')"
+
+            CrearControles()
+
+            cmdReproducidos.Text = "Reprod"
+
+        End If
+
+
+        pEtapa.ResumeLayout()
+
+    End Sub
+
+    Private Sub PrepararKaraoke(ByVal rtb As RichTextBox, ByVal json As String)
+
+        TimerKaraoke.Stop()
+
+        QuitarResaltado()
+
+        ListaTiempos.Clear()
+        TextoKaraoke = rtb
+        IndicePalabraActual = -1
+
+        TimerKaraoke.Interval = 30
+
+        If rtb Is Nothing Then Exit Sub
+        If String.IsNullOrEmpty(json) Then Exit Sub
+
+        Try
+            Dim js As New JavaScriptSerializer()
+            Dim elementos As Object() =
+                js.Deserialize(Of Object())(json)
+
+            For Each elemento As Object In elementos
+
+                Dim datos As Dictionary(Of String, Object) =
+                    CType(elemento, Dictionary(Of String, Object))
+
+                Dim palabra As New TiempoPalabra()
+
+                palabra.Posicion =
+                    Convert.ToInt32(datos("posicion"))
+
+                palabra.Longitud =
+                    Convert.ToInt32(datos("longitud"))
+
+                palabra.InicioMs =
+                    Convert.ToInt32(datos("inicio"))
+
+                palabra.FinMs =
+                    Convert.ToInt32(datos("fin"))
+
+                If palabra.Posicion >= 0 AndAlso
+                   palabra.Longitud > 0 AndAlso
+                   palabra.Posicion + palabra.Longitud <= rtb.TextLength AndAlso
+                   palabra.InicioMs >= 0 AndAlso
+                   palabra.FinMs > palabra.InicioMs Then
+
+                    rtb.Select(palabra.Posicion, palabra.Longitud)
+
+                    palabra.FondoOriginal = rtb.SelectionBackColor
+                    palabra.TextoOriginal = rtb.SelectionColor
+
+                    If palabra.FondoOriginal = Color.Empty Then
+                        palabra.FondoOriginal = rtb.BackColor
+                    End If
+
+                    If palabra.TextoOriginal = Color.Empty Then
+                        palabra.TextoOriginal = rtb.ForeColor
+                    End If
+
+                    ListaTiempos.Add(palabra)
+                End If
+            Next
+
+            rtb.Select(0, 0)
+
+            ListaTiempos.Sort(
+                Function(a, b) a.InicioMs.CompareTo(b.InicioMs))
+
+        Catch ex As Exception
+            ListaTiempos.Clear()
+
+            MessageBox.Show(
+                "No se pudieron cargar los tiempos del karaoke: " &
+                ex.Message)
+        End Try
+    End Sub
+
+    Private Sub QuitarResaltado()
+
+        If TextoKaraoke Is Nothing Then
+            IndicePalabraActual = -1
+            Exit Sub
+        End If
+
+        If IndicePalabraActual >= 0 AndAlso
+           IndicePalabraActual < ListaTiempos.Count Then
+
+            Dim p As TiempoPalabra =
+                ListaTiempos(IndicePalabraActual)
+
+            TextoKaraoke.Select(p.Posicion, p.Longitud)
+            TextoKaraoke.SelectionBackColor = p.FondoOriginal
+            TextoKaraoke.SelectionColor = p.TextoOriginal
+        End If
+
+        IndicePalabraActual = -1
+        Try
+            TextoKaraoke.Select(0, 0)
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Private Sub ResaltarPalabra(ByVal indice As Integer)
+
+        If TextoKaraoke Is Nothing Then Exit Sub
+        If indice < 0 OrElse indice >= ListaTiempos.Count Then Exit Sub
+        If indice = IndicePalabraActual Then Exit Sub
+
+        'Restaurar la palabra anterior.
+        If IndicePalabraActual >= 0 AndAlso
+           IndicePalabraActual < ListaTiempos.Count Then
+
+            Dim anterior As TiempoPalabra =
+                ListaTiempos(IndicePalabraActual)
+
+            TextoKaraoke.Select(
+                anterior.Posicion,
+                anterior.Longitud)
+
+            TextoKaraoke.SelectionBackColor =
+                anterior.FondoOriginal
+
+            TextoKaraoke.SelectionColor =
+                anterior.TextoOriginal
+        End If
+
+        'Resaltar la palabra actual.
+        Dim actual As TiempoPalabra = ListaTiempos(indice)
+
+        TextoKaraoke.Select(
+            actual.Posicion,
+            actual.Longitud)
+
+        TextoKaraoke.SelectionBackColor = Color.Yellow
+        TextoKaraoke.SelectionColor = Color.Black
+
+        TextoKaraoke.ScrollToCaret()
+
+        IndicePalabraActual = indice
+    End Sub
+
+    Private Sub TimerKaraoke_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles TimerKaraoke.Tick
+
+        If TextoKaraoke Is Nothing Then Exit Sub
+
+        If ListaTiempos.Count = 0 Then
+            TimerKaraoke.Stop()
+            Exit Sub
+        End If
+
+        Try
+            If wmp.playState <> WMPLib.WMPPlayState.wmppsPlaying Then
+                Exit Sub
+            End If
+
+            Dim posicionMs As Double =
+                wmp.Ctlcontrols.currentPosition * 1000.0
+
+            Dim encontrada As Integer = -1
+
+            For i As Integer = 0 To ListaTiempos.Count - 1
+
+                If posicionMs >= ListaTiempos(i).InicioMs AndAlso
+                   posicionMs < ListaTiempos(i).FinMs Then
+
+                    encontrada = i
+                    Exit For
+                End If
+            Next
+
+            If encontrada >= 0 Then
+                ResaltarPalabra(encontrada)
+            Else
+                QuitarResaltado()
+            End If
+
+        Catch ex As Exception
+            'Evitar que un cambio de medio interrumpa el formulario.
+        End Try
+    End Sub
 #End Region
 
 #Region "todo lo demas"
@@ -9319,646 +10191,8 @@ Public Class frmEscenas
         End If
     End Sub
 
-    Private Sub wmp_PlayStateChange(sender As Object, e As AxWMPLib._WMPOCXEvents_PlayStateChangeEvent)
-
-        Select Case e.newState
-
-            Case WMPLib.WMPPlayState.wmppsBuffering
-                ' picDet.Visible = True
-                ' picDet.BringToFront()
-                ' picDet.Refresh()
-
-                ' picDet.BringToFront()
-
-            Case WMPLib.WMPPlayState.wmppsPlaying
-
-                TimerVideo.Start()
-                TimerEnd.Start()
-            Case WMPLib.WMPPlayState.wmppsMediaEnded
-
-                ' TimerEnd.Start()
-
-        End Select
-
-    End Sub
-
-    '    Private Sub AxWindowsMediaPlayer1_PlayStateChange(
-    '    sender As Object,
-    '    e As AxWMPLib._WMPOCXEvents_PlayStateChangeEvent
-    ') Handles AxWindowsMediaPlayer1.PlayStateChange
-
-    '        Select Case e.newState
-
-    '            Case WMPLib.WMPPlayState.wmppsPlaying
-
-    '                If FadeIniciado = False Then
-
-    '                    FadeIniciado = True
-
-    '                    IniciarFadeIn()
-
-    '                End If
-
-    '            Case WMPLib.WMPPlayState.wmppsMediaEnded
-
-    '                PictureBox1.BringToFront()
-
-    '        End Select
-
-    '    End Sub
-    'Private Sub TimerFade_Tick(sender As Object, e As EventArgs) Handles TimerFade.Tick
-
-    '    If FadeMode = "OUT" Then
-    '        FadeLevel += 10
-    '        If FadeLevel >= 255 Then
-    '            FadeLevel = 255
-    '            TimerFade.Stop()
-    '            PanelFade.BackColor = Color.FromArgb(FadeLevel, 0, 0, 0)
-    '            PanelFade.Refresh()
-    '            PictureBox1.SendToBack()
-    '            AxWindowsMediaPlayer1.URL = ArchivoPendiente
-    '            AxWindowsMediaPlayer1.Ctlcontrols.play()
-    '            Exit Sub
-
-    '        End If
-
-    '    ElseIf FadeMode = "IN" Then
-    '        FadeLevel -= 10
-
-    '        If FadeLevel <= 0 Then
-
-    '            FadeLevel = 0
-
-    '            TimerFade.Stop()
-
-    '            PanelFade.Visible = False
-
-    '            Exit Sub
-
-    '        End If
-
-    '    End If
-
-    '    PanelFade.BackColor = Color.FromArgb(FadeLevel, 0, 0, 0)
-
-    'End Sub
-    'Private Sub IniciarFadeIn()
-    '    If TimerFade.Enabled Then Exit Sub
-
-    '    FadeMode = "IN"
-
-    '    FadeLevel = 255
-
-    '    PanelFade.Visible = True
-    '    PanelFade.BringToFront()
-
-    '    TimerFade.Start()
-    'End Sub
-
-    'Private Sub IniciarFadeOut()
-    '    If TimerFade.Enabled Then Exit Sub
-
-    '    FadeIniciado = False
-
-    '    FadeMode = "OUT"
-
-    '    FadeLevel = 0
-
-    '    PanelFade.Visible = True
-    '    PanelFade.BringToFront()
-
-    '    TimerFade.Start()
-
-
-    'End Sub
-
-    Private Sub TimerEnd_Tick(sender As System.Object, e As System.EventArgs) Handles TimerEnd.Tick
-        Try
-
-            If yaMostro Then Exit Sub
-
-            Dim duracion As Double =
-                wmp.currentMedia.duration
-
-            Dim posicion As Double =
-                wmp.Ctlcontrols.currentPosition
-
-            If duracion - posicion <= 0.1 Then
-                yaMostro = True
-                TimerEnd.Stop()
-                '    picDet.Visible = True
-                'picDet.BringToFront()
-
-            End If
-
-        Catch ex As Exception
-
-        End Try
-    End Sub
-
-    Private Sub TimerVideo_Tick(sender As System.Object, e As System.EventArgs) Handles TimerVideo.Tick
-
-        TimerVideo.Stop()
-        TimerVideo.Enabled = False
-
-        ' picDet.SendToBack()
-        'picDet.Visible = False
-    End Sub
-
-    Private Sub ReproducirAudio(sender, e)
-        Dim i As Integer
-        Dim nm As String
-        Dim str() As String
-        Dim tp As String
-        Dim param As String = ""
-        Dim q As Integer
-        Dim obj As New Label
-
-        Dim _comando As SqlCommand = MetodosDatos.CrearComando()
-        Dim _rate As Double
-        Dim IdPanel As String
-        Dim Reproducciones As Integer
-        Dim IdOracionItem As Integer
-
-        Dim Idioma As String
-
-        pgrBar.Value = 0
-
-        Dim pAudio = CType(sender, CircularPictureBox)
-        Dim IdDialogo As Integer = CInt(pAudio.Tag)
-
-        nm = sender.Name
-
-        str = nm.Split("_")
-        tp = str(0)
-
-        Dim _Item As Integer
-        _Item = str(1)
-
-
-        Dim panel = CType(pAudio.Parent, Panel)
-        Dim orden As Integer
-        picDet = CType(panel.Controls("pd_" & _Item), PictureBox)
-
-        wmp.Location = picDet.Location
-
-        panel.Controls.Add(wmp)
-
-
-        Dim btn As Button
-        btn = CType(panel.Controls("txtpersonaje_" & _Item), Button)
-
-
-        Dim txt = CType(panel.Controls("txtReproduccion_" & _Item), Label)
-        Dim texto = CType(panel.Controls("txt_" & _Item), RichTextBox)
-
-
-        If Not IsNothing(objtextOver) Then
-            'objtextOver.Font = New Font("Consolas", 11, FontStyle.Regular)
-        End If
-
-        Dim myPen As New Pen(Color.Red, 2)
-        Dim myPenClear As New Pen(Color.Beige, 2)
-
-        Dim g As Graphics
-
-        IdCurrent = IdDialogo
-
-        If IdOver > 0 Then
-            'g = pEtapa.Controls("pAux_" & IdPanel).Controls.Item("p_" & IdOver).CreateGraphics
-            ' g.DrawRectangle(myPenClear, 0, 0, 40, 40)
-        End If
-
-        If ModVar.Idioma = "EN" Then
-            sqlstring = " SELECT          d.Id, d.IdOracion, d.Orden, d.IdConversacion, o.IMG, o.audio, o.rate, o.Gif, o.TextoPlano, o.Reproduccion, d.Personaje, o.personaje, o.voice, o.expresion"
-            sqlstring = sqlstring & " FROM            Tbl_Dialogos_FR d INNER JOIN"
-            sqlstring = sqlstring & "                    Oraciones_FR o ON d.IdOracion = o.Id"
-            sqlstring = sqlstring & " WHERE  d.Id='" & IdDialogo & "'"
-        Else
-            sqlstring = " SELECT          d.Id, d.IdOracion, d.Orden, d.IdConversacion, o.IMG, o.audio, o.rate, o.Gif, o.TextoPlano, o.Reproduccion, d.Personaje, o.personaje, o.voice, o.expresion"
-            sqlstring = sqlstring & " FROM            Tbl_Dialogos_FR d INNER JOIN"
-            sqlstring = sqlstring & "                    Oraciones_FR o ON d.IdOracion = o.Id"
-            sqlstring = sqlstring & " WHERE  d.Id='" & IdDialogo & "'"
-        End If
-
-
-
-
-        Dim objDataReader As SqlDataReader
-
-        Try
-            _comando.CommandText = sqlstring
-
-            _comando.Connection.Open()
-
-        Catch ex As Exception
-        End Try
-
-        Dim audio As String
-        Dim _gif As String = ""
-        Dim _IMG As String = ""
-        Dim _Texto As String = ""
-        Dim previousHeight As Integer = 0
-        Dim personaje As String
-        Dim voice As String
-
-        Try
-            objDataReader = _comando.ExecuteReader
-
-            If objDataReader.HasRows Then
-
-                objDataReader.Read()
-
-                IdOracionItem = objDataReader(1)
-
-                _rate = objDataReader(6)
-
-                If Not IsDBNull(objDataReader(4)) Then
-                    IMG = objDataReader(4)
-                End If
-
-                If Not IsDBNull(objDataReader(9)) Then
-                    Reproducciones = objDataReader(9)
-                End If
-
-                If Not IsDBNull(objDataReader(11)) Then
-                    personaje = objDataReader(11)
-                Else
-                    If Not IsDBNull(objDataReader(10)) Then
-                        personaje = objDataReader(10)
-                    End If
-                End If
-
-                If Not IsDBNull(objDataReader(2)) Then
-                    orden = objDataReader(2)
-                End If
-
-                If Not IsDBNull(objDataReader(12)) Then
-                    voice = objDataReader(12)
-                End If
-
-                If Not IsDBNull(objDataReader(13)) Then
-                    expresion = objDataReader(13)
-                End If
-            Else
-
-            End If
-
-            ' Reproducir al x % de velocidad
-            wmp.settings.rate = _rate
-
-        Catch ex As Exception
-            MsgBox(ex.Message)
-        End Try
-        _comando.Connection.Close()
-
-
-        Dim n As UInteger = 0
-        Dim archivo_audio As String
-
-        If voice = "Matilda" Then
-
-        ElseIf voice = "Jessica" Then
-
-        ElseIf voice = "x" Then
-            picDetImagen = ""
-            NombreImagen = "x.jpg"
-        Else
-            NombreImagen = "Matilda.jpg"
-        End If
-
-        ' Nombre de la Imagen
-        NombreImagen = voice & "_" & expresion & ".jpg"
-
-        '==================
-        ' Audio
-        '===================
-        If ModVar.Idioma = "EN" Then
-            archivo = "C:\Ingles\Audios3\Femenino\" & IdOracionItem & ".mp3"
-        Else
-            archivo = "C:\frances\Audios\Femenino\" & IdOracionItem & ".mp3"
-        End If
-
-
-        If Not File.Exists(archivo) Then ' El archivo existe
-            archivo = "C:\Ingles\Audios2\Femenino\" & IdOracionItem & ".mp3"
-        End If
-
-        ' PictureBox1.Image = Imagenes("matilda.jpg")
-        ' PictureBox1.Image = Image.FromFile(Imagen)
-
-        'If personaje <> "C" Then
-        '    ' If Not IsNothing(picDet) Then
-        '    picDet.Height = 110
-        '    picDet.Width = 120
-        '    'End If
-        'End If
-
-        ' texto.Location = New Point(pAudio.Right + 10, pd.Bottom + 5)
-        ' texto.Visible = True
-        ' btn.BackColor = Color.Yellow
-
-        texto.Location = New Point(sender.Right + 10, picDet.Bottom + 5)
-
-
-        '==================================
-        'Anterior
-        '=================================
-        ' panel.BackColor = Color.LightGray
-
-        Try
-            If Not IsNothing(LastPanel) Then
-                ' Dim picDetAnterior As PictureBox = CType(LastPanel.Controls("pd_" & LastId), PictureBox)
-                ' Dim picAnterior = CType(LastPanel.Controls("pAudio_" & LastId), CircularPictureBox)
-                Dim btnAnterior = CType(pEtapa.Controls(LastPanel.Name).Controls("pAudio_" & LastId), CircularPictureBox)
-
-                ' picAnterior.Image = Image.FromFile("C:\legacy\Ingles\Imagenes_Ingles\Sonido.png")
-                If LastIdItem <> IdDialogo Then
-                    ' picDetAnterior.Height = 110
-                    ' picDetAnterior.Width = 120
-                    ' texto.Location = New Point(picAnterior.Right + 10, picAnterior.Bottom + 5)
-                    'btnAnterior.BackColor = Color.LightGray
-                    ' btnAnterior.Visible = False
-                    ' LastPanel.BackColor = Color.LightGreen
-                    btnAnterior.Image = imgSonido
-                End If
-                ' btnAnterior.Refresh()
-                ' LastPanel.Tag = IdDialogo
-                ' LastPanel.Name = IdDialogo
-
-            End If
-
-        Catch ex As Exception
-        End Try
-
-        pic = sender
-
-        Dim imgGif As Image
-
-        If IMG <> "" Then
-            If IMG = "like" And personaje = "A" Then
-                ' AxWindowsMediaPlayer1.URL = "C:\Legacy\video.mp4"
-                ' AxWindowsMediaPlayer1.settings.autoStart = True
-                'imgGif = Image.FromFile("C:\Legacy\Ingles\Imagenes_Ingles\femenino\animacion.gif")
-                'ImageAnimator.StopAnimate(imgGif, Nothing)
-
-                'picDet.Image = imgGif
-                '' picDet.Tag = "animacion.gif"
-                '' Obtener frames
-                'Dim dimension As New FrameDimension(imgGif.FrameDimensionsList(0))
-                'frameCount = imgGif.GetFrameCount(dimension)
-                'currentFrame = 0
-
-                '' Evitar duplicar handler
-                'RemoveHandler Application.Idle, AddressOf AnimateGif
-                'AddHandler Application.Idle, AddressOf AnimateGif
-
-            End If
-        End If
-
-        Dim resp As Integer
-
-        '==============
-        ' Mostrar Imagen si Personaje = C 
-        '===============
-
-        If personaje <> "C" Then
-            If picDet.Image IsNot Imagenes(NombreImagen) Then
-                picDet.Image = Imagenes(NombreImagen)
-            End If
-
-
-
-
-        Else
-            'Imagen
-            If File.Exists("C:\Ingles\Imagenes_Ingles\Sustantivos\" & IMG & ".png") Then
-                picDet.Image = Image.FromFile("C:\Ingles\Imagenes_Ingles\Sustantivos\" & IMG & ".png")
-
-            End If
-
-        End If
-
-
-        video = "C:\Ingles\Videos\" & IdOracionItem & ".mp4"
-        '  picDet.Visible = False  'Quitar esta linea
-
-        If File.Exists(video) Then ' El archivo existe
-
-            'picDet.BringToFront()
-            'picDet.Visible = True
-            wmp.URL = archivo
-
-            wmp.Ctlcontrols.play()
-
-
-            pic.Image = Image.FromFile("C:\Ingles\Imagenes_Ingles\sonido.gif")
-
-            If btn.Text = "-" Then
-                If personaje = "C" Then
-                    ' picDet.Height = 210
-                    ' picDet.Width = 300
-                    texto.Location = New Point(picDet.Left, picDet.Bottom + 1)
-                    '  panel.Controls.Add(textoCopy)
-                End If
-            Else
-            End If
-
-            ' texto.Visible = False
-
-        Else '' El archivo no existe
-            'picDet.SendToBack()
-
-            If Idioma = "EN" Then
-                archivo_audio = "C:\Ingles\Audios3\femenino\" & IdOracionItem & ".mp3"
-            Else
-                archivo_audio = "C:\frances\Audios\femenino\" & IdOracionItem & ".mp3"
-
-            End If
-
-            If File.Exists(archivo_audio) Then
-                wmp.URL = archivo_audio
-
-                wmp.Ctlcontrols.play()
-
-
-                '=============
-                ' Reproducciones
-                '===============
-                If ModVar.Idioma = "EN" Then
-                    sqlstring = "UPDATE Oraciones SET Reproduccion = @Reproduccion"
-                Else
-                    sqlstring = "UPDATE Oraciones_FR SET Reproduccion = @Reproduccion"
-
-                End If
-
-                sqlstring = sqlstring & " WHERE Id = @Id"
-                _comando.CommandText = sqlstring
-                _comando.Parameters.Clear()
-
-                _comando.Parameters.AddWithValue("@Reproduccion", Reproducciones + 1)
-                _comando.Parameters.AddWithValue("@Id", IdOracionItem)
-                _comando.Connection.Open()
-
-                Try
-                    i = _comando.ExecuteNonQuery
-                Catch ex As Exception
-                End Try
-                _comando.Connection.Close()
-
-                'pEtapa.Controls(IdPanel).Controls.Item("txtReproduccion_" & IdDialogo).Text = Reproducciones + 1
-                txt.Text = Reproducciones + 1
-
-                If Reproducciones + 1 >= 10 Then
-                    txt.ForeColor = Color.Green
-                Else
-                    txt.ForeColor = Color.Salmon
-                End If
-
-            Else
-                If personaje = "A" Or personaje = "C" Then
-                    resp = MsgBox(" ¿ Crear audio femenino ?", MsgBoxStyle.YesNo + MsgBoxStyle.Question)
-
-                    If resp = 6 Then
-
-                        My.Computer.Audio.Stop()
-
-                        Dim psi As New ProcessStartInfo()
-                        psi.FileName = "python"
-                        psi.Arguments = """C:\legacy\Programas\Voz_Natural\GeneraAudioF3.py"" " & IdOracionItem
-                        psi.UseShellExecute = False
-                        psi.RedirectStandardOutput = True
-                        psi.CreateNoWindow = True
-
-                        Dim p As Process = Process.Start(psi)
-                        Dim resultado As String = p.StandardOutput.ReadToEnd()
-                        p.WaitForExit()
-
-                        'MessageBox.Show(resultado)
-                    End If
-
-                ElseIf personaje = "B" Then 'Audio Masculino
-                    resp = MsgBox(" ¿ Crear audio voz Masculino ?", MsgBoxStyle.YesNo + MsgBoxStyle.Question)
-
-                    If resp = 6 Then
-                        My.Computer.Audio.Stop()
-                        Dim psi As New ProcessStartInfo()
-                        psi.FileName = "python"
-                        psi.Arguments = """C:\legacy\Programas\Voz_Natural\GeneraAudioM.py"" " & IdOracionItem
-                        psi.UseShellExecute = False
-                        psi.RedirectStandardOutput = True
-                        psi.CreateNoWindow = True
-                        Dim p As Process = Process.Start(psi)
-                        Dim resultado As String = p.StandardOutput.ReadToEnd()
-                        p.WaitForExit()
-                        MessageBox.Show(resultado)
-                    End If
-
-                End If
-
-                'Reiniciar contador
-                If Reproducciones > 0 Then
-                    resp = MsgBox("¿ Reiniciar contador ?", MsgBoxStyle.YesNo + MsgBoxStyle.Question)
-
-                    If resp = 6 Then
-                        If ModVar.Idioma = "EN" Then
-                            sqlstring = "UPDATE Oraciones SET Reproduccion = @Reproduccion"
-                        Else
-                            sqlstring = "UPDATE Oraciones_FR SET Reproduccion = @Reproduccion"
-
-                        End If
-                        sqlstring = sqlstring & " WHERE Id = @Id"
-                        _comando.CommandText = sqlstring
-                        _comando.Parameters.Clear()
-
-                        _comando.Parameters.AddWithValue("@Reproduccion", 0)
-                        _comando.Parameters.AddWithValue("@Id", IdOracionItem)
-                        _comando.Connection.Open()
-
-                        Try
-                            i = _comando.ExecuteNonQuery
-
-                        Catch ex As Exception
-                        End Try
-                        _comando.Connection.Close()
-
-                        ' pic = pEtapa.Controls(IdPanel).Controls.Item("p_" & IdDialogo)
-                        pic.Image = Image.FromFile("C:\legacy\Ingles\Imagenes_Ingles\mute.png")
-                        ' pEtapa.Controls(sender.parent.name).Controls.Item("txtReproduccion_" & IdDialogo).Text = 0
-
-                    End If
-                End If
-            End If
-
-
-        End If
-
-        dt.PrimaryKey = New DataColumn() {dt.Columns("Id")}
-        Dim fila As DataRow = dt.Rows.Find(IdDialogo) ' Id = 1
-
-        fila("reproduccion") = Reproducciones + 1
-
-        LastId = _Item
-
-        LastIdItem = IdDialogo
-        LastIdOracion = IdOracionItem
-
-        LastPanel.Name = panel.Name
-
-        Seleccionado = IdDialogo
-
-    End Sub
-
-
-    Private Sub cmdReproducidos_Click(sender As System.Object, e As System.EventArgs) Handles cmdReproducidos.Click
-
-        pEtapa.SuspendLayout()
-
-        For Each ctrl As Control In pEtapa.Controls
-            ctrl.Dispose()
-        Next
-
-        pEtapa.Controls.Clear()
-        poolPanels.Clear()
-
-        filtro = ""
-
-        If cmdReproducidos.Text = "Reprod" Then
-
-            filtro = filtro & " AND EXISTS ("
-            filtro = filtro & "      Select 1"
-            filtro = filtro & "      FROM Tbl_Dialogos d2"
-            filtro = filtro & "     INNER JOIN Oraciones o2 "
-            filtro = filtro & "         ON d2.IdOracion = o2.Id"
-            filtro = filtro & "     WHERE(d2.IdConversacion = dc.Det_Con)"
-            filtro = filtro & "       AND o2.reproduccion <= '30')"
-
-            CrearControles()
-
-            cmdReproducidos.Text = "No_Reprod"
-
-        Else
-
-            filtro = filtro & " AND EXISTS ("
-            filtro = filtro & "      Select 1"
-            filtro = filtro & "      FROM Tbl_Dialogos d2"
-            filtro = filtro & "     INNER JOIN Oraciones o2 "
-            filtro = filtro & "         ON d2.IdOracion = o2.Id"
-            filtro = filtro & "     WHERE(d2.IdConversacion = dc.Det_Con)"
-            filtro = filtro & "       AND o2.reproduccion > '30')"
-
-            CrearControles()
-
-            cmdReproducidos.Text = "Reprod"
-
-        End If
-
-
-        pEtapa.ResumeLayout()
-
-    End Sub
 
 #End Region
 
-  
+
 End Class

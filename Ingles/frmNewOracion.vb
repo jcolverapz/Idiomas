@@ -72,12 +72,15 @@ Public Class frmNewOracion
         Dim da As New SqlDataAdapter
         Dim i As Integer
         Dim GrupoO As Integer
+        Dim IMG As String = ""
 
         If cboGrupo.SelectedIndex = -1 Then Exit Sub
         GrupoO = cboGrupo.Items(cboGrupo.SelectedIndex).ItemData()
 
-        sqlstring = "Insert into Oraciones_fr (Oracion, TextoPlano, Traduccion, GrupoO, foco)"
-        sqlstring = sqlstring & " Values (@Oracion, @TextoPlano, @Traduccion, @GrupoO, @foco)"
+        IMG = txtIMG.Text
+
+        sqlstring = "Insert into Oraciones_fr (Oracion, TextoPlano, Traduccion, GrupoO, foco, IMG)"
+        sqlstring = sqlstring & " Values (@Oracion, @TextoPlano, @Traduccion, @GrupoO, @foco, @IMG)"
 
         _comando.CommandText = sqlstring
         _comando.Connection.Open()
@@ -85,6 +88,7 @@ Public Class frmNewOracion
         _comando.Parameters.AddWithValue("@Oracion", OracionEN)
         _comando.Parameters.AddWithValue("@TextoPlano", OracionEN)
         _comando.Parameters.AddWithValue("@Traduccion", OracionES)
+        _comando.Parameters.AddWithValue("@IMG", IMG)
         _comando.Parameters.AddWithValue("@GrupoO", GrupoO)
 
         If cmdFoco.Checked = True Then
@@ -235,6 +239,8 @@ Public Class frmNewOracion
     End Sub
 
     Private Sub txtTraduccion_LostFocus(sender As Object, e As System.EventArgs) Handles txtTraduccion.LostFocus
+
+        txtIMG.Text = txtTraduccion.Text
 
         CmdGuardar_Click(sender, e)
 

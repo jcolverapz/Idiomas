@@ -5389,7 +5389,12 @@ Public Class frmMoverDetalleConversacion
 
         For Each rw In LvwAssigned.Items
 
-            sqlstring = "UPDATE Tbl_Dialogos SET orden = @orden"
+            If ModVar.Idioma = "EN" Then
+                sqlstring = "UPDATE Tbl_Dialogos SET orden = @orden"
+            Else
+                sqlstring = "UPDATE Tbl_Dialogos_FR SET orden = @orden"
+
+            End If
             sqlstring = sqlstring & " WHERE Id = @Id"
             _comando.CommandText = sqlstring
 

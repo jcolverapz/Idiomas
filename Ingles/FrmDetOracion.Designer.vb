@@ -37,7 +37,6 @@ Partial Class FrmDetOracion
         Me.cmdIPA = New System.Windows.Forms.Button()
         Me.cmdAgregarGif = New System.Windows.Forms.Button()
         Me.Button6 = New System.Windows.Forms.Button()
-        Me.cmdPlay = New System.Windows.Forms.Button()
         Me.cmdPapelera = New System.Windows.Forms.Button()
         Me.cmdImagen = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
@@ -49,6 +48,7 @@ Partial Class FrmDetOracion
         Me.cmdExit = New System.Windows.Forms.Button()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Button3 = New System.Windows.Forms.Button()
+        Me.cmdPlay = New System.Windows.Forms.Button()
         Me.cmdAudio = New System.Windows.Forms.Button()
         Me.lblTipo = New System.Windows.Forms.Label()
         Me.txtId = New System.Windows.Forms.TextBox()
@@ -65,9 +65,9 @@ Partial Class FrmDetOracion
         Me.txtHTML = New System.Windows.Forms.TextBox()
         Me.Button5 = New System.Windows.Forms.Button()
         Me.lstConversaciones = New System.Windows.Forms.ListView()
-        Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.ColumnHeader3 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(),System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(),System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader3 = CType(New System.Windows.Forms.ColumnHeader(),System.Windows.Forms.ColumnHeader)
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.txtCuenta = New System.Windows.Forms.TextBox()
@@ -93,9 +93,9 @@ Partial Class FrmDetOracion
         Me.Label18 = New System.Windows.Forms.Label()
         Me.cmdAgregarAudio = New System.Windows.Forms.Button()
         Me.lstAudios = New System.Windows.Forms.ListView()
-        Me.ColumnHeader4 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.ColumnHeader5 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.ColumnHeader6 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader4 = CType(New System.Windows.Forms.ColumnHeader(),System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader5 = CType(New System.Windows.Forms.ColumnHeader(),System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader6 = CType(New System.Windows.Forms.ColumnHeader(),System.Windows.Forms.ColumnHeader)
         Me.Label19 = New System.Windows.Forms.Label()
         Me.Label21 = New System.Windows.Forms.Label()
         Me.Label22 = New System.Windows.Forms.Label()
@@ -112,7 +112,6 @@ Partial Class FrmDetOracion
         Me.GenerarAudioFemenino = New System.Windows.Forms.Button()
         Me.cmdtraducir = New System.Windows.Forms.Button()
         Me.Label25 = New System.Windows.Forms.Label()
-        Me.txtPersonaje = New System.Windows.Forms.TextBox()
         Me.Label28 = New System.Windows.Forms.Label()
         Me.txtIMG = New System.Windows.Forms.TextBox()
         Me.Label29 = New System.Windows.Forms.Label()
@@ -141,6 +140,8 @@ Partial Class FrmDetOracion
         Me.Label36 = New System.Windows.Forms.Label()
         Me.cboVoice = New System.Windows.Forms.ComboBox()
         Me.cboExpresion = New System.Windows.Forms.ComboBox()
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
+        Me.checkObjeto = New System.Windows.Forms.CheckBox()
         Me.Panel2.SuspendLayout()
         CType(Me.NumRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -250,7 +251,6 @@ Partial Class FrmDetOracion
         Me.Panel2.Controls.Add(Me.cmdIPA)
         Me.Panel2.Controls.Add(Me.cmdAgregarGif)
         Me.Panel2.Controls.Add(Me.Button6)
-        Me.Panel2.Controls.Add(Me.cmdPlay)
         Me.Panel2.Controls.Add(Me.cmdPapelera)
         Me.Panel2.Controls.Add(Me.cmdImagen)
         Me.Panel2.Controls.Add(Me.Button2)
@@ -311,17 +311,6 @@ Partial Class FrmDetOracion
         Me.Button6.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.Button6.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.Button6.UseVisualStyleBackColor = True
-        '
-        'cmdPlay
-        '
-        Me.cmdPlay.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.cmdPlay.Location = New System.Drawing.Point(74, 3)
-        Me.cmdPlay.Name = "cmdPlay"
-        Me.cmdPlay.Size = New System.Drawing.Size(59, 41)
-        Me.cmdPlay.TabIndex = 388
-        Me.cmdPlay.Text = "Play"
-        Me.cmdPlay.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage
-        Me.cmdPlay.UseVisualStyleBackColor = True
         '
         'cmdPapelera
         '
@@ -409,7 +398,7 @@ Partial Class FrmDetOracion
         Me.CmdGuardar.Cursor = System.Windows.Forms.Cursors.Hand
         Me.CmdGuardar.Location = New System.Drawing.Point(1005, 9)
         Me.CmdGuardar.Name = "CmdGuardar"
-        Me.CmdGuardar.Size = New System.Drawing.Size(53, 32)
+        Me.CmdGuardar.Size = New System.Drawing.Size(58, 33)
         Me.CmdGuardar.TabIndex = 91
         Me.CmdGuardar.Text = "Save"
         Me.CmdGuardar.UseVisualStyleBackColor = True
@@ -444,6 +433,18 @@ Partial Class FrmDetOracion
         Me.Button3.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.Button3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.Button3.UseVisualStyleBackColor = True
+        '
+        'cmdPlay
+        '
+        Me.cmdPlay.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.cmdPlay.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.cmdPlay.Location = New System.Drawing.Point(1100, 617)
+        Me.cmdPlay.Name = "cmdPlay"
+        Me.cmdPlay.Size = New System.Drawing.Size(59, 58)
+        Me.cmdPlay.TabIndex = 388
+        Me.cmdPlay.Text = "Play"
+        Me.cmdPlay.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage
+        Me.cmdPlay.UseVisualStyleBackColor = False
         '
         'cmdAudio
         '
@@ -916,7 +917,7 @@ Partial Class FrmDetOracion
         '
         Me.Label19.AutoSize = True
         Me.Label19.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label19.Location = New System.Drawing.Point(968, 317)
+        Me.Label19.Location = New System.Drawing.Point(1034, 336)
         Me.Label19.Name = "Label19"
         Me.Label19.Size = New System.Drawing.Size(74, 14)
         Me.Label19.TabIndex = 431
@@ -927,7 +928,7 @@ Partial Class FrmDetOracion
         '
         Me.Label21.AutoSize = True
         Me.Label21.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label21.Location = New System.Drawing.Point(968, 332)
+        Me.Label21.Location = New System.Drawing.Point(1034, 351)
         Me.Label21.Name = "Label21"
         Me.Label21.Size = New System.Drawing.Size(78, 14)
         Me.Label21.TabIndex = 432
@@ -938,7 +939,7 @@ Partial Class FrmDetOracion
         '
         Me.Label22.AutoSize = True
         Me.Label22.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label22.Location = New System.Drawing.Point(968, 363)
+        Me.Label22.Location = New System.Drawing.Point(1035, 383)
         Me.Label22.Name = "Label22"
         Me.Label22.Size = New System.Drawing.Size(58, 14)
         Me.Label22.TabIndex = 434
@@ -949,7 +950,7 @@ Partial Class FrmDetOracion
         '
         Me.Label23.AutoSize = True
         Me.Label23.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label23.Location = New System.Drawing.Point(968, 349)
+        Me.Label23.Location = New System.Drawing.Point(1034, 368)
         Me.Label23.Name = "Label23"
         Me.Label23.Size = New System.Drawing.Size(84, 14)
         Me.Label23.TabIndex = 433
@@ -960,7 +961,7 @@ Partial Class FrmDetOracion
         '
         Me.Label26.AutoSize = True
         Me.Label26.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label26.Location = New System.Drawing.Point(969, 393)
+        Me.Label26.Location = New System.Drawing.Point(1035, 412)
         Me.Label26.Name = "Label26"
         Me.Label26.Size = New System.Drawing.Size(28, 14)
         Me.Label26.TabIndex = 436
@@ -971,7 +972,7 @@ Partial Class FrmDetOracion
         '
         Me.Label27.AutoSize = True
         Me.Label27.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label27.Location = New System.Drawing.Point(969, 379)
+        Me.Label27.Location = New System.Drawing.Point(1035, 398)
         Me.Label27.Name = "Label27"
         Me.Label27.Size = New System.Drawing.Size(74, 14)
         Me.Label27.TabIndex = 435
@@ -1075,22 +1076,12 @@ Partial Class FrmDetOracion
         '
         Me.Label25.AutoSize = True
         Me.Label25.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label25.Location = New System.Drawing.Point(752, 366)
+        Me.Label25.Location = New System.Drawing.Point(891, 327)
         Me.Label25.Name = "Label25"
         Me.Label25.Size = New System.Drawing.Size(70, 16)
         Me.Label25.TabIndex = 445
         Me.Label25.Text = "Personaje"
         Me.Label25.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'txtPersonaje
-        '
-        Me.txtPersonaje.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.txtPersonaje.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtPersonaje.Location = New System.Drawing.Point(828, 363)
-        Me.txtPersonaje.Name = "txtPersonaje"
-        Me.txtPersonaje.Size = New System.Drawing.Size(75, 22)
-        Me.txtPersonaje.TabIndex = 444
-        Me.txtPersonaje.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label28
         '
@@ -1230,7 +1221,7 @@ Partial Class FrmDetOracion
         '
         Me.EsPregunta.AutoSize = True
         Me.EsPregunta.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.EsPregunta.Location = New System.Drawing.Point(867, 391)
+        Me.EsPregunta.Location = New System.Drawing.Point(873, 399)
         Me.EsPregunta.Name = "EsPregunta"
         Me.EsPregunta.Size = New System.Drawing.Size(86, 21)
         Me.EsPregunta.TabIndex = 461
@@ -1241,7 +1232,7 @@ Partial Class FrmDetOracion
         '
         Me.EsPersonajeA.AutoSize = True
         Me.EsPersonajeA.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.EsPersonajeA.Location = New System.Drawing.Point(867, 410)
+        Me.EsPersonajeA.Location = New System.Drawing.Point(873, 418)
         Me.EsPersonajeA.Name = "EsPersonajeA"
         Me.EsPersonajeA.Size = New System.Drawing.Size(53, 21)
         Me.EsPersonajeA.TabIndex = 462
@@ -1384,15 +1375,40 @@ Partial Class FrmDetOracion
         Me.cboExpresion.Size = New System.Drawing.Size(187, 26)
         Me.cboExpresion.TabIndex = 476
         '
+        'CheckBox1
+        '
+        Me.CheckBox1.AutoSize = True
+        Me.CheckBox1.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBox1.Location = New System.Drawing.Point(891, 347)
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.Size = New System.Drawing.Size(82, 21)
+        Me.CheckBox1.TabIndex = 477
+        Me.CheckBox1.Text = "Persona"
+        Me.CheckBox1.UseVisualStyleBackColor = True
+        '
+        'checkObjeto
+        '
+        Me.checkObjeto.AutoSize = True
+        Me.checkObjeto.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.checkObjeto.Location = New System.Drawing.Point(891, 368)
+        Me.checkObjeto.Name = "checkObjeto"
+        Me.checkObjeto.Size = New System.Drawing.Size(70, 21)
+        Me.checkObjeto.TabIndex = 478
+        Me.checkObjeto.Text = "Objeto"
+        Me.checkObjeto.UseVisualStyleBackColor = True
+        '
         'FrmDetOracion
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1171, 831)
+        Me.Controls.Add(Me.checkObjeto)
+        Me.Controls.Add(Me.CheckBox1)
         Me.Controls.Add(Me.cboExpresion)
         Me.Controls.Add(Me.cboVoice)
         Me.Controls.Add(Me.Label36)
         Me.Controls.Add(Me.txtStatus)
+        Me.Controls.Add(Me.cmdPlay)
         Me.Controls.Add(Me.Label35)
         Me.Controls.Add(Me.cmdGenerarVideoFemenino)
         Me.Controls.Add(Me.cmdEliminarVideo)
@@ -1418,7 +1434,6 @@ Partial Class FrmDetOracion
         Me.Controls.Add(Me.Label28)
         Me.Controls.Add(Me.txtIMG)
         Me.Controls.Add(Me.Label25)
-        Me.Controls.Add(Me.txtPersonaje)
         Me.Controls.Add(Me.cmdtraducir)
         Me.Controls.Add(Me.GenerarAudioFemenino)
         Me.Controls.Add(Me.cmdAudioMasc)
@@ -1581,7 +1596,6 @@ Partial Class FrmDetOracion
     Friend WithEvents GenerarAudioFemenino As System.Windows.Forms.Button
     Friend WithEvents cmdtraducir As System.Windows.Forms.Button
     Public WithEvents Label25 As System.Windows.Forms.Label
-    Friend WithEvents txtPersonaje As System.Windows.Forms.TextBox
     Public WithEvents Label28 As System.Windows.Forms.Label
     Friend WithEvents txtIMG As System.Windows.Forms.TextBox
     Friend WithEvents cmdAbrirFolder As System.Windows.Forms.Button
@@ -1611,5 +1625,7 @@ Partial Class FrmDetOracion
     Friend WithEvents Label36 As System.Windows.Forms.Label
     Friend WithEvents cboVoice As System.Windows.Forms.ComboBox
     Friend WithEvents cboExpresion As System.Windows.Forms.ComboBox
+    Friend WithEvents CheckBox1 As System.Windows.Forms.CheckBox
+    Friend WithEvents checkObjeto As System.Windows.Forms.CheckBox
 
 End Class

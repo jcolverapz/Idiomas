@@ -480,7 +480,13 @@ Public Class FrmDetOracion
         If Not IsDBNull(dt.Rows(0).Item(28)) Then
             personaje = dt.Rows(0).Item(28)
         End If
-        txtPersonaje.Text = personaje
+
+        If personaje = "C" Then
+            checkObjeto.Checked = True
+        Else
+            checkObjeto.Checked = False
+
+        End If
 
         If Not IsDBNull(dt.Rows(0).Item(29)) Then
             Imagen = dt.Rows(0).Item(29)
@@ -2455,7 +2461,9 @@ Public Class FrmDetOracion
             lstModificaciones.Items.Clear()
             lblmod.Text = "( " & lstModificaciones.Items.Count & " )"
             'GrupoOracionId = 0
-            cmdExit_Click(sender, e)
+
+
+            ' cmdExit_Click(sender, e)
 
         Else
             'Return False
@@ -3790,17 +3798,7 @@ Public Class FrmDetOracion
 
     End Sub
 
-    Private Sub txtPersonaje_TextChanged(sender As System.Object, e As System.EventArgs) Handles txtPersonaje.TextChanged
-        If Me.txtPersonaje.Text <> personaje Then
-            Try
-                DetectChanges("personaje", personaje, txtPersonaje.Text, "")
-                personaje = txtPersonaje.Text
-            Catch ex As Exception
-
-            End Try
-        End If
-    End Sub
-
+     
     Private Sub txtIMG_TextChanged(sender As System.Object, e As System.EventArgs) Handles txtIMG.TextChanged
         If Me.txtIMG.Text <> Imagen Then
             Try
@@ -4303,6 +4301,25 @@ Public Class FrmDetOracion
             Try
                 DetectChanges("Expresion", intencion, cboExpresion.Text, "")
                 intencion = cboExpresion.Text
+            Catch ex As Exception
+
+            End Try
+        End If
+    End Sub
+ 
+    Private Sub checkObjeto_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles checkObjeto.CheckedChanged
+        Dim _personajeNuevo As String
+
+        If checkObjeto.Checked = True Then
+            _personajeNuevo = "C"
+        Else
+            _personajeNuevo = "A"
+        End If
+
+        If _personajeNuevo <> personaje Then
+            Try
+                DetectChanges("personaje", personaje, _personajeNuevo, "")
+                personaje = _personajeNuevo
             Catch ex As Exception
 
             End Try

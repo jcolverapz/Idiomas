@@ -404,7 +404,7 @@ Public Class frmConversaciones
 
                     End If
                 Catch ex As Exception
-                    p.Image = Image.FromFile("C:\Ingles\Imagenes\vacio.jpg")
+                    p.Image = Image.FromFile("C:\Ingles\Imagenes_Ingles\vacio.jpg")
                 End Try
             End If
 

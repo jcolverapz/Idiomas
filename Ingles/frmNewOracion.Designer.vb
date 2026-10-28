@@ -47,8 +47,9 @@ Partial Class frmNewOracion
         Me.Label2 = New System.Windows.Forms.Label()
         Me.txtSubtemaId = New System.Windows.Forms.TextBox()
         Me.Button3 = New System.Windows.Forms.Button()
-        '  Me.RichTextBoxEx1 = New RichTextBoxEx.RichTextBoxEx()
         Me.cmdFoco = New System.Windows.Forms.CheckBox()
+        Me.txtIMG = New System.Windows.Forms.TextBox()
+        Me.Label4 = New System.Windows.Forms.Label()
         Me.StatusStrip1.SuspendLayout()
         Me.Panel2.SuspendLayout()
         Me.SuspendLayout()
@@ -307,14 +308,6 @@ Partial Class frmNewOracion
         Me.Button3.Text = "Subtema x Oracion"
         Me.Button3.UseVisualStyleBackColor = True
         '
-        'RichTextBoxEx1
-        '
-        'Me.RichTextBoxEx1.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        'Me.RichTextBoxEx1.Location = New System.Drawing.Point(166, 369)
-        'Me.RichTextBoxEx1.Name = "RichTextBoxEx1"
-        'Me.RichTextBoxEx1.Size = New System.Drawing.Size(412, 47)
-        'Me.RichTextBoxEx1.TabIndex = 370
-        ''
         'cmdFoco
         '
         Me.cmdFoco.AutoSize = True
@@ -327,19 +320,40 @@ Partial Class frmNewOracion
         Me.cmdFoco.Text = "foco"
         Me.cmdFoco.UseVisualStyleBackColor = True
         '
+        'txtIMG
+        '
+        Me.txtIMG.BackColor = System.Drawing.Color.White
+        Me.txtIMG.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtIMG.Location = New System.Drawing.Point(166, 255)
+        Me.txtIMG.Name = "txtIMG"
+        Me.txtIMG.Size = New System.Drawing.Size(254, 22)
+        Me.txtIMG.TabIndex = 384
+        Me.txtIMG.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label4.Location = New System.Drawing.Point(117, 258)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(32, 16)
+        Me.Label4.TabIndex = 385
+        Me.Label4.Text = "IMG"
+        '
         'frmNewOracion
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ControlLight
         Me.ClientSize = New System.Drawing.Size(795, 452)
+        Me.Controls.Add(Me.Label4)
+        Me.Controls.Add(Me.txtIMG)
         Me.Controls.Add(Me.cmdFoco)
         Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.txtSubtemaId)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.txtTraduccion)
-        '  Me.Controls.Add(Me.RichTextBoxEx1)
         Me.Controls.Add(Me.cboState)
         Me.Controls.Add(Me.Label9)
         Me.Controls.Add(Me.txtDescripcion)
@@ -386,4 +400,6 @@ Partial Class frmNewOracion
     Public WithEvents Label3 As System.Windows.Forms.Label
     ' Friend WithEvents RichTextBoxEx1 As RichTextBoxEx.RichTextBoxEx
     Friend WithEvents cmdFoco As System.Windows.Forms.CheckBox
+    Friend WithEvents txtIMG As System.Windows.Forms.TextBox
+    Friend WithEvents Label4 As System.Windows.Forms.Label
 End Class
