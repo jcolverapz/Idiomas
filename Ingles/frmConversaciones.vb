@@ -243,7 +243,6 @@ Public Class frmConversaciones
         'cboTipo.Text = "Saludo"
         Dim param As String
         param = " Where Inicio='S'"
-        param = param & " ORDER By OrdenInicio desc"
 
         CrearControles(param)
 
@@ -285,10 +284,11 @@ Public Class frmConversaciones
         Dim _comando As SqlCommand = MetodosDatos.CrearComando()
         Dim sqlstring As String = ""
 
-        sqlstring = "SELECT Con_Id, Con_orden, Con_Titulo, Con_Cant, Con_avance, Con_tipo, IMG, Inicio, OrdenInicio, url, observaciones"
+        sqlstring = "SELECT Con_Id, Con_orden, Con_Titulo, Con_Cant, Con_avance, Con_tipo, IMG, Inicio, OrdenInicio, url, observaciones, Idioma"
         sqlstring = sqlstring & " from  Enc_Conversation"
         sqlstring = sqlstring & param
-
+        '   sqlstring = sqlstring & " And Idioma='" & ModVar.Idioma & "'"
+        sqlstring = sqlstring & " ORDER By OrdenInicio desc"
         Try
             _comando.CommandText = sqlstring
             _comando.Connection.Open()
@@ -560,9 +560,11 @@ Public Class frmConversaciones
     Private Sub Panel_MouseUp(sender As Object, e As MouseEventArgs)
         arrastrando = False
     End Sub
+
     Private Sub pEtapa_DragEnter(sender As Object, e As System.Windows.Forms.DragEventArgs) Handles pEtapa.DragEnter
         e.Effect = DragDropEffects.Move
     End Sub
+
     Private Sub pEtapa_DragDrop(sender As Object, e As System.Windows.Forms.DragEventArgs) Handles pEtapa.DragDrop
         Dim draggedPanel As Panel = CType(e.Data.GetData(GetType(Panel)), Panel)
         Dim punto As Point = pEtapa.PointToClient(New Point(e.X, e.Y))
@@ -572,14 +574,13 @@ Public Class frmConversaciones
             Dim indexDestino As Integer = pEtapa.Controls.GetChildIndex(destino)
             pEtapa.Controls.SetChildIndex(draggedPanel, indexDestino)
         End If
-         
+
         'PuntoDestino = pEtapa.Controls.Count - pEtapa.Controls.GetChildIndex(destino) - 1
         'Actualizar orden en SQL
-        ' ActualizarOrdenSQL()
+        ActualizarOrdenSQL()
 
     End Sub
 
-  
     Private Sub ActualizarOrdenSQL()
 
         Dim sql As String
@@ -635,6 +636,7 @@ Public Class frmConversaciones
 
 
     End Sub
+
     Private Sub CmdGuardar_Click(sender As System.Object, e As System.EventArgs) Handles CmdGuardar.Click
         ActualizarOrdenSQL()
     End Sub
@@ -684,11 +686,15 @@ Public Class frmConversaciones
         Dim pnl As Panel = CType(sender.Parent, Panel)
         pnl.BackColor = Color.LightGreen
 
+        '======================
+        ' Abrir Detalle
+        '======================
         If e.Button = Windows.Forms.MouseButtons.Right Then
 
             Dim frmOrdenar As New frmMoverDetalleConversacion
             AddOwnedForm(frmOrdenar)
             frmOrdenar.Enc_Id = Id
+
             ModVar.Conversacion = sender.Tag
             frmOrdenar.ShowDialog()
 
@@ -733,9 +739,10 @@ Public Class frmConversaciones
 
 
     End Sub
+
     Private Sub PanelSeleccionado(sender, e)
         Dim str() As String
-        Str = sender.Name.Split("_")
+        str = sender.Name.Split("_")
 
         Dim tipo As String
         Dim param As String = ""
@@ -809,39 +816,39 @@ Public Class frmConversaciones
         _comando.Connection.Close()
 
     End Sub
-        
-        Private Sub MoveDown(sender, e)
-            Dim _comando As SqlCommand = MetodosDatos.CrearComando()
-            Dim sqlstring As String
-            Dim IdOracion As Integer
-            Dim dt As New DataTable
-            Dim da As New SqlDataAdapter
-            Dim i As Integer
-            Dim pos As Integer
-            Dim n As Integer
 
-            Dim itemOver As ListViewItem
-            Dim itemCurr As ListViewItem
-            Dim itemSel As Integer
-            Dim indice As Integer
-            Dim nm As String
-            Dim str() As String
+    Private Sub MoveDown(sender, e)
+        Dim _comando As SqlCommand = MetodosDatos.CrearComando()
+        Dim sqlstring As String
+        Dim IdOracion As Integer
+        Dim dt As New DataTable
+        Dim da As New SqlDataAdapter
+        Dim i As Integer
+        Dim pos As Integer
+        Dim n As Integer
 
-            Dim q As Integer
+        Dim itemOver As ListViewItem
+        Dim itemCurr As ListViewItem
+        Dim itemSel As Integer
+        Dim indice As Integer
+        Dim nm As String
+        Dim str() As String
 
-            ' Dim resp As Nullable(Of Integer)
-            nm = sender.name
-            str = nm.Split("_")
-            Dim tp As String
-            Dim param As String = ""
+        Dim q As Integer
 
-            tp = str(0)
-            indice = str(1)
+        ' Dim resp As Nullable(Of Integer)
+        nm = sender.name
+        str = nm.Split("_")
+        Dim tp As String
+        Dim param As String = ""
+
+        tp = str(0)
+        indice = str(1)
 
 
         'n = ListView1.Items.Count
 
-            If indice = -1 Then Exit Sub
+        If indice = -1 Then Exit Sub
 
         '
         ' itemCurr = ListView1.Items(indice)
@@ -870,7 +877,7 @@ Public Class frmConversaciones
 
         _comando.Connection.Open()
 
-       
+
         If i > 0 Then
         Else
             MsgBox("No se actualizo")
@@ -900,42 +907,43 @@ Public Class frmConversaciones
         'Finally
 
         'End Try
-        End Sub
-        Private Sub MoveUp(sender, e)
-            Dim _comando As SqlCommand = MetodosDatos.CrearComando()
-            Dim sqlstring As String
-            Dim IdOracion As Integer
-            Dim dt As New DataTable
-            Dim da As New SqlDataAdapter
-            Dim i As Integer
-            Dim indice As Integer
-            Dim itemCurr As ListViewItem
-            Dim itemOver As ListViewItem
-            Dim itemSel As Integer
-            Dim nm As String
-            Dim str() As String
-            Dim tp As String
-            Dim param As String = ""
-            Dim q As Integer
+    End Sub
 
-            ' Dim resp As Nullable(Of Integer)
-            nm = sender.name
-            str = nm.Split("_")
+    Private Sub MoveUp(sender, e)
+        Dim _comando As SqlCommand = MetodosDatos.CrearComando()
+        Dim sqlstring As String
+        Dim IdOracion As Integer
+        Dim dt As New DataTable
+        Dim da As New SqlDataAdapter
+        Dim i As Integer
+        Dim indice As Integer
+        Dim itemCurr As ListViewItem
+        Dim itemOver As ListViewItem
+        Dim itemSel As Integer
+        Dim nm As String
+        Dim str() As String
+        Dim tp As String
+        Dim param As String = ""
+        Dim q As Integer
 
-            tp = str(0)
-            indice = str(1)
+        ' Dim resp As Nullable(Of Integer)
+        nm = sender.name
+        str = nm.Split("_")
+
+        tp = str(0)
+        indice = str(1)
 
         'itemCurr = ListView1.Items(indice)
 
 
-            'If indice = ListView1.Items.Count - 1 Then
+        'If indice = ListView1.Items.Count - 1 Then
 
-            'ListView1.Items.Remove(itemCurr)
-            '   If ListView1.SelectedItems(0).Index = -1 Then Exit Sub
+        'ListView1.Items.Remove(itemCurr)
+        '   If ListView1.SelectedItems(0).Index = -1 Then Exit Sub
 
-            '  indice = ListView1.SelectedItems(0).Index
-            'itemCurr = ListView1.SelectedItems(0)
-            'itemCurr = ListView1.Items(indice)
+        '  indice = ListView1.SelectedItems(0).Index
+        'itemCurr = ListView1.SelectedItems(0)
+        'itemCurr = ListView1.Items(indice)
 
         'If indice = ListView1.Items.Count - 1 Then
         '    ListView1.Items.Remove(itemCurr)
@@ -953,120 +961,121 @@ Public Class frmConversaciones
         'ListView1.Refresh()
 
 
-            _comando.Connection.Open()
+        _comando.Connection.Open()
 
 
-            'If i > 0 Then
-            '    MsgBox("se guardo")
-            'Else
-            '    MsgBox("No se guardo")
-            'End If
+        'If i > 0 Then
+        '    MsgBox("se guardo")
+        'Else
+        '    MsgBox("No se guardo")
+        'End If
 
         CrearControles("")
 
 
 
 
-        End Sub
-        Private Sub Delete(sender, e)
-            Dim _comando As SqlCommand = MetodosDatos.CrearComando()
-            Dim sqlstring As String
-            Dim IdDialogo As Integer
-            Dim dt As New DataTable
-            Dim da As New SqlDataAdapter
-            Dim i As Integer
-            Dim indice As Integer
-            Dim nm As String
-            Dim str() As String
-            Dim tp As String
-            Dim param As String = ""
-            Dim q As Integer
+    End Sub
 
-            nm = sender.name
-            str = nm.Split("_")
+    Private Sub Delete(sender, e)
+        Dim _comando As SqlCommand = MetodosDatos.CrearComando()
+        Dim sqlstring As String
+        Dim IdDialogo As Integer
+        Dim dt As New DataTable
+        Dim da As New SqlDataAdapter
+        Dim i As Integer
+        Dim indice As Integer
+        Dim nm As String
+        Dim str() As String
+        Dim tp As String
+        Dim param As String = ""
+        Dim q As Integer
 
-            tp = str(0)
-            IdDialogo = str(1)
+        nm = sender.name
+        str = nm.Split("_")
 
-            sqlstring = "Delete From Dialogos "
-            sqlstring = sqlstring & "  WHERE Id = '" & IdDialogo & "'"
+        tp = str(0)
+        IdDialogo = str(1)
 
+        sqlstring = "Delete From Dialogos "
+        sqlstring = sqlstring & "  WHERE Id = '" & IdDialogo & "'"
+
+        _comando.CommandText = sqlstring
+        _comando.Connection.Open()
+
+        Dim PanelId As Integer
+        PanelId = sender.tag
+        Try
+
+            i = _comando.ExecuteNonQuery
+
+            If i > 0 Then
+                'MsgBox("se guardo")
+            Else
+                'MsgBox("No se guardo")
+            End If
+
+
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+
+        Finally
+            ' _comando.Connection.Close()
+
+        End Try
+
+
+
+        '  _comando.Connection.Open()
+
+        sqlstring = "SELECT * FROM Dialogos"
+        sqlstring = sqlstring & " WHERE DetConversacion = @DetConversacion"
+        _comando.CommandText = sqlstring
+
+        _comando.Parameters.Clear()
+        _comando.Parameters.AddWithValue("@DetConversacion", PanelId)
+        Try
+            da.SelectCommand = _comando
+            da.Fill(dt)
+            ' _comando.Connection.Close()
+        Catch ex As Exception
+        End Try
+
+        '_comando.Connection.Open()
+        n = dt.Rows.Count
+        Dim j As Integer = 0
+        For Each r In dt.Rows
+
+            sqlstring = "UPDATE Dialogos SET Orden = @Orden"
+            sqlstring = sqlstring & " WHERE Id = @Id"
             _comando.CommandText = sqlstring
-            _comando.Connection.Open()
+            _comando.Parameters.Clear()
 
-            Dim PanelId As Integer
-            PanelId = sender.tag
+            _comando.Parameters.AddWithValue("@Orden", j)
+            ' _comando.Parameters.AddWithValue("@Id", r.SubItems(1).Text)
+            _comando.Parameters.AddWithValue("@Id", r.item(0))
+
+
             Try
-
                 i = _comando.ExecuteNonQuery
-
-                If i > 0 Then
-                    'MsgBox("se guardo")
-                Else
-                    'MsgBox("No se guardo")
-                End If
-
-
 
             Catch ex As Exception
                 MsgBox(ex.Message)
-
-            Finally
-                ' _comando.Connection.Close()
-
             End Try
+            j += 1
+        Next
 
+        _comando.Connection.Close()
 
+        Dim objp As PictureBox
 
-            '  _comando.Connection.Open()
+        objp = pEtapa.Controls(sender.parent.name).Controls("p_" & IdDialogo)
+        objp.Image = Image.FromFile("C:\Legacy\Ingles\Imagenes_Ingles\X.jpg")
+        'pEtapa.Controls(sender.parent.name).Controls.Invalidate()
 
-            sqlstring = "SELECT * FROM Dialogos"
-            sqlstring = sqlstring & " WHERE DetConversacion = @DetConversacion"
-            _comando.CommandText = sqlstring
-
-            _comando.Parameters.Clear()
-            _comando.Parameters.AddWithValue("@DetConversacion", PanelId)
-            Try
-                da.SelectCommand = _comando
-                da.Fill(dt)
-                ' _comando.Connection.Close()
-            Catch ex As Exception
-            End Try
-
-            '_comando.Connection.Open()
-            n = dt.Rows.Count
-            Dim j As Integer = 0
-            For Each r In dt.Rows
-
-                sqlstring = "UPDATE Dialogos SET Orden = @Orden"
-                sqlstring = sqlstring & " WHERE Id = @Id"
-                _comando.CommandText = sqlstring
-                _comando.Parameters.Clear()
-
-                _comando.Parameters.AddWithValue("@Orden", j)
-                ' _comando.Parameters.AddWithValue("@Id", r.SubItems(1).Text)
-                _comando.Parameters.AddWithValue("@Id", r.item(0))
-
-
-                Try
-                    i = _comando.ExecuteNonQuery
-
-                Catch ex As Exception
-                    MsgBox(ex.Message)
-                End Try
-                j += 1
-            Next
-
-            _comando.Connection.Close()
-
-            Dim objp As PictureBox
-
-            objp = pEtapa.Controls(sender.parent.name).Controls("p_" & IdDialogo)
-            objp.Image = Image.FromFile("C:\Legacy\Ingles\Imagenes_Ingles\X.jpg")
-            'pEtapa.Controls(sender.parent.name).Controls.Invalidate()
-
-            'CrearControles()
-            ''''''''''
+        'CrearControles()
+        ''''''''''
 
 
 
@@ -1077,18 +1086,19 @@ Public Class frmConversaciones
 
 
 
-        End Sub
-        Private Sub Editar(sender, e)
-            
+    End Sub
 
-            Dim nm As String
-            Dim tp As String
+    Private Sub Editar(sender, e)
 
-            Dim q As Integer
-            Dim obj As New Label
-            Dim IdDet As Integer
-            
-            Dim IdOracionItem As Integer
+
+        Dim nm As String
+        Dim tp As String
+
+        Dim q As Integer
+        Dim obj As New Label
+        Dim IdDet As Integer
+
+        Dim IdOracionItem As Integer
 
         If e.Button = Windows.Forms.MouseButtons.Right Then
             Dim Id As Integer
@@ -1119,135 +1129,137 @@ Public Class frmConversaciones
 
         End If
 
-        End Sub
-        Private Sub RefreshTexto(sender, e)
-            Dim _comando As SqlCommand = MetodosDatos.CrearComando()
-            Dim sqlstring As String
-            Dim IdOracion As Integer
-            Dim dt As New DataTable
-            Dim da As New SqlDataAdapter
-            Dim i As Integer
-            Dim indice As Integer
-            Dim nm As String
-            Dim str() As String
-            Dim tp As String
-            Dim param As String = ""
-            Dim q As Integer
-            Dim obj As New RichTextBox
+    End Sub
 
-            obj = sender
+    Private Sub RefreshTexto(sender, e)
+        Dim _comando As SqlCommand = MetodosDatos.CrearComando()
+        Dim sqlstring As String
+        Dim IdOracion As Integer
+        Dim dt As New DataTable
+        Dim da As New SqlDataAdapter
+        Dim i As Integer
+        Dim indice As Integer
+        Dim nm As String
+        Dim str() As String
+        Dim tp As String
+        Dim param As String = ""
+        Dim q As Integer
+        Dim obj As New RichTextBox
 
-            nm = sender.Name
+        obj = sender
 
-            str = nm.Split("_")
+        nm = sender.Name
 
-            tp = str(0)
+        str = nm.Split("_")
 
-            indice = str(1)
+        tp = str(0)
 
-            If Id <> 0 Then
-                sqlstring = " SELECT         Det_Conversation.Det_Con, Det_Conversation.Det_OracionId, Det_Conversation.Det_Orden, Det_Conversation.Con_Id, Oraciones.TextoPlano, Det_Person, Det_Par, Oraciones.traduccion"
-                sqlstring = sqlstring & " FROM            Det_Conversation INNER JOIN"
-                sqlstring = sqlstring & "              Oraciones ON Det_Conversation.Det_OracionId = Oraciones.Id"
-                sqlstring = sqlstring & " WHERE  Det_Conversation.Det_Con='" & str(1) & "'"
-                sqlstring = sqlstring & " ORDER BY  Det_Conversation.Det_Orden ASC"
+        indice = str(1)
 
-                Try
-                    _comando.CommandText = sqlstring
-
-                    _comando.Connection.Open()
-
-                    'i = _comando.ExecuteNonQuery
-                    da.SelectCommand = _comando
-
-                    da.Fill(dt)
-                Catch ex As Exception
-
-                End Try
-                _comando.Connection.Close()
-                'SELECT        TOP (200) [Delete], SEL, estatus, GrupoId, forma, STL, GRUPO, IMG, Orden, IPA, Campo3, , CursoId, Ora_Aprendido, Exam, Cuenta, Persona
-                'FROM(Oraciones)
-                'WHERE(Id = 3000)
-            Else
-                sqlstring = "select  Id, TextoPlano FROM Oraciones"
-                sqlstring = sqlstring & " WHERE Id = @Id"
-
-                _comando.Parameters.AddWithValue("@Id", indice)
-
-                _comando.CommandText = sqlstring
-                _comando.Connection.Open()
-
-                Try
-                    da.SelectCommand = _comando
-
-                    da.Fill(dt)
-                    obj.Text = dt.Rows(0).Item(1)
-
-                Catch ex As Exception
-                    MsgBox(ex.Message)
-                End Try
-                _comando.Connection.Close()
-
-
-            End If
-
-
-
+        If Id <> 0 Then
+            sqlstring = " SELECT         Det_Conversation.Det_Con, Det_Conversation.Det_OracionId, Det_Conversation.Det_Orden, Det_Conversation.Con_Id, Oraciones.TextoPlano, Det_Person, Det_Par, Oraciones.traduccion"
+            sqlstring = sqlstring & " FROM            Det_Conversation INNER JOIN"
+            sqlstring = sqlstring & "              Oraciones ON Det_Conversation.Det_OracionId = Oraciones.Id"
+            sqlstring = sqlstring & " WHERE  Det_Conversation.Det_Con='" & str(1) & "'"
+            sqlstring = sqlstring & " ORDER BY  Det_Conversation.Det_Orden ASC"
 
             Try
-                'txtNombre.Text = dt.Rows(i).Item(4) '& " " & dt.Rows(i).Item(1) '& vbCrLf & vbCrLf & dt.Rows(i).Item(3)
+                _comando.CommandText = sqlstring
 
-                If i > 0 Then
-                    'MsgBox("se guardo")
-                    'obj.Image = ImageList5.Images(IdPerson)
-                    'obj.Text = "test"
+                _comando.Connection.Open()
 
-                Else
-                    'MsgBox("No se guardo")
-                End If
+                'i = _comando.ExecuteNonQuery
+                da.SelectCommand = _comando
+
+                da.Fill(dt)
             Catch ex As Exception
 
             End Try
+            _comando.Connection.Close()
+            'SELECT        TOP (200) [Delete], SEL, estatus, GrupoId, forma, STL, GRUPO, IMG, Orden, IPA, Campo3, , CursoId, Ora_Aprendido, Exam, Cuenta, Persona
+            'FROM(Oraciones)
+            'WHERE(Id = 3000)
+        Else
+            sqlstring = "select  Id, TextoPlano FROM Oraciones"
+            sqlstring = sqlstring & " WHERE Id = @Id"
+
+            _comando.Parameters.AddWithValue("@Id", indice)
+
+            _comando.CommandText = sqlstring
+            _comando.Connection.Open()
+
+            Try
+                da.SelectCommand = _comando
+
+                da.Fill(dt)
+                obj.Text = dt.Rows(0).Item(1)
+
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
+            _comando.Connection.Close()
 
 
-        End Sub
-        Private Sub Show(sender, e)
-            Dim _comando As SqlCommand = MetodosDatos.CrearComando()
-            Dim sqlstring As String
-            Dim IdOracion As Integer
-            Dim dt As New DataTable
-            Dim da As New SqlDataAdapter
-            Dim i As Integer
-            Dim indice As Integer
-            Dim nm As String
-            Dim str() As String
-            Dim tp As String
-            Dim param As String = ""
-            Dim q As Integer
-
-            ' Dim resp As Nullable(Of Integer)
-            nm = sender.name
-            str = nm.Split("_")
-
-            tp = str(0)
-            IdOracion = str(1)
+        End If
 
 
-            If sender.text = "-" Then
-                pEtapa.Controls.Item("pAux_" & IdOracion).Controls.Item("txt_" & IdOracion).Visible = False
-                pEtapa.Controls.Item("pAux_" & IdOracion).Controls.Item("tra_" & IdOracion).Visible = False
-                'bandActivado = False
-                sender.text = "?"
+
+
+        Try
+            'txtNombre.Text = dt.Rows(i).Item(4) '& " " & dt.Rows(i).Item(1) '& vbCrLf & vbCrLf & dt.Rows(i).Item(3)
+
+            If i > 0 Then
+                'MsgBox("se guardo")
+                'obj.Image = ImageList5.Images(IdPerson)
+                'obj.Text = "test"
 
             Else
-                pEtapa.Controls.Item("pAux_" & IdOracion).Controls.Item("txt_" & IdOracion).Visible = True
-                pEtapa.Controls.Item("pAux_" & IdOracion).Controls.Item("tra_" & IdOracion).Visible = True
-                sender.text = "-"
-                'bandActivado = True
+                'MsgBox("No se guardo")
             End If
+        Catch ex As Exception
+
+        End Try
 
 
-        End Sub
+    End Sub
+
+    Private Sub Show(sender, e)
+        Dim _comando As SqlCommand = MetodosDatos.CrearComando()
+        Dim sqlstring As String
+        Dim IdOracion As Integer
+        Dim dt As New DataTable
+        Dim da As New SqlDataAdapter
+        Dim i As Integer
+        Dim indice As Integer
+        Dim nm As String
+        Dim str() As String
+        Dim tp As String
+        Dim param As String = ""
+        Dim q As Integer
+
+        ' Dim resp As Nullable(Of Integer)
+        nm = sender.name
+        str = nm.Split("_")
+
+        tp = str(0)
+        IdOracion = str(1)
+
+
+        If sender.text = "-" Then
+            pEtapa.Controls.Item("pAux_" & IdOracion).Controls.Item("txt_" & IdOracion).Visible = False
+            pEtapa.Controls.Item("pAux_" & IdOracion).Controls.Item("tra_" & IdOracion).Visible = False
+            'bandActivado = False
+            sender.text = "?"
+
+        Else
+            pEtapa.Controls.Item("pAux_" & IdOracion).Controls.Item("txt_" & IdOracion).Visible = True
+            pEtapa.Controls.Item("pAux_" & IdOracion).Controls.Item("tra_" & IdOracion).Visible = True
+            sender.text = "-"
+            'bandActivado = True
+        End If
+
+
+    End Sub
         Private Sub Exam(sender, e)
             Dim _comando As SqlCommand = MetodosDatos.CrearComando()
             Dim sqlstring As String
@@ -2568,1004 +2580,544 @@ Public Class frmConversaciones
 
 
         End Sub
-        Private Sub CambiarTipoCon(sender, e)
-            Dim _comando As SqlCommand = MetodosDatos.CrearComando()
-            Dim sqlstring As String
-            Dim IdDet As Integer
-            Dim dt As New DataTable
-            Dim da As New SqlDataAdapter
-            Dim i As Integer
-            Dim indice As Integer
-            Dim nm As String
-            Dim str() As String
-            Dim tp As String
-            Dim param As String = ""
-            Dim q As Integer
 
-            nm = sender.name
-            str = nm.Split("_")
+    Private Sub CambiarTipoCon(sender, e)
+        Dim _comando As SqlCommand = MetodosDatos.CrearComando()
+        Dim sqlstring As String
+        Dim IdDet As Integer
+        Dim dt As New DataTable
+        Dim da As New SqlDataAdapter
+        Dim i As Integer
+        Dim indice As Integer
+        Dim nm As String
+        Dim str() As String
+        Dim tp As String
+        Dim param As String = ""
+        Dim q As Integer
 
-            tp = str(0)
-            IdDet = str(1)
+        nm = sender.name
+        str = nm.Split("_")
 
-            Dim Id As Integer
-            Dim IdPerson As Integer
-            Dim TipoTicket As String
+        tp = str(0)
+        IdDet = str(1)
 
-            Dim resp As Integer
-            Dim obj As PictureBox
-            Dim valorNuevo As String
+        Dim Id As Integer
+        Dim IdPerson As Integer
+        Dim TipoTicket As String
 
-            obj = sender
+        Dim resp As Integer
+        Dim obj As PictureBox
+        Dim valorNuevo As String
 
-            If sender.tag = "R" Then
-                valorNuevo = "Q"
-                sqlstring = "Update Det_Conversation SET Det_Tipo='Q'"
-                sqlstring = sqlstring & "  WHERE Det_Con = '" & IdDet & "'"
-            Else
-                valorNuevo = "R"
-                sqlstring = "Update Det_Conversation SET Det_Tipo='R'"
-                sqlstring = sqlstring & "  WHERE Det_Con = '" & IdDet & "'"
-            End If
+        obj = sender
 
-
-            _comando.CommandText = sqlstring
-            _comando.Connection.Open()
+        If sender.tag = "R" Then
+            valorNuevo = "Q"
+            sqlstring = "Update Det_Conversation SET Det_Tipo='Q'"
+            sqlstring = sqlstring & "  WHERE Det_Con = '" & IdDet & "'"
+        Else
+            valorNuevo = "R"
+            sqlstring = "Update Det_Conversation SET Det_Tipo='R'"
+            sqlstring = sqlstring & "  WHERE Det_Con = '" & IdDet & "'"
+        End If
 
 
-            Try
-                i = _comando.ExecuteNonQuery
+        _comando.CommandText = sqlstring
+        _comando.Connection.Open()
 
-                If i > 0 Then
-                    'MsgBox("se guardo")
-                    'obj.Image = ImageList5.Images(IdPerson)
 
-                Else
-                    'MsgBox("No se guardo")
-                End If
-            Catch ex As Exception
+        Try
+            i = _comando.ExecuteNonQuery
 
-            End Try
-
-            Dim bmp As Bitmap
-            Dim g As Graphics
-            Dim startPoint As Point
-            Dim endPoint As Point
-
-            bmp = New Bitmap(80, 80)
-            sender.Image = bmp
-            sender.tag = valorNuevo
-
-            g = Graphics.FromImage(sender.Image)
-            g.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
-
-            If valorNuevo <> "R" Then
-                startPoint = New Point(10, 55)
-                endPoint = New Point(30, 55) ' La línea es horizontal si la coordenada Y es la misma
-
-                Dim tipPoints As Point() = {
-           endPoint, New Point(endPoint.X - 10, endPoint.Y - 5), New Point(endPoint.X - 10, endPoint.Y + 5)}
-
-                g.DrawLine(Pens.Blue, startPoint, endPoint)
-                g.FillPolygon(Brushes.Blue, tipPoints)
+            If i > 0 Then
+                'MsgBox("se guardo")
+                'obj.Image = ImageList5.Images(IdPerson)
 
             Else
-                startPoint = New Point(30, 55)
-                endPoint = New Point(10, 55) ' La línea es horizontal si la coordenada Y es la misma
-
-                Dim tipPoints As Point() = {
-           endPoint, New Point(endPoint.X + 10, endPoint.Y - 5), New Point(endPoint.X + 10, endPoint.Y + 5)}
-
-                g.DrawLine(Pens.Orange, startPoint, endPoint)
-                g.FillPolygon(Brushes.Orange, tipPoints)
+                'MsgBox("No se guardo")
             End If
+        Catch ex As Exception
+
+        End Try
+
+        Dim bmp As Bitmap
+        Dim g As Graphics
+        Dim startPoint As Point
+        Dim endPoint As Point
+
+        bmp = New Bitmap(80, 80)
+        sender.Image = bmp
+        sender.tag = valorNuevo
+
+        g = Graphics.FromImage(sender.Image)
+        g.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
+
+        If valorNuevo <> "R" Then
+            startPoint = New Point(10, 55)
+            endPoint = New Point(30, 55) ' La línea es horizontal si la coordenada Y es la misma
+
+            Dim tipPoints As Point() = {
+       endPoint, New Point(endPoint.X - 10, endPoint.Y - 5), New Point(endPoint.X - 10, endPoint.Y + 5)}
+
+            g.DrawLine(Pens.Blue, startPoint, endPoint)
+            g.FillPolygon(Brushes.Blue, tipPoints)
+
+        Else
+            startPoint = New Point(30, 55)
+            endPoint = New Point(10, 55) ' La línea es horizontal si la coordenada Y es la misma
+
+            Dim tipPoints As Point() = {
+       endPoint, New Point(endPoint.X + 10, endPoint.Y - 5), New Point(endPoint.X + 10, endPoint.Y + 5)}
+
+            g.DrawLine(Pens.Orange, startPoint, endPoint)
+            g.FillPolygon(Brushes.Orange, tipPoints)
+        End If
 
 
-            ' pEtapa.Controls.Item("pAux_" & nm).Controls.Add(pbf)
+        ' pEtapa.Controls.Item("pAux_" & nm).Controls.Add(pbf)
 
 
-        End Sub
-        Private Sub CambiarImagen(sender, e)
-            Dim sqlstring As String
-            Dim IdDialogo As Integer
-            Dim dt As New DataTable
-            Dim da As New SqlDataAdapter
-            Dim i As Integer
-            Dim indice As Integer
-            Dim nm As String
-            Dim str() As String
-            Dim tp As String
-            Dim param As String = ""
-            Dim q As Integer
+    End Sub
 
-            nm = sender.name
-            str = nm.Split("_")
+    Private Sub CambiarImagen(sender, e)
+        Dim sqlstring As String
+        Dim IdDialogo As Integer
+        Dim dt As New DataTable
+        Dim da As New SqlDataAdapter
+        Dim i As Integer
+        Dim indice As Integer
+        Dim nm As String
+        Dim str() As String
+        Dim tp As String
+        Dim param As String = ""
+        Dim q As Integer
 
-            tp = str(0)
-            IdDialogo = str(1)
+        nm = sender.name
+        str = nm.Split("_")
 
-            Dim Id As Integer
-            Dim IdPerson As Integer
-            Dim TipoTicket As String
+        tp = str(0)
+        IdDialogo = str(1)
 
-            Dim resp As Integer
-            Dim obj As PictureBox
+        Dim Id As Integer
+        Dim IdPerson As Integer
+        Dim TipoTicket As String
 
-            IdOracion = sender.tag
-            Dim _comando As SqlCommand
-            Dim filename As String = ""
+        Dim resp As Integer
+        Dim obj As PictureBox
 
-            Dim Nombre As String
-            'Busca y actualiza si no existe en Oraciones
-            _comando = MetodosDatos.CrearComando()
-            _comando.Connection.Open()
+        IdOracion = sender.tag
+        Dim _comando As SqlCommand
+        Dim filename As String = ""
 
-            sqlstring = " SELECT Id, TextoPlano, IMG  FROM Oraciones"
-            sqlstring = sqlstring & " WHERE Id = @Id"
-            _comando.CommandText = sqlstring
+        Dim Nombre As String
+        'Busca y actualiza si no existe en Oraciones
+        _comando = MetodosDatos.CrearComando()
+        _comando.Connection.Open()
 
-            _comando.Parameters.AddWithValue("@Id", IdOracion)
-            Dim objDataReader As SqlDataReader
+        sqlstring = " SELECT Id, TextoPlano, IMG  FROM Oraciones"
+        sqlstring = sqlstring & " WHERE Id = @Id"
+        _comando.CommandText = sqlstring
 
-            Try
-                objDataReader = _comando.ExecuteReader
+        _comando.Parameters.AddWithValue("@Id", IdOracion)
+        Dim objDataReader As SqlDataReader
 
-                If objDataReader.HasRows Then
-                    objDataReader.Read()
-                    If Not IsDBNull(objDataReader(1)) Then
-                        Nombre = (objDataReader(1))
-                        objDataReader.Close()
-                    End If
+        Try
+            objDataReader = _comando.ExecuteReader
 
-                End If
-                ' Clipboard.SetText(Nombre)
-
-            Catch ex As Exception
-                MsgBox(ex.Message)
-            End Try
-
-            objDataReader.Close()
-
-            _comando.Connection.Close()
-
-            Nombre = pEtapa.Controls(sender.parent.name).controls("txt_" & IdDialogo).text
-            Clipboard.SetText(Nombre)
-
-
-            ' Seleccionar Imagen
-            Using ofd As New OpenFileDialog
-                ofd.InitialDirectory = "C:\Legacy\Ingles\Imagenes_Ingles\"
-                '  = IdPerson
-
-                If ofd.ShowDialog = Windows.Forms.DialogResult.OK Then
-
-                    Dim _insertado As Boolean = False
-                    Dim mostrarMensaje As Boolean = False
-                    Dim stringvalues As String = ""
-                    Dim sql As String = ""
-
-
-                    filename = ofd.SafeFileName
-
-                    'Actualiza en Tbl Dialogos
-                    _comando.Connection.Open()
-
-                    sqlstring = "Update Dialogos SET IMG='" & filename & "'"
-                    sqlstring = sqlstring & "  WHERE Id = '" & IdDialogo & "'"
-                    _comando.CommandText = sqlstring
-
-                    Try
-                        i = _comando.ExecuteNonQuery
-
-                    Catch ex As Exception
-                        _comando.Connection.Close()
-                        Exit Sub
-                    End Try
-
-                    _comando.Connection.Close()
-
-                    'Busca y actualiza si no existe en Oraciones
-                    _comando.Connection.Open()
-
-                    sqlstring = " SELECT Id, TextoPlano, IMG  FROM Oraciones"
-                    sqlstring = sqlstring & " WHERE Id = @Id"
-                    _comando.CommandText = sqlstring
-
-                    _comando.Parameters.Clear()
-                    _comando.Parameters.AddWithValue("@Id", IdOracion)
-
-                    Try
-                        objDataReader = _comando.ExecuteReader
-
-                        If objDataReader.HasRows Then
-                            objDataReader.Read()
-                            If IsDBNull(objDataReader(2)) Then
-                                objDataReader.Close()
-
-                                ' _comando.Connection.Open()
-
-                                sqlstring = "Update Oraciones SET IMG='" & filename & "'"
-                                sqlstring = sqlstring & "  WHERE Id = '" & IdOracion & "'"
-                                _comando.CommandText = sqlstring
-
-                                Try
-                                    i = _comando.ExecuteNonQuery
-                                Catch ex As Exception
-                                End Try
-
-                            End If
-
-                        End If
-
-                    Catch ex As Exception
-                        MsgBox(ex.Message)
-                    End Try
-
+            If objDataReader.HasRows Then
+                objDataReader.Read()
+                If Not IsDBNull(objDataReader(1)) Then
+                    Nombre = (objDataReader(1))
                     objDataReader.Close()
-
-                    sender.Image = Image.FromFile("C:\Legacy\Ingles\Imagenes_Ingles\" & filename)
-
-
                 End If
 
-                _comando.Connection.Close()
-
-
-            End Using
-
-
-        End Sub
-        Private Sub CambiarImagenDialogo(sender, e)
-            Dim sqlstring As String
-            Dim IdDet As Integer
-            Dim dt As New DataTable
-            Dim da As New SqlDataAdapter
-            Dim i As Integer
-            Dim indice As Integer
-            Dim nm As String
-            Dim str() As String
-            Dim tp As String
-            Dim param As String = ""
-            Dim q As Integer
-
-            nm = sender.name
-            str = nm.Split("_")
-
-            tp = str(0)
-            IdDet = str(1)
-
-            Dim Id As Integer
-            Dim IdPerson As Integer
-            Dim TipoTicket As String
-
-            Dim resp As Integer
-            Dim obj As PictureBox
-
-            IdOracion = sender.tag
-            Dim _comando As SqlCommand
-            Dim filename As String = ""
-
-            Dim Nombre As String
-
-            'Busca y actualiza si no existe en Oraciones
-            _comando = MetodosDatos.CrearComando()
-
-            ' Nombre = pEtapa.Controls(sender.parent.name).controls("pd_" & IdDet).text
-            Clipboard.SetText(nm)
-
-            ' Seleccionar Imagen
-            Using ofd As New OpenFileDialog
-                ofd.InitialDirectory = "C:\Legacy\Ingles\Imagenes_Ingles\"
-
-                If ofd.ShowDialog = Windows.Forms.DialogResult.OK Then
-                    Dim _insertado As Boolean = False
-                    Dim mostrarMensaje As Boolean = False
-                    Dim stringvalues As String = ""
-                    Dim sql As String = ""
-
-
-                    filename = ofd.SafeFileName
-
-                    'Actualiza en Tbl Dialogos
-                    _comando.Connection.Open()
-
-                    sqlstring = "Update Det_Conversation SET IMG='" & filename & "'"
-                    sqlstring = sqlstring & "  WHERE Det_Con = '" & IdDet & "'"
-                    _comando.CommandText = sqlstring
-
-                    Try
-                        i = _comando.ExecuteNonQuery
-
-                    Catch ex As Exception
-                        _comando.Connection.Close()
-                        Exit Sub
-                    End Try
-                    sender.Image = Image.FromFile("C:\Legacy\Ingles\Imagenes_Ingles\" & filename)
-                End If
-
-
-                _comando.Connection.Close()
-
-
-            End Using
-
-
-        End Sub
-        Private Sub MoverDialogo(sender, e)
-            Dim sqlstring As String
-            Dim dt As New DataTable
-            Dim da As New SqlDataAdapter
-            Dim indice As Integer
-            Dim nm As String
-            Dim str() As String
-            Dim tp As String
-            Dim param As String = ""
-            Dim q As Integer
-            Dim btnStatus As Button
-            Dim IdDialogo As Integer
-            Dim IdDetNuevo As Integer
-            Dim IdOracionItem As Integer
-
-            ' If e.Button = MouseButtons.Right Then
-            Dim menu = New System.Windows.Forms.ContextMenuStrip()
-            Dim posicion As Integer 'dgvDevices.HitTest(e.X, e.Y).RowIndex
-
-            nm = sender.Name
-            str = nm.Split("_")
-            tp = str(0)
-
-            IdDialogo = str(1)
-
-
-            If posicion > -1 Then
-                menu.Items.Add("Mover").Name = "Mover" & IdDialogo
-                menu.Items.Add("Recibir").Name = "Recibir" & IdDialogo
-                menu.Items.Add("Ordenar").Name = "Ordenar" & sender.tag
             End If
+            ' Clipboard.SetText(Nombre)
 
-            menu.Show(pEtapa.Controls.Item("pAux_" & sender.tag), sender.location.X - 120, sender.location.Y - 50)
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
 
-            AddHandler menu.ItemClicked, AddressOf VerMenu
+        objDataReader.Close()
 
-            'If sender.text = "S" Then
-            'sender.text = "M"
-            sender.backcolor = Color.Yellow
+        _comando.Connection.Close()
 
-            '  ElseIf sender.text = "M" Then
-
-            ' Else
-
-            '  End If
+        Nombre = pEtapa.Controls(sender.parent.name).controls("txt_" & IdDialogo).text
+        Clipboard.SetText(Nombre)
 
 
-        End Sub
-        Private Sub VerMenu(sender As Object, e As ToolStripItemClickedEventArgs)
-            Dim nombre = e.ClickedItem.Name.ToString
-            Dim fecha As Date
-            Dim mifecha As String
-            Dim Id As Integer
-            Dim _comando As SqlCommand = MetodosDatos.CrearComando()
-            Dim IdDetActual As Integer
-            Dim IdDetNuevo As Integer
-            Dim i As Integer
-            Dim mypen As Pen
-            Dim MaxOrden As Integer
-            Dim rowcount As Integer
-            Dim k As Integer
-            Dim p As Integer
+        ' Seleccionar Imagen
+        Using ofd As New OpenFileDialog
+            ofd.InitialDirectory = "C:\Legacy\Ingles\Imagenes_Ingles\"
+            '  = IdPerson
+
+            If ofd.ShowDialog = Windows.Forms.DialogResult.OK Then
+
+                Dim _insertado As Boolean = False
+                Dim mostrarMensaje As Boolean = False
+                Dim stringvalues As String = ""
+                Dim sql As String = ""
 
 
-            If nombre.Contains("Mover") Then
-                Dim posicion = nombre.Replace("Mover", "")
-                k = ListDialogos.Items.Count
-                Dim item1 As New ListViewItem(k) ' Crea un nuevo ítem para la primera columna
-                Dim orden As Integer
-                item1.SubItems.Add(posicion)   ' Agrega el ítem a la lista
+                filename = ofd.SafeFileName
 
-                ' ListDialogos.Items.Add(item1) ' Agrega un subítem para la segunda columna en el ítem ya creado
-
+                'Actualiza en Tbl Dialogos
                 _comando.Connection.Open()
 
-                sqlstring = " SELECT         Id, OracionId, Orden, DetConversacion, IMG"
-                sqlstring = sqlstring & " FROM            Dialogos "
-                sqlstring = sqlstring & "          "
-                sqlstring = sqlstring & " WHERE  Id='" & posicion & "'"
+                sqlstring = "Update Dialogos SET IMG='" & filename & "'"
+                sqlstring = sqlstring & "  WHERE Id = '" & IdDialogo & "'"
                 _comando.CommandText = sqlstring
 
-                Dim objDataReader As SqlDataReader
+                Try
+                    i = _comando.ExecuteNonQuery
+
+                Catch ex As Exception
+                    _comando.Connection.Close()
+                    Exit Sub
+                End Try
+
+                _comando.Connection.Close()
+
+                'Busca y actualiza si no existe en Oraciones
+                _comando.Connection.Open()
+
+                sqlstring = " SELECT Id, TextoPlano, IMG  FROM Oraciones"
+                sqlstring = sqlstring & " WHERE Id = @Id"
+                _comando.CommandText = sqlstring
+
+                _comando.Parameters.Clear()
+                _comando.Parameters.AddWithValue("@Id", IdOracion)
 
                 Try
-
                     objDataReader = _comando.ExecuteReader
 
                     If objDataReader.HasRows Then
                         objDataReader.Read()
-                        'rowcount += 1
-                        IdDetActual = objDataReader(3)
-                        orden = objDataReader(2)
+                        If IsDBNull(objDataReader(2)) Then
+                            objDataReader.Close()
 
-                        item1.SubItems.Add(IdDetActual)   ' Agrega el ítem a la lista
-                        item1.SubItems.Add(orden)   ' Agrega el ítem a la lista
+                            ' _comando.Connection.Open()
+
+                            sqlstring = "Update Oraciones SET IMG='" & filename & "'"
+                            sqlstring = sqlstring & "  WHERE Id = '" & IdOracion & "'"
+                            _comando.CommandText = sqlstring
+
+                            Try
+                                i = _comando.ExecuteNonQuery
+                            Catch ex As Exception
+                            End Try
+
+                        End If
 
                     End If
-
-                    ListDialogos.Items.Add(item1)
 
                 Catch ex As Exception
                     MsgBox(ex.Message)
                 End Try
-                _comando.Connection.Close()
 
+                objDataReader.Close()
 
-                Dim pic As PictureBox
-                pic = pEtapa.Controls.Item("pAux_" & IdDetActual).Controls.Item("p_" & posicion)
-                pic.Image = Image.FromFile("C:\Legacy\Ingles\Imagenes_Ingles\X.jpg")
-
-                'pEtapa.Controls.Item("pAux_" & IdDetActual).Controls.Item("txt_" & posicion).Visible = False
-
-                Exit Sub
-
-            ElseIf nombre.Contains("Recibir") Then
-                Dim IdDetRecibe As Integer
-
-                If ListDialogos.Items.Count = 0 Then
-                    MsgBox("No hay items para mover")
-                    Exit Sub
-                End If
-
-                Dim posicion = nombre.Replace("Recibir", "")
-
-                '_comando.Connection.Open()
-
-                'sqlstring = " SELECT         Id, OracionId, Orden, DetConversacion, IMG"
-                'sqlstring = sqlstring & " FROM            Dialogos "
-                'sqlstring = sqlstring & "          "
-                'sqlstring = sqlstring & " WHERE  Id='" & posicion & "'"
-                '_comando.CommandText = sqlstring
-
-                'Dim objDataReader As SqlDataReader
-
-                'Try
-
-                '    objDataReader = _comando.ExecuteReader
-
-                '    If objDataReader.HasRows Then
-                '        objDataReader.Read()
-                '        'rowcount += 1
-                '        IdDetRecibe = objDataReader(3)
-                IdDetRecibe = posicion
-
-                'End If
-
-                '    Catch ex As Exception
-                '    MsgBox(ex.Message)
-                'End Try
-                '_comando.Connection.Close()
-
-
-                _comando.Connection.Open()
-
-                Dim j As Integer = 1
-
-
-                For Each d In ListDialogos.Items
-
-                    sqlstring = "UPDATE Dialogos SET DetConversacion = @DetConversacion, Orden = @Orden"
-                    sqlstring = sqlstring & " WHERE Id = @Id"
-                    _comando.CommandText = sqlstring
-
-                    Dim orden As Integer
-                    orden = ListDialogos.Items(0).SubItems(3).Text
-                    _comando.Parameters.Clear()
-                    _comando.Parameters.AddWithValue("@DetConversacion", IdDetRecibe)
-                    _comando.Parameters.AddWithValue("@Orden", orden + 1)
-                    _comando.Parameters.AddWithValue("@Id", ListDialogos.Items(0).SubItems(1).Text)
-
-                    Try
-                        i = _comando.ExecuteNonQuery
-
-                    Catch ex As Exception
-                        MsgBox(ex.Message)
-                    End Try
-
-                    Dim txt As RichTextBox
-                    txt = pEtapa.Controls.Item("pAux_" & ListDialogos.Items(0).SubItems(2).Text).Controls.Item("txt_" & ListDialogos.Items(0).SubItems(1).Text)
-                    pEtapa.Controls.Item("pAux_" & IdDetRecibe).Controls.Add(txt)
-                    txt.Location = New Point(500, 0)
-                    ' pEtapa.Controls.Item("pAux_" & IdDetActual).Controls.Item("txt_" & posicion).Visible = False
-                    Dim trad As Label
-                    trad = pEtapa.Controls.Item("pAux_" & ListDialogos.Items(0).SubItems(2).Text).Controls.Item("tra_" & ListDialogos.Items(0).SubItems(1).Text)
-                    trad.Location = New Point(500, txt.Bottom + 1)
-
-                    j += 1
-
-                Next
-
-
-
-
-
-                'Actualiza el Orden 'Dialogos'
-                sqlstring = " SELECT         Id, OracionId, Orden, DetConversacion, IMG"
-                sqlstring = sqlstring & " FROM            Dialogos "
-                sqlstring = sqlstring & "          "
-                sqlstring = sqlstring & " WHERE  DetConversacion='" & IdDetRecibe & "'"
-                _comando.CommandText = sqlstring
-
-                Dim dt As New DataTable
-                Dim da As New SqlDataAdapter
-
-                da.SelectCommand = _comando
-
-                da.Fill(dt)
-
-                n = dt.Rows.Count
-
-                For Each r In dt.Rows
-
-                    sqlstring = "UPDATE Dialogos SET Orden = @Orden"
-                    sqlstring = sqlstring & " WHERE Id = @Id"
-                    _comando.CommandText = sqlstring
-                    _comando.Parameters.Clear()
-
-                    _comando.Parameters.AddWithValue("@Orden", k)
-                    ' _comando.Parameters.AddWithValue("@Id", r.SubItems(1).Text)
-                    _comando.Parameters.AddWithValue("@Id", r.item(0))
-
-                    Try
-                        i = _comando.ExecuteNonQuery
-
-                    Catch ex As Exception
-                        MsgBox(ex.Message)
-                    End Try
-                    k += 1
-                Next
-
-                ' _comando.Connection.Close()
-
-                '''' Actualizar Orden de Det Id Anterior
-                sqlstring = " SELECT         Id, OracionId, Orden, DetConversacion, IMG"
-                sqlstring = sqlstring & " FROM            Dialogos "
-                sqlstring = sqlstring & "          "
-                sqlstring = sqlstring & " WHERE  DetConversacion='" & ListDialogos.Items(0).SubItems(1).Text & "'"
-                _comando.CommandText = sqlstring
-
-                da.SelectCommand = _comando
-
-                da.Fill(dt)
-
-                n = dt.Rows.Count
-
-
-                For Each r In dt.Rows
-
-                    sqlstring = "UPDATE Dialogos SET Orden = @Orden"
-                    sqlstring = sqlstring & " WHERE Id = @Id"
-                    _comando.CommandText = sqlstring
-                    _comando.Parameters.Clear()
-
-                    _comando.Parameters.AddWithValue("@Orden", p)
-                    _comando.Parameters.AddWithValue("@Id", r.item(0))
-
-
-                    Try
-                        i = _comando.ExecuteNonQuery
-
-                    Catch ex As Exception
-                        MsgBox(ex.Message)
-                    End Try
-                    p += 1
-
-
-
-                Next
-
-                _comando.Connection.Close()
-
-                ''
-                ListDialogos.Items.Clear()
-
-                'CrearControles()
-
-            ElseIf nombre.Contains("Ordenar") Then
-
-                Dim posicion = nombre.Replace("Ordenar", "")
-
-                Dim frm As New frmOrdenarDialogos
-
-                AddOwnedForm(frm)
-                frm.Id = posicion
-
-                frm.ShowDialog()
-
-                If band = True Then
-                CrearControles("")
-                End If
-
-                Exit Sub
+                sender.Image = Image.FromFile("C:\Legacy\Ingles\Imagenes_Ingles\" & filename)
 
 
             End If
-
-            'CrearControles()
-
-
-            'Dim CuentaSTL As Integer
-            'Dim Exam As String
-            'Exam = 
-
-            'Try
-            '    Dim Cuenta As Integer
-
-            '    If sender.text = "X" Then
-            '        '  sender.backcolor = Color.LightGreen
-            '        ' sender.text = "SI"
-            '        Aprendidos += 1
-            '        'pEtapa.Controls.Item("pAux_" & IdDet).Controls.Item("tst_" & IdDet).BackColor = Color.LightGreen
-            '        CuentaSTL -= 1
-
-            '    Else
-            '        'sender.backcolor = Color.LightSalmon
-            '        'sender.text = "NO"
-            '        Aprendidos = 1
-            '        'pEtapa.Controls.Item("pAux_" & IdDet).Controls.Item("tst_" & IdDet).BackColor = Color.LightSalmon
-            '        CuentaSTL += 1
-
-            '    End If
-
-            '    Cuenta = pEtapa.Controls.Item("pAux_" & IdDet).Controls.Item("txtc_" & IdDet).Text
-            '    CuentaSTL += Cuenta
-
-            '    If CuentaSTL <= 0 Then
-            '        ' mypen = New Pen(Color.LightSalmon, 1)
-            '        Status = False
-            '        pEtapa.Controls.Item("pAux_" & IdDet).Controls.Item("btnStatus_" & IdDet).BackColor = Color.Yellow
-            '        pEtapa.Controls.Item("pAux_" & IdDet).Controls.Item("txtc_" & IdDet).Visible = False
-
-            '    Else
-            '        Status = True
-            '        ' mypen = New Pen(Color.LightGreen, 1)
-            '        pEtapa.Controls.Item("pAux_" & IdDet).Controls.Item("btnStatus_" & IdDet).BackColor = Color.Transparent
-            '        pEtapa.Controls.Item("pAux_" & IdDet).Controls.Item("txtc_" & IdDet).Visible = True
-
-            '    End If
-
-
-
-            'Catch ex As Exception
-
-            'End Try
-
-            'Dim pb As PictureBox
-            'Dim bmp As Bitmap
-            'Dim g As Graphics
-
-            'pEtapa.Controls.Item("pAux_" & IdDet).Controls.Item("pb_" & IdDet).CreateGraphics.DrawRectangle(mypen, 0, 0, 1195, 85)
-            'pEtapa.Controls.Item("pAux_" & IdDet).Controls.Item("txtc_" & IdDet).Text = CuentaSTL
-
-            'Try
-            '    ' IO.File.Open("10.18.172.30\Materials\Readwrite\Checklist\auditoria\" & mifecha & "F-" & id & ".pdf", mode:=IO.FileMode.Append)
-            '    'Process.Start("Q:\Materials\Readwrite\Checklist\auditoria-F-" & id & ".pdf") ' Approach 1
-            'Catch ex As Exception
-            '    MsgBox(ex.Message)
-            'End Try
-
-
-
-            '' Id = dgvDevices.Rows(posicion).Cells(0).Value.ToString
-
-            'Dim version As Integer
-            'Dim Proyecto As String
-
-            'Try
-            '    ' Id = dgvDevices.Rows(posicion).Cells(0).Value.ToString
-            '    ' Proyecto = dgvDevices.Rows(posicion).Cells(1).Value.ToString
-            '    ' version = dgvDevices.Rows(posicion).Cells(0).Value.ToString
-            '    version = 1
-
-            'Catch ex As Exception
-            '    MsgBox(ex.Message)
-            '    'Exit Sub
-            'End Try
-
-            'Dim param As String = " WHERE Tbl_files.fil_Id='" & Id & "'"
-
-
-        End Sub
-        Private Sub EliminarPanel(sender, e)
-            Dim _comando As SqlCommand = MetodosDatos.CrearComando()
-            Dim sqlstring As String
-            Dim dt As New DataTable
-            Dim da As New SqlDataAdapter
-            Dim i As Integer
-            Dim indice As Integer
-            Dim nm As String
-            Dim str() As String
-            Dim tp As String
-            Dim param As String = ""
-            Dim q As Integer
-            Dim btnStatus As Button
-            Dim IdDet As Integer
-            Dim IdOracionItem As Integer
-
-            nm = sender.Name
-            str = nm.Split("_")
-            tp = str(0)
-
-            Dim resp As Integer
-
-            resp = MsgBox("¿ Eliminar este panel ?", MsgBoxStyle.YesNo + MsgBoxStyle.Exclamation)
-
-            If resp = 6 Then
-            Else
-                Exit Sub
-            End If
-
-            IdDet = sender.Name
-
-            sqlstring = "Delete From Det_Conversation "
-            sqlstring = sqlstring & "  WHERE Det_Con = '" & IdDet & "'"
-
-            _comando.CommandText = sqlstring
-            _comando.Connection.Open()
-
-            Try
-                i = _comando.ExecuteNonQuery
-
-            Catch ex As Exception
-            End Try
-
-            sqlstring = "Delete From Dialogos "
-            sqlstring = sqlstring & "  WHERE DetConversacion = '" & IdDet & "'"
-
-            _comando.CommandText = sqlstring
-
-            Try
-                i = _comando.ExecuteNonQuery
-
-            Catch ex As Exception
-            End Try
 
             _comando.Connection.Close()
 
-            If i > 0 Then
-                'MsgBox("se guardo")
-            Else
-                'MsgBox("No se guardo")
+
+        End Using
+
+
+    End Sub
+
+    Private Sub CambiarImagenDialogo(sender, e)
+        Dim sqlstring As String
+        Dim IdDet As Integer
+        Dim dt As New DataTable
+        Dim da As New SqlDataAdapter
+        Dim i As Integer
+        Dim indice As Integer
+        Dim nm As String
+        Dim str() As String
+        Dim tp As String
+        Dim param As String = ""
+        Dim q As Integer
+
+        nm = sender.name
+        str = nm.Split("_")
+
+        tp = str(0)
+        IdDet = str(1)
+
+        Dim Id As Integer
+        Dim IdPerson As Integer
+        Dim TipoTicket As String
+
+        Dim resp As Integer
+        Dim obj As PictureBox
+
+        IdOracion = sender.tag
+        Dim _comando As SqlCommand
+        Dim filename As String = ""
+
+        Dim Nombre As String
+
+        'Busca y actualiza si no existe en Oraciones
+        _comando = MetodosDatos.CrearComando()
+
+        ' Nombre = pEtapa.Controls(sender.parent.name).controls("pd_" & IdDet).text
+        Clipboard.SetText(nm)
+
+        ' Seleccionar Imagen
+        Using ofd As New OpenFileDialog
+            ofd.InitialDirectory = "C:\Legacy\Ingles\Imagenes_Ingles\"
+
+            If ofd.ShowDialog = Windows.Forms.DialogResult.OK Then
+                Dim _insertado As Boolean = False
+                Dim mostrarMensaje As Boolean = False
+                Dim stringvalues As String = ""
+                Dim sql As String = ""
+
+
+                filename = ofd.SafeFileName
+
+                'Actualiza en Tbl Dialogos
+                _comando.Connection.Open()
+
+                sqlstring = "Update Det_Conversation SET IMG='" & filename & "'"
+                sqlstring = sqlstring & "  WHERE Det_Con = '" & IdDet & "'"
+                _comando.CommandText = sqlstring
+
+                Try
+                    i = _comando.ExecuteNonQuery
+
+                Catch ex As Exception
+                    _comando.Connection.Close()
+                    Exit Sub
+                End Try
+                sender.Image = Image.FromFile("C:\Legacy\Ingles\Imagenes_Ingles\" & filename)
             End If
 
-            'CrearControles()
+
+            _comando.Connection.Close()
 
 
-            pEtapa.Controls.Remove(pEtapa.Controls.Item("pAux_" & IdDet))
+        End Using
 
 
+    End Sub
 
-        End Sub
-        Private Sub Agregar(sender, e)
-            Dim _comando As SqlCommand = MetodosDatos.CrearComando()
-            Dim sqlstring As String
-            Dim IdOracion As Integer
-            Dim dt As New DataTable
-            Dim da As New SqlDataAdapter
-            Dim i As Integer
-            Dim indice As Integer
-            Dim nm As String
-            Dim str() As String
-            Dim tp As String
-            Dim param As String = ""
-            Dim q As Integer
-            Dim obj As New Label
-            Dim IdDet As Integer
-            ' Dim resp As Nullable(Of Integer)
-            ' obj = sender
-            Dim IdOracionItem As Integer
-            nm = sender.Name
+    Private Sub MoverDialogo(sender, e)
+        Dim sqlstring As String
+        Dim dt As New DataTable
+        Dim da As New SqlDataAdapter
+        Dim indice As Integer
+        Dim nm As String
+        Dim str() As String
+        Dim tp As String
+        Dim param As String = ""
+        Dim q As Integer
+        Dim btnStatus As Button
+        Dim IdDialogo As Integer
+        Dim IdDetNuevo As Integer
+        Dim IdOracionItem As Integer
 
-            str = nm.Split("_")
+        ' If e.Button = MouseButtons.Right Then
+        Dim menu = New System.Windows.Forms.ContextMenuStrip()
+        Dim posicion As Integer 'dgvDevices.HitTest(e.X, e.Y).RowIndex
 
-            tp = str(0)
+        nm = sender.Name
+        str = nm.Split("_")
+        tp = str(0)
 
-            IdDet = sender.tag
-
-            Dim frm As New frmTransferir
-
-            AddOwnedForm(frm)
-
-            frm.Id = Id
-            frm.IdDet = IdDet
-            'frm.IdConversation = Id
-            frm.ShowDialog()
+        IdDialogo = str(1)
 
 
+        If posicion > -1 Then
+            menu.Items.Add("Mover").Name = "Mover" & IdDialogo
+            menu.Items.Add("Recibir").Name = "Recibir" & IdDialogo
+            menu.Items.Add("Ordenar").Name = "Ordenar" & sender.tag
+        End If
 
-            'sqlstring = " SELECT         Dialogos.Id, Dialogos.OracionId"
-            'sqlstring = sqlstring & " FROM            Dialogos INNER JOIN"
-            'sqlstring = sqlstring & "              Oraciones ON Dialogos.OracionId = Oraciones.Id"
-            'sqlstring = sqlstring & " WHERE  Dialogos.Id='" & str(1) & "'"
-            ''sqlstring = sqlstring & " ORDER BY  Det_Conversation.Det_Orden ASC"
+        menu.Show(pEtapa.Controls.Item("pAux_" & sender.tag), sender.location.X - 120, sender.location.Y - 50)
+
+        AddHandler menu.ItemClicked, AddressOf VerMenu
+
+        'If sender.text = "S" Then
+        'sender.text = "M"
+        sender.backcolor = Color.Yellow
+
+        '  ElseIf sender.text = "M" Then
+
+        ' Else
+
+        '  End If
+
+
+    End Sub
+
+    Private Sub VerMenu(sender As Object, e As ToolStripItemClickedEventArgs)
+        Dim nombre = e.ClickedItem.Name.ToString
+        Dim fecha As Date
+        Dim mifecha As String
+        Dim Id As Integer
+        Dim _comando As SqlCommand = MetodosDatos.CrearComando()
+        Dim IdDetActual As Integer
+        Dim IdDetNuevo As Integer
+        Dim i As Integer
+        Dim mypen As Pen
+        Dim MaxOrden As Integer
+        Dim rowcount As Integer
+        Dim k As Integer
+        Dim p As Integer
+
+
+        If nombre.Contains("Mover") Then
+            Dim posicion = nombre.Replace("Mover", "")
+            k = ListDialogos.Items.Count
+            Dim item1 As New ListViewItem(k) ' Crea un nuevo ítem para la primera columna
+            Dim orden As Integer
+            item1.SubItems.Add(posicion)   ' Agrega el ítem a la lista
+
+            ' ListDialogos.Items.Add(item1) ' Agrega un subítem para la segunda columna en el ítem ya creado
+
+            _comando.Connection.Open()
+
+            sqlstring = " SELECT         Id, OracionId, Orden, DetConversacion, IMG"
+            sqlstring = sqlstring & " FROM            Dialogos "
+            sqlstring = sqlstring & "          "
+            sqlstring = sqlstring & " WHERE  Id='" & posicion & "'"
+            _comando.CommandText = sqlstring
+
+            Dim objDataReader As SqlDataReader
+
+            Try
+
+                objDataReader = _comando.ExecuteReader
+
+                If objDataReader.HasRows Then
+                    objDataReader.Read()
+                    'rowcount += 1
+                    IdDetActual = objDataReader(3)
+                    orden = objDataReader(2)
+
+                    item1.SubItems.Add(IdDetActual)   ' Agrega el ítem a la lista
+                    item1.SubItems.Add(orden)   ' Agrega el ítem a la lista
+
+                End If
+
+                ListDialogos.Items.Add(item1)
+
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
+            _comando.Connection.Close()
+
+
+            Dim pic As PictureBox
+            pic = pEtapa.Controls.Item("pAux_" & IdDetActual).Controls.Item("p_" & posicion)
+            pic.Image = Image.FromFile("C:\Legacy\Ingles\Imagenes_Ingles\X.jpg")
+
+            'pEtapa.Controls.Item("pAux_" & IdDetActual).Controls.Item("txt_" & posicion).Visible = False
+
+            Exit Sub
+
+        ElseIf nombre.Contains("Recibir") Then
+            Dim IdDetRecibe As Integer
+
+            If ListDialogos.Items.Count = 0 Then
+                MsgBox("No hay items para mover")
+                Exit Sub
+            End If
+
+            Dim posicion = nombre.Replace("Recibir", "")
+
+            '_comando.Connection.Open()
+
+            'sqlstring = " SELECT         Id, OracionId, Orden, DetConversacion, IMG"
+            'sqlstring = sqlstring & " FROM            Dialogos "
+            'sqlstring = sqlstring & "          "
+            'sqlstring = sqlstring & " WHERE  Id='" & posicion & "'"
+            '_comando.CommandText = sqlstring
 
             'Dim objDataReader As SqlDataReader
 
             'Try
-            '    _comando.CommandText = sqlstring
 
-            '    _comando.Connection.Open()
-
-            'Catch ex As Exception
-
-            'End Try
-
-            'Try
             '    objDataReader = _comando.ExecuteReader
 
             '    If objDataReader.HasRows Then
-
             '        objDataReader.Read()
+            '        'rowcount += 1
+            '        IdDetRecibe = objDataReader(3)
+            IdDetRecibe = posicion
 
-            '        IdOracionItem = objDataReader(1)
-            '    Else
-            '        IdOracionItem = IdDet
+            'End If
 
-            '    End If
-
-            'Catch ex As Exception
+            '    Catch ex As Exception
             '    MsgBox(ex.Message)
             'End Try
             '_comando.Connection.Close()
 
 
-            'Dim Id As Integer
-            'Dim TipoTicket As String
-            'Dim frm As New FrmDetOracion
+            _comando.Connection.Open()
 
-            'AddOwnedForm(frm)
-
-            'frm.IdOracion = IdOracionItem
-            ''frm.CargarDatos(IdOracionItem)
-            'frm.CargarDatos(IdOracionItem)
-            'frm.ShowDialog()
-
-        End Sub
-        Private Sub Mover(sender, e)
-            Dim _comando As SqlCommand = MetodosDatos.CrearComando()
-            Dim sqlstring As String
-            Dim IdOracion As Integer
-            Dim dt As New DataTable
-            Dim da As New SqlDataAdapter
-            Dim i As Integer
-            Dim indice As Integer
-            Dim nm As String
-            Dim str() As String
-            Dim tp As String
-            Dim param As String = ""
-            Dim q As Integer
-            Dim obj As New Label
-            Dim IdDet As Integer
-
-            Dim IdOracionItem As Integer
-            nm = sender.Name
-
-            str = nm.Split("_")
-
-            tp = str(0)
-
-            IdDet = sender.tag
-
-            Dim frm As New frmMoverDialogo
-
-            AddOwnedForm(frm)
-
-            ' frm.IdEnc = Id
-            frm.IdDet = IdDet
-
-            frm.ShowDialog()
-
-            'CrearControles()
-
-            pEtapa.Controls.Remove(sender.parent)
-
-        End Sub
-        Private Sub MoverNuevoDialogo(sender, e)
-
-            Dim _comando As SqlCommand = MetodosDatos.CrearComando()
-            Dim sqlstring As String
-            Dim IdOracion As Integer
-            Dim dt As New DataTable
-            Dim da As New SqlDataAdapter
-            Dim i As Integer
-            Dim IdPerson As Integer
-            Dim resp As Boolean
-            Dim sql As String
-            Dim IdDetNuevo As Integer
             Dim j As Integer = 1
 
-            IdPerson = 3
 
-            _comando.Connection.Open()
+            For Each d In ListDialogos.Items
 
-            _comando.Parameters.Clear()
+                sqlstring = "UPDATE Dialogos SET DetConversacion = @DetConversacion, Orden = @Orden"
+                sqlstring = sqlstring & " WHERE Id = @Id"
+                _comando.CommandText = sqlstring
 
-            sqlstring = "Insert into Det_Conversation (Det_Orden, Con_Id)"
-            sqlstring = sqlstring & " Values (@Det_Orden, '" & Id & "')"
+                Dim orden As Integer
+                orden = ListDialogos.Items(0).SubItems(3).Text
+                _comando.Parameters.Clear()
+                _comando.Parameters.AddWithValue("@DetConversacion", IdDetRecibe)
+                _comando.Parameters.AddWithValue("@Orden", orden + 1)
+                _comando.Parameters.AddWithValue("@Id", ListDialogos.Items(0).SubItems(1).Text)
 
+                Try
+                    i = _comando.ExecuteNonQuery
+
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                End Try
+
+                Dim txt As RichTextBox
+                txt = pEtapa.Controls.Item("pAux_" & ListDialogos.Items(0).SubItems(2).Text).Controls.Item("txt_" & ListDialogos.Items(0).SubItems(1).Text)
+                pEtapa.Controls.Item("pAux_" & IdDetRecibe).Controls.Add(txt)
+                txt.Location = New Point(500, 0)
+                ' pEtapa.Controls.Item("pAux_" & IdDetActual).Controls.Item("txt_" & posicion).Visible = False
+                Dim trad As Label
+                trad = pEtapa.Controls.Item("pAux_" & ListDialogos.Items(0).SubItems(2).Text).Controls.Item("tra_" & ListDialogos.Items(0).SubItems(1).Text)
+                trad.Location = New Point(500, txt.Bottom + 1)
+
+                j += 1
+
+            Next
+
+
+
+
+
+            'Actualiza el Orden 'Dialogos'
+            sqlstring = " SELECT         Id, OracionId, Orden, DetConversacion, IMG"
+            sqlstring = sqlstring & " FROM            Dialogos "
+            sqlstring = sqlstring & "          "
+            sqlstring = sqlstring & " WHERE  DetConversacion='" & IdDetRecibe & "'"
             _comando.CommandText = sqlstring
 
-            _comando.Parameters.AddWithValue("@Det_Orden", 0)
+            Dim dt As New DataTable
+            Dim da As New SqlDataAdapter
 
-            Try
-                i = _comando.ExecuteNonQuery
-            Catch ex As Exception
+            da.SelectCommand = _comando
 
-            End Try
-
-            Try
-                If i > 0 Then
-                    sql = "SELECT @@IDENTITY FROM Det_conversation"
-
-                    _comando = New SqlCommand(sql, _comando.Connection)
-
-                    Dim value As Object = _comando.ExecuteScalar
-
-                    IdDetNuevo = value.ToString
-                End If
-                _comando.Connection.Close()
-            Catch ex As Exception
-                MsgBox(ex.Message)
-
-            End Try
-            _comando.Connection.Close()
-
-            Dim IdOracionItem As Integer
-
-            Dim nm As String
-            IdOracionItem = sender.tag
-            nm = sender.Name
-            ' Dim str() As String
-
-            ' Str = nm.Split("_")
-            _comando.Connection.Open()
-
-
-            sqlstring = "Update Dialogos SET DetConversacion='" & IdDetNuevo & "'"
-            sqlstring = sqlstring & "  WHERE Id = '" & nm & "'"
-            _comando.CommandText = sqlstring
-
-            Try
-                i = _comando.ExecuteNonQuery
-
-            Catch ex As Exception
-                MsgBox(ex.Message)
-            End Try
-
-
-            Console.WriteLine(sender.name)
-            Console.WriteLine(sender.parent.name)
-
-
-            Dim objp As PictureBox
-
-            objp = pEtapa.Controls(sender.parent.name).Controls("p_" & sender.name)
-            objp.Image = Image.FromFile("C:\Legacy\Ingles\Imagenes_Ingles\X.jpg")
-
-            '''''
-
-            sqlstring = "SELECT * FROM Dialogos"
-            sqlstring = sqlstring & " WHERE DetConversacion = @DetConversacion"
-            _comando.CommandText = sqlstring
-
-            _comando.Parameters.Clear()
-            _comando.Parameters.AddWithValue("@DetConversacion", IdDetNuevo)
-            Try
-                da.SelectCommand = _comando
-                da.Fill(dt)
-
-            Catch ex As Exception
-            End Try
+            da.Fill(dt)
 
             n = dt.Rows.Count
 
-            Dim q As Integer = 0
             For Each r In dt.Rows
 
                 sqlstring = "UPDATE Dialogos SET Orden = @Orden"
@@ -3573,7 +3125,43 @@ Public Class frmConversaciones
                 _comando.CommandText = sqlstring
                 _comando.Parameters.Clear()
 
-                _comando.Parameters.AddWithValue("@Orden", q)
+                _comando.Parameters.AddWithValue("@Orden", k)
+                ' _comando.Parameters.AddWithValue("@Id", r.SubItems(1).Text)
+                _comando.Parameters.AddWithValue("@Id", r.item(0))
+
+                Try
+                    i = _comando.ExecuteNonQuery
+
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                End Try
+                k += 1
+            Next
+
+            ' _comando.Connection.Close()
+
+            '''' Actualizar Orden de Det Id Anterior
+            sqlstring = " SELECT         Id, OracionId, Orden, DetConversacion, IMG"
+            sqlstring = sqlstring & " FROM            Dialogos "
+            sqlstring = sqlstring & "          "
+            sqlstring = sqlstring & " WHERE  DetConversacion='" & ListDialogos.Items(0).SubItems(1).Text & "'"
+            _comando.CommandText = sqlstring
+
+            da.SelectCommand = _comando
+
+            da.Fill(dt)
+
+            n = dt.Rows.Count
+
+
+            For Each r In dt.Rows
+
+                sqlstring = "UPDATE Dialogos SET Orden = @Orden"
+                sqlstring = sqlstring & " WHERE Id = @Id"
+                _comando.CommandText = sqlstring
+                _comando.Parameters.Clear()
+
+                _comando.Parameters.AddWithValue("@Orden", p)
                 _comando.Parameters.AddWithValue("@Id", r.item(0))
 
 
@@ -3583,175 +3171,609 @@ Public Class frmConversaciones
                 Catch ex As Exception
                     MsgBox(ex.Message)
                 End Try
-                j += 1
+                p += 1
+
+
+
             Next
 
             _comando.Connection.Close()
 
+            ''
+            ListDialogos.Items.Clear()
 
-            'Actualiza OracionId 'Det_conversation
-            For Each r In dt.Rows
-                sqlstring = "UPDATE Det_Conversation SET Det_OracionId = @Det_OracionId"
-                sqlstring = sqlstring & " WHERE Det_Con = @Det_Con"
-                _comando.CommandText = sqlstring
-                _comando.Parameters.Clear()
+            'CrearControles()
 
-                _comando.Parameters.AddWithValue("@Det_OracionId", r.SubItems(3).Text)
-                _comando.Parameters.AddWithValue("@Det_Con", IdDetNuevo)
+        ElseIf nombre.Contains("Ordenar") Then
 
-                Try
-                    i = _comando.ExecuteNonQuery
+            Dim posicion = nombre.Replace("Ordenar", "")
 
-                Catch ex As Exception
-                End Try
-            Next
+            Dim frm As New frmOrdenarDialogos
 
+            AddOwnedForm(frm)
+            frm.Id = posicion
 
+            frm.ShowDialog()
 
-        End Sub
-        Private Sub ReproducirAudio(sender, e)
-            Dim i As Integer
-            Dim nm As String
-            Dim str() As String
-            Dim tp As String
-            Dim param As String = ""
-            Dim q As Integer
-            Dim obj As New Label
-            Dim IdDialogo As Integer
-            Dim dt As New DataTable
-            Dim da As New SqlDataAdapter
-            Dim _comando As SqlCommand = MetodosDatos.CrearComando()
-
-            nm = sender.Name
-            Dim IdPanel As Integer
-
-            str = nm.Split("_")
-            tp = str(0)
-            IdDialogo = str(1)
-
-            If Not IsNothing(objtextOver) Then
-                'objtextOver.Font = New Font("Consolas", 11, FontStyle.Regular)
+            If band = True Then
+                CrearControles("")
             End If
 
-            Dim myPen As New Pen(Color.Red, 2)
-            Dim myPenClear As New Pen(Color.Beige, 2)
+            Exit Sub
 
-            Dim g As Graphics
 
-            IdCurrent = IdDialogo
+        End If
 
-            If IdOver > 0 Then
-                'g = pEtapa.Controls("pAux_" & IdPanel).Controls.Item("p_" & IdOver).CreateGraphics
-                ' g.DrawRectangle(myPenClear, 0, 0, 40, 40)
+        'CrearControles()
+
+
+        'Dim CuentaSTL As Integer
+        'Dim Exam As String
+        'Exam = 
+
+        'Try
+        '    Dim Cuenta As Integer
+
+        '    If sender.text = "X" Then
+        '        '  sender.backcolor = Color.LightGreen
+        '        ' sender.text = "SI"
+        '        Aprendidos += 1
+        '        'pEtapa.Controls.Item("pAux_" & IdDet).Controls.Item("tst_" & IdDet).BackColor = Color.LightGreen
+        '        CuentaSTL -= 1
+
+        '    Else
+        '        'sender.backcolor = Color.LightSalmon
+        '        'sender.text = "NO"
+        '        Aprendidos = 1
+        '        'pEtapa.Controls.Item("pAux_" & IdDet).Controls.Item("tst_" & IdDet).BackColor = Color.LightSalmon
+        '        CuentaSTL += 1
+
+        '    End If
+
+        '    Cuenta = pEtapa.Controls.Item("pAux_" & IdDet).Controls.Item("txtc_" & IdDet).Text
+        '    CuentaSTL += Cuenta
+
+        '    If CuentaSTL <= 0 Then
+        '        ' mypen = New Pen(Color.LightSalmon, 1)
+        '        Status = False
+        '        pEtapa.Controls.Item("pAux_" & IdDet).Controls.Item("btnStatus_" & IdDet).BackColor = Color.Yellow
+        '        pEtapa.Controls.Item("pAux_" & IdDet).Controls.Item("txtc_" & IdDet).Visible = False
+
+        '    Else
+        '        Status = True
+        '        ' mypen = New Pen(Color.LightGreen, 1)
+        '        pEtapa.Controls.Item("pAux_" & IdDet).Controls.Item("btnStatus_" & IdDet).BackColor = Color.Transparent
+        '        pEtapa.Controls.Item("pAux_" & IdDet).Controls.Item("txtc_" & IdDet).Visible = True
+
+        '    End If
+
+
+
+        'Catch ex As Exception
+
+        'End Try
+
+        'Dim pb As PictureBox
+        'Dim bmp As Bitmap
+        'Dim g As Graphics
+
+        'pEtapa.Controls.Item("pAux_" & IdDet).Controls.Item("pb_" & IdDet).CreateGraphics.DrawRectangle(mypen, 0, 0, 1195, 85)
+        'pEtapa.Controls.Item("pAux_" & IdDet).Controls.Item("txtc_" & IdDet).Text = CuentaSTL
+
+        'Try
+        '    ' IO.File.Open("10.18.172.30\Materials\Readwrite\Checklist\auditoria\" & mifecha & "F-" & id & ".pdf", mode:=IO.FileMode.Append)
+        '    'Process.Start("Q:\Materials\Readwrite\Checklist\auditoria-F-" & id & ".pdf") ' Approach 1
+        'Catch ex As Exception
+        '    MsgBox(ex.Message)
+        'End Try
+
+
+
+        '' Id = dgvDevices.Rows(posicion).Cells(0).Value.ToString
+
+        'Dim version As Integer
+        'Dim Proyecto As String
+
+        'Try
+        '    ' Id = dgvDevices.Rows(posicion).Cells(0).Value.ToString
+        '    ' Proyecto = dgvDevices.Rows(posicion).Cells(1).Value.ToString
+        '    ' version = dgvDevices.Rows(posicion).Cells(0).Value.ToString
+        '    version = 1
+
+        'Catch ex As Exception
+        '    MsgBox(ex.Message)
+        '    'Exit Sub
+        'End Try
+
+        'Dim param As String = " WHERE Tbl_files.fil_Id='" & Id & "'"
+
+
+    End Sub
+
+    Private Sub EliminarPanel(sender, e)
+        Dim _comando As SqlCommand = MetodosDatos.CrearComando()
+        Dim sqlstring As String
+        Dim dt As New DataTable
+        Dim da As New SqlDataAdapter
+        Dim i As Integer
+        Dim indice As Integer
+        Dim nm As String
+        Dim str() As String
+        Dim tp As String
+        Dim param As String = ""
+        Dim q As Integer
+        Dim btnStatus As Button
+        Dim IdDet As Integer
+        Dim IdOracionItem As Integer
+
+        nm = sender.Name
+        str = nm.Split("_")
+        tp = str(0)
+
+        Dim resp As Integer
+
+        resp = MsgBox("¿ Eliminar este panel ?", MsgBoxStyle.YesNo + MsgBoxStyle.Exclamation)
+
+        If resp = 6 Then
+        Else
+            Exit Sub
+        End If
+
+        IdDet = sender.Name
+
+        sqlstring = "Delete From Det_Conversation "
+        sqlstring = sqlstring & "  WHERE Det_Con = '" & IdDet & "'"
+
+        _comando.CommandText = sqlstring
+        _comando.Connection.Open()
+
+        Try
+            i = _comando.ExecuteNonQuery
+
+        Catch ex As Exception
+        End Try
+
+        sqlstring = "Delete From Dialogos "
+        sqlstring = sqlstring & "  WHERE DetConversacion = '" & IdDet & "'"
+
+        _comando.CommandText = sqlstring
+
+        Try
+            i = _comando.ExecuteNonQuery
+
+        Catch ex As Exception
+        End Try
+
+        _comando.Connection.Close()
+
+        If i > 0 Then
+            'MsgBox("se guardo")
+        Else
+            'MsgBox("No se guardo")
+        End If
+
+        'CrearControles()
+
+
+        pEtapa.Controls.Remove(pEtapa.Controls.Item("pAux_" & IdDet))
+
+
+
+    End Sub
+
+    Private Sub Agregar(sender, e)
+        Dim _comando As SqlCommand = MetodosDatos.CrearComando()
+        Dim sqlstring As String
+        Dim IdOracion As Integer
+        Dim dt As New DataTable
+        Dim da As New SqlDataAdapter
+        Dim i As Integer
+        Dim indice As Integer
+        Dim nm As String
+        Dim str() As String
+        Dim tp As String
+        Dim param As String = ""
+        Dim q As Integer
+        Dim obj As New Label
+        Dim IdDet As Integer
+        ' Dim resp As Nullable(Of Integer)
+        ' obj = sender
+        Dim IdOracionItem As Integer
+        nm = sender.Name
+
+        str = nm.Split("_")
+
+        tp = str(0)
+
+        IdDet = sender.tag
+
+        Dim frm As New frmTransferir
+
+        AddOwnedForm(frm)
+
+        frm.Id = Id
+        frm.IdDet = IdDet
+        'frm.IdConversation = Id
+        frm.ShowDialog()
+
+
+
+        'sqlstring = " SELECT         Dialogos.Id, Dialogos.OracionId"
+        'sqlstring = sqlstring & " FROM            Dialogos INNER JOIN"
+        'sqlstring = sqlstring & "              Oraciones ON Dialogos.OracionId = Oraciones.Id"
+        'sqlstring = sqlstring & " WHERE  Dialogos.Id='" & str(1) & "'"
+        ''sqlstring = sqlstring & " ORDER BY  Det_Conversation.Det_Orden ASC"
+
+        'Dim objDataReader As SqlDataReader
+
+        'Try
+        '    _comando.CommandText = sqlstring
+
+        '    _comando.Connection.Open()
+
+        'Catch ex As Exception
+
+        'End Try
+
+        'Try
+        '    objDataReader = _comando.ExecuteReader
+
+        '    If objDataReader.HasRows Then
+
+        '        objDataReader.Read()
+
+        '        IdOracionItem = objDataReader(1)
+        '    Else
+        '        IdOracionItem = IdDet
+
+        '    End If
+
+        'Catch ex As Exception
+        '    MsgBox(ex.Message)
+        'End Try
+        '_comando.Connection.Close()
+
+
+        'Dim Id As Integer
+        'Dim TipoTicket As String
+        'Dim frm As New FrmDetOracion
+
+        'AddOwnedForm(frm)
+
+        'frm.IdOracion = IdOracionItem
+        ''frm.CargarDatos(IdOracionItem)
+        'frm.CargarDatos(IdOracionItem)
+        'frm.ShowDialog()
+
+    End Sub
+
+    Private Sub Mover(sender, e)
+        Dim _comando As SqlCommand = MetodosDatos.CrearComando()
+        Dim sqlstring As String
+        Dim IdOracion As Integer
+        Dim dt As New DataTable
+        Dim da As New SqlDataAdapter
+        Dim i As Integer
+        Dim indice As Integer
+        Dim nm As String
+        Dim str() As String
+        Dim tp As String
+        Dim param As String = ""
+        Dim q As Integer
+        Dim obj As New Label
+        Dim IdDet As Integer
+
+        Dim IdOracionItem As Integer
+        nm = sender.Name
+
+        str = nm.Split("_")
+
+        tp = str(0)
+
+        IdDet = sender.tag
+
+        Dim frm As New frmMoverDialogo
+
+        AddOwnedForm(frm)
+
+        ' frm.IdEnc = Id
+        frm.IdDet = IdDet
+
+        frm.ShowDialog()
+
+        'CrearControles()
+
+        pEtapa.Controls.Remove(sender.parent)
+
+    End Sub
+
+    Private Sub MoverNuevoDialogo(sender, e)
+
+        Dim _comando As SqlCommand = MetodosDatos.CrearComando()
+        Dim sqlstring As String
+        Dim IdOracion As Integer
+        Dim dt As New DataTable
+        Dim da As New SqlDataAdapter
+        Dim i As Integer
+        Dim IdPerson As Integer
+        Dim resp As Boolean
+        Dim sql As String
+        Dim IdDetNuevo As Integer
+        Dim j As Integer = 1
+
+        IdPerson = 3
+
+        _comando.Connection.Open()
+
+        _comando.Parameters.Clear()
+
+        sqlstring = "Insert into Det_Conversation (Det_Orden, Con_Id)"
+        sqlstring = sqlstring & " Values (@Det_Orden, '" & Id & "')"
+
+        _comando.CommandText = sqlstring
+
+        _comando.Parameters.AddWithValue("@Det_Orden", 0)
+
+        Try
+            i = _comando.ExecuteNonQuery
+        Catch ex As Exception
+
+        End Try
+
+        Try
+            If i > 0 Then
+                sql = "SELECT @@IDENTITY FROM Det_conversation"
+
+                _comando = New SqlCommand(sql, _comando.Connection)
+
+                Dim value As Object = _comando.ExecuteScalar
+
+                IdDetNuevo = value.ToString
             End If
+            _comando.Connection.Close()
+        Catch ex As Exception
+            MsgBox(ex.Message)
 
-            'g = pEtapa.Controls("pAux_" & nm).Controls.Item("p_" & nm).CreateGraphics
-            'g.DrawRectangle(myPen, 0, 0, 40, 40)
+        End Try
+        _comando.Connection.Close()
+
+        Dim IdOracionItem As Integer
+
+        Dim nm As String
+        IdOracionItem = sender.tag
+        nm = sender.Name
+        ' Dim str() As String
+
+        ' Str = nm.Split("_")
+        _comando.Connection.Open()
+
+
+        sqlstring = "Update Dialogos SET DetConversacion='" & IdDetNuevo & "'"
+        sqlstring = sqlstring & "  WHERE Id = '" & nm & "'"
+        _comando.CommandText = sqlstring
+
+        Try
+            i = _comando.ExecuteNonQuery
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+
+
+        Console.WriteLine(sender.name)
+        Console.WriteLine(sender.parent.name)
+
+
+        Dim objp As PictureBox
+
+        objp = pEtapa.Controls(sender.parent.name).Controls("p_" & sender.name)
+        objp.Image = Image.FromFile("C:\Legacy\Ingles\Imagenes_Ingles\X.jpg")
+
+        '''''
+
+        sqlstring = "SELECT * FROM Dialogos"
+        sqlstring = sqlstring & " WHERE DetConversacion = @DetConversacion"
+        _comando.CommandText = sqlstring
+
+        _comando.Parameters.Clear()
+        _comando.Parameters.AddWithValue("@DetConversacion", IdDetNuevo)
+        Try
+            da.SelectCommand = _comando
+            da.Fill(dt)
+
+        Catch ex As Exception
+        End Try
+
+        n = dt.Rows.Count
+
+        Dim q As Integer = 0
+        For Each r In dt.Rows
+
+            sqlstring = "UPDATE Dialogos SET Orden = @Orden"
+            sqlstring = sqlstring & " WHERE Id = @Id"
+            _comando.CommandText = sqlstring
+            _comando.Parameters.Clear()
+
+            _comando.Parameters.AddWithValue("@Orden", q)
+            _comando.Parameters.AddWithValue("@Id", r.item(0))
+
 
             Try
-                ' objtextCurrent = pEtapa.Controls.Item(sender.parent.name).Controls.Item("txt_" & IdDialogo)
-                ' objtextCurr = pEtapa.Controls.Item("pAux0").Controls.Item("txt0")
-                ' objtextCurrent.Font = New Font("Consolas", 11, FontStyle.Bold)
+                i = _comando.ExecuteNonQuery
 
-                ' objtextOver = objtextCurrent
-                ' IdOver = IdPanel
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
+            j += 1
+        Next
+
+        _comando.Connection.Close()
+
+
+        'Actualiza OracionId 'Det_conversation
+        For Each r In dt.Rows
+            sqlstring = "UPDATE Det_Conversation SET Det_OracionId = @Det_OracionId"
+            sqlstring = sqlstring & " WHERE Det_Con = @Det_Con"
+            _comando.CommandText = sqlstring
+            _comando.Parameters.Clear()
+
+            _comando.Parameters.AddWithValue("@Det_OracionId", r.SubItems(3).Text)
+            _comando.Parameters.AddWithValue("@Det_Con", IdDetNuevo)
+
+            Try
+                i = _comando.ExecuteNonQuery
+
+            Catch ex As Exception
+            End Try
+        Next
+
+
+
+    End Sub
+
+    Private Sub ReproducirAudio(sender, e)
+        Dim i As Integer
+        Dim nm As String
+        Dim str() As String
+        Dim tp As String
+        Dim param As String = ""
+        Dim q As Integer
+        Dim obj As New Label
+        Dim IdDialogo As Integer
+        Dim dt As New DataTable
+        Dim da As New SqlDataAdapter
+        Dim _comando As SqlCommand = MetodosDatos.CrearComando()
+
+        nm = sender.Name
+        Dim IdPanel As Integer
+
+        str = nm.Split("_")
+        tp = str(0)
+        IdDialogo = str(1)
+
+        If Not IsNothing(objtextOver) Then
+            'objtextOver.Font = New Font("Consolas", 11, FontStyle.Regular)
+        End If
+
+        Dim myPen As New Pen(Color.Red, 2)
+        Dim myPenClear As New Pen(Color.Beige, 2)
+
+        Dim g As Graphics
+
+        IdCurrent = IdDialogo
+
+        If IdOver > 0 Then
+            'g = pEtapa.Controls("pAux_" & IdPanel).Controls.Item("p_" & IdOver).CreateGraphics
+            ' g.DrawRectangle(myPenClear, 0, 0, 40, 40)
+        End If
+
+        'g = pEtapa.Controls("pAux_" & nm).Controls.Item("p_" & nm).CreateGraphics
+        'g.DrawRectangle(myPen, 0, 0, 40, 40)
+
+        Try
+            ' objtextCurrent = pEtapa.Controls.Item(sender.parent.name).Controls.Item("txt_" & IdDialogo)
+            ' objtextCurr = pEtapa.Controls.Item("pAux0").Controls.Item("txt0")
+            ' objtextCurrent.Font = New Font("Consolas", 11, FontStyle.Bold)
+
+            ' objtextOver = objtextCurrent
+            ' IdOver = IdPanel
 
             sqlstring = " SELECT          Dialogos.Id, Dialogos.OracionId, Dialogos.Orden, Dialogos.DetConversacion, Dialogos.IMG, Oraciones.audio, oraciones.avatar"
-                sqlstring = sqlstring & " FROM            Dialogos INNER JOIN"
-                sqlstring = sqlstring & "                    Oraciones ON Dialogos.OracionId = Oraciones.Id"
-                sqlstring = sqlstring & " WHERE  Dialogos.Id='" & IdDialogo & "'"
+            sqlstring = sqlstring & " FROM            Dialogos INNER JOIN"
+            sqlstring = sqlstring & "                    Oraciones ON Dialogos.OracionId = Oraciones.Id"
+            sqlstring = sqlstring & " WHERE  Dialogos.Id='" & IdDialogo & "'"
 
-                Dim objDataReader As SqlDataReader
+            Dim objDataReader As SqlDataReader
 
-                Try
-                    _comando.CommandText = sqlstring
+            Try
+                _comando.CommandText = sqlstring
 
-                    _comando.Connection.Open()
+                _comando.Connection.Open()
 
-                Catch ex As Exception
+            Catch ex As Exception
 
-                End Try
-                Dim IdOracionItem As Integer
-                Dim audio As String
-                Try
-                    objDataReader = _comando.ExecuteReader
+            End Try
+            Dim IdOracionItem As Integer
+            Dim audio As String
+            Try
+                objDataReader = _comando.ExecuteReader
 
-                    If objDataReader.HasRows Then
+                If objDataReader.HasRows Then
 
-                        objDataReader.Read()
+                    objDataReader.Read()
 
-                        IdOracionItem = objDataReader(1)
-                        ' audio = objDataReader(5)
-
-                    Else
-                        'IdOracionItem = IdDet
-
-                    End If
-
-                Catch ex As Exception
-                    MsgBox(ex.Message)
-                End Try
-                _comando.Connection.Close()
-
-                Dim Cuen
-
-                Dim n As UInteger = 0
-                Dim archivo As String
-
-                archivo = "C:\legacy\Ingles\Audios\" & IdOracionItem & ".mp3"
-
-
-                If File.Exists(archivo) Then
-                    ' El archivo existe
+                    IdOracionItem = objDataReader(1)
+                    ' audio = objDataReader(5)
 
                 Else
-                    ' El archivo no existe
+                    'IdOracionItem = IdDet
 
-                    Dim Id As Integer
-                    Dim TipoTicket As String
-                    Dim frm As New FrmDetOracion
-
-                    AddOwnedForm(frm)
-
-                    frm.IdOracion = IdOracionItem
-                    'frm.CargarDatos(IdOracionItem)
-                    frm.CargarDatos(IdOracionItem)
-                    frm.ShowDialog()
-                    Exit Sub
                 End If
 
-                Try
-                    '  pVoice.Speak(objtextCurrent.Text, 0, n)
-                    'speech.Speak(objtextCurrent.Text, SpeechVoiceSpeakFlags.SVSFlagsAsync)
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
+            _comando.Connection.Close()
 
-                Catch ex As Exception
+            Dim Cuen
 
-                End Try
+            Dim n As UInteger = 0
+            Dim archivo As String
 
-                Me.BringToFront()
+            archivo = "C:\legacy\Ingles\Audios\" & IdOracionItem & ".mp3"
 
-                Dim mensaje As String
 
-                '  mensaje = "In a small village nestled between mountains lived an altruistic woman named Clara, known for her generosity and empathy toward others. One day, while strolling through the market, she encountered an eloquent man speaking with such passion that he drew a crowd. He was witty, and his words were so persuasive that even the most skeptical stopped to listen."
+            If File.Exists(archivo) Then
+                ' El archivo existe
 
-                ' Dim SongLocation = Path.Combine(Application.StartupPath, IdOracionItem & ".mp3")
+            Else
+                ' El archivo no existe
+
+                Dim Id As Integer
+                Dim TipoTicket As String
+                Dim frm As New FrmDetOracion
+
+                AddOwnedForm(frm)
+
+                frm.IdOracion = IdOracionItem
+                'frm.CargarDatos(IdOracionItem)
+                frm.CargarDatos(IdOracionItem)
+                frm.ShowDialog()
+                Exit Sub
+            End If
+
+            Try
+                '  pVoice.Speak(objtextCurrent.Text, 0, n)
+                'speech.Speak(objtextCurrent.Text, SpeechVoiceSpeakFlags.SVSFlagsAsync)
+
+            Catch ex As Exception
+
+            End Try
+
+            Me.BringToFront()
+
+            Dim mensaje As String
+
+            '  mensaje = "In a small village nestled between mountains lived an altruistic woman named Clara, known for her generosity and empathy toward others. One day, while strolling through the market, she encountered an eloquent man speaking with such passion that he drew a crowd. He was witty, and his words were so persuasive that even the most skeptical stopped to listen."
+
+            ' Dim SongLocation = Path.Combine(Application.StartupPath, IdOracionItem & ".mp3")
 
 
             ' rate = TrackBarVelocidad.Value / 10
-                ' Player.URL = SongLocation
+            ' Player.URL = SongLocation
             'Player.settings.rate = rate
             'Player.URL = archivo
             '' Player.URL = ruta & "AndiesJob.mp3"
             'Player.controls.play()
 
-            Catch ex As Exception
-                MsgBox(ex.Message)
-            End Try
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
 
 
 
 
-        End Sub
+    End Sub
 
 
 #End Region
@@ -5487,10 +5509,8 @@ Public Class frmConversaciones
 
         If cboTipo.Text = "" Then
             param = " Where Inicio='S'"
-            param = param & " ORDER By OrdenInicio desc"
         Else
             param = " Where Con_tipo='" & cboTipo.Text & "'"
-            param = param & " ORDER By OrdenInicio desc"
 
         End If
        

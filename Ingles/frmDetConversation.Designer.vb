@@ -45,6 +45,8 @@ Partial Class frmDetConversation
         Me.txtObserv = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.txtOrdenInicio = New System.Windows.Forms.TextBox()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.txtIdioma = New System.Windows.Forms.TextBox()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -84,7 +86,7 @@ Partial Class frmDetConversation
         '
         Me.txtDescripcion.BackColor = System.Drawing.Color.White
         Me.txtDescripcion.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDescripcion.Location = New System.Drawing.Point(120, 110)
+        Me.txtDescripcion.Location = New System.Drawing.Point(120, 116)
         Me.txtDescripcion.Name = "txtDescripcion"
         Me.txtDescripcion.Size = New System.Drawing.Size(530, 22)
         Me.txtDescripcion.TabIndex = 299
@@ -93,7 +95,7 @@ Partial Class frmDetConversation
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(22, 112)
+        Me.Label1.Location = New System.Drawing.Point(18, 118)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(41, 16)
         Me.Label1.TabIndex = 300
@@ -114,7 +116,7 @@ Partial Class frmDetConversation
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(545, 57)
+        Me.Label3.Location = New System.Drawing.Point(545, 38)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(45, 16)
         Me.Label3.TabIndex = 363
@@ -125,7 +127,7 @@ Partial Class frmDetConversation
         '
         Me.txtOrden.BackColor = System.Drawing.Color.White
         Me.txtOrden.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtOrden.Location = New System.Drawing.Point(596, 54)
+        Me.txtOrden.Location = New System.Drawing.Point(596, 35)
         Me.txtOrden.Name = "txtOrden"
         Me.txtOrden.Size = New System.Drawing.Size(75, 22)
         Me.txtOrden.TabIndex = 362
@@ -135,7 +137,7 @@ Partial Class frmDetConversation
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(536, 29)
+        Me.Label5.Location = New System.Drawing.Point(536, 10)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(54, 16)
         Me.Label5.TabIndex = 365
@@ -146,7 +148,7 @@ Partial Class frmDetConversation
         '
         Me.txtavance.BackColor = System.Drawing.Color.White
         Me.txtavance.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtavance.Location = New System.Drawing.Point(596, 26)
+        Me.txtavance.Location = New System.Drawing.Point(596, 7)
         Me.txtavance.Name = "txtavance"
         Me.txtavance.Size = New System.Drawing.Size(75, 22)
         Me.txtavance.TabIndex = 364
@@ -156,7 +158,7 @@ Partial Class frmDetConversation
         '
         Me.cboTipo.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cboTipo.FormattingEnabled = True
-        Me.cboTipo.Location = New System.Drawing.Point(120, 169)
+        Me.cboTipo.Location = New System.Drawing.Point(120, 175)
         Me.cboTipo.Name = "cboTipo"
         Me.cboTipo.Size = New System.Drawing.Size(231, 24)
         Me.cboTipo.TabIndex = 360
@@ -165,7 +167,7 @@ Partial Class frmDetConversation
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(17, 173)
+        Me.Label4.Location = New System.Drawing.Point(17, 179)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(36, 16)
         Me.Label4.TabIndex = 359
@@ -244,7 +246,7 @@ Partial Class frmDetConversation
         '
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(22, 138)
+        Me.Label6.Location = New System.Drawing.Point(18, 144)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(80, 16)
         Me.Label6.TabIndex = 373
@@ -255,7 +257,7 @@ Partial Class frmDetConversation
         '
         Me.txtObserv.BackColor = System.Drawing.Color.White
         Me.txtObserv.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtObserv.Location = New System.Drawing.Point(120, 141)
+        Me.txtObserv.Location = New System.Drawing.Point(120, 147)
         Me.txtObserv.Name = "txtObserv"
         Me.txtObserv.Size = New System.Drawing.Size(530, 22)
         Me.txtObserv.TabIndex = 374
@@ -264,7 +266,7 @@ Partial Class frmDetConversation
         '
         Me.Label7.AutoSize = True
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label7.Location = New System.Drawing.Point(512, 85)
+        Me.Label7.Location = New System.Drawing.Point(512, 66)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(79, 16)
         Me.Label7.TabIndex = 376
@@ -275,17 +277,40 @@ Partial Class frmDetConversation
         '
         Me.txtOrdenInicio.BackColor = System.Drawing.Color.White
         Me.txtOrdenInicio.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtOrdenInicio.Location = New System.Drawing.Point(596, 82)
+        Me.txtOrdenInicio.Location = New System.Drawing.Point(596, 63)
         Me.txtOrdenInicio.Name = "txtOrdenInicio"
         Me.txtOrdenInicio.Size = New System.Drawing.Size(75, 22)
         Me.txtOrdenInicio.TabIndex = 375
         Me.txtOrdenInicio.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label8.Location = New System.Drawing.Point(512, 94)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(49, 16)
+        Me.Label8.TabIndex = 378
+        Me.Label8.Text = "Idioma"
+        Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'txtIdioma
+        '
+        Me.txtIdioma.BackColor = System.Drawing.Color.White
+        Me.txtIdioma.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtIdioma.Location = New System.Drawing.Point(596, 91)
+        Me.txtIdioma.Name = "txtIdioma"
+        Me.txtIdioma.Size = New System.Drawing.Size(75, 22)
+        Me.txtIdioma.TabIndex = 377
+        Me.txtIdioma.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'frmDetConversation
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(751, 346)
+        Me.Controls.Add(Me.Label8)
+        Me.Controls.Add(Me.txtIdioma)
         Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.txtOrdenInicio)
         Me.Controls.Add(Me.txtObserv)
@@ -340,4 +365,6 @@ Partial Class frmDetConversation
     Friend WithEvents txtObserv As System.Windows.Forms.TextBox
     Public WithEvents Label7 As System.Windows.Forms.Label
     Friend WithEvents txtOrdenInicio As System.Windows.Forms.TextBox
+    Public WithEvents Label8 As System.Windows.Forms.Label
+    Friend WithEvents txtIdioma As System.Windows.Forms.TextBox
 End Class

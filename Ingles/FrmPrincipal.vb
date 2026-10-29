@@ -48,8 +48,11 @@ Public Class FrmPrincipal
         '' lstOraciones.Dock = DockStyle.Fill
         'lstVoices.ShowItemToolTips = True
 
-        ' ModVar.Idioma = "EN"
-        ModVar.Idioma = "FR"
+        '==================================
+        ' Idioma
+        '==================================
+        ModVar.Idioma = "EN"
+        ' ModVar.Idioma = "FR"
 
         Dim bmp As Bitmap
         Dim g As Graphics
@@ -92,8 +95,6 @@ Public Class FrmPrincipal
         ' pEtapa.Controls.Item("pAux_" & nm).Controls.Add(p)
     End Sub
 
-#End Region
-
     Private Sub CrearGrafica()
 
         Chart3.Series.Clear()
@@ -105,7 +106,6 @@ Public Class FrmPrincipal
         GraficarOraciones()
 
     End Sub
-
     Private Sub GraficarTotales()
         Dim i As Integer
         Dim j As Integer
@@ -128,16 +128,16 @@ Public Class FrmPrincipal
 
         Dim huerfanos As Integer
         Dim totalAprendidos As Integer
-     
+
 
         Dim objDataReader As SqlDataReader
-         
+
 
         sqlstring = " SELECT "
         sqlstring = sqlstring & " SUM(CASE WHEN FrecuenciaUso > 0 THEN 1 ELSE 0 END) AS MayoresACero,"
         sqlstring = sqlstring & " SUM(CASE WHEN FrecuenciaUso = 0 THEN 1 ELSE 0 END) AS Huerfanos"
         sqlstring = sqlstring & " FROM Oraciones_FR"
-         
+
         _comando.CommandText = sqlstring
         _comando.Connection.Open()
 
@@ -251,8 +251,15 @@ Public Class FrmPrincipal
         sqlstring = sqlstring & " SUM(CASE WHEN o.favorito = 'S' THEN 1 ELSE 0 END) AS Favoritos,"
         sqlstring = sqlstring & " SUM(CASE WHEN o.favorito = 'R' THEN 1 ELSE 0 END) AS Verdes,"
         sqlstring = sqlstring & " SUM(CASE WHEN o.reproduccion > 1 THEN 1 ELSE 0 END) AS Reproducidos"
-        sqlstring = sqlstring & " FROM Tbl_Dialogos g"
-        sqlstring = sqlstring & " INNER JOIN Oraciones_Fr o     ON g.IdOracion = o.Id"
+
+        If ModVar.Idioma = "EN" Then
+            sqlstring = sqlstring & " FROM Tbl_Dialogos g"
+            sqlstring = sqlstring & " INNER JOIN Oraciones o     ON g.IdOracion = o.Id"
+        Else
+            sqlstring = sqlstring & " FROM Tbl_Dialogos_FR g"
+            sqlstring = sqlstring & " INNER JOIN Oraciones_Fr o     ON g.IdOracion = o.Id"
+        End If
+
         sqlstring = sqlstring & " INNER JOIN Det_Conversation d    ON g.IdConversacion = d.Det_Con"
         sqlstring = sqlstring & " INNER JOIN Enc_Conversation AS e ON d.Con_Id = e.Con_Id "
         sqlstring = sqlstring & " WHERE d.Status = 'R'"
@@ -265,61 +272,61 @@ Public Class FrmPrincipal
         objDataReader = _comando.ExecuteReader
         Try
 
-      
-
-        Do While objDataReader.Read()
-            totalAprendidos = objDataReader(0)
-            faltantes = objDataReader(1)
-            favoritos = objDataReader(2)
-            verdes = objDataReader(3)
-            reproducidos = objDataReader(4)
-        Loop
-
-        _comando.Connection.Close()
 
 
-        Dim IntervalY As Integer
-        IntervalY = 10
+            Do While objDataReader.Read()
+                totalAprendidos = objDataReader(0)
+                faltantes = objDataReader(1)
+                favoritos = objDataReader(2)
+                verdes = objDataReader(3)
+                reproducidos = objDataReader(4)
+            Loop
 
-        Chart1.Series.Clear()
-        Chart1.Titles.Clear()
+            _comando.Connection.Close()
+
+
+            Dim IntervalY As Integer
+            IntervalY = 10
+
+            Chart1.Series.Clear()
+            Chart1.Titles.Clear()
 
             ' Create a new series for the pie chart
-        Dim series1 As New Series("Dialogos")
-        series1.ChartType = SeriesChartType.Column
+            Dim series1 As New Series("Dialogos")
+            series1.ChartType = SeriesChartType.Column
 
             ' Add data points to the series
-        series1.Points.AddXY("Aprendidos", totalAprendidos) ' Label, Value
-        series1.Points(0).Color = Color.Green
+            series1.Points.AddXY("Aprendidos", totalAprendidos) ' Label, Value
+            series1.Points(0).Color = Color.Green
 
-        series1.Points.AddXY("Falta", faltantes)
-        series1.Points(1).Color = Color.Red
+            series1.Points.AddXY("Falta", faltantes)
+            series1.Points(1).Color = Color.Red
 
-        series1.Points.AddXY("Favoritos", favoritos)
-        series1.Points(2).Color = Color.DarkGoldenrod
+            series1.Points.AddXY("Favoritos", favoritos)
+            series1.Points(2).Color = Color.DarkGoldenrod
 
 
-        series1.Points.AddXY("Reproducidos", reproducidos)
-        series1.Points(3).Color = Color.Blue
+            series1.Points.AddXY("Reproducidos", reproducidos)
+            series1.Points(3).Color = Color.Blue
 
-        series1.Points.AddXY("Verdes", verdes)
-        series1.Points(4).Color = Color.Green
+            series1.Points.AddXY("Verdes", verdes)
+            series1.Points(4).Color = Color.Green
 
             ' Add the series to the chart
-        Chart1.Series.Add(series1)
+            Chart1.Series.Add(series1)
             ' If you want to show Chart Legends
-        Chart1.Legends(0).Enabled = True
-        Chart1.Legends(0).Docking = DataVisualization.Charting.Docking.Top
+            Chart1.Legends(0).Enabled = True
+            Chart1.Legends(0).Docking = DataVisualization.Charting.Docking.Top
 
             ' Optional: Customize the pie chart appearance
             ' series1("PieLabelStyle") = "Outside" ' Show labels outside the pie
             ' series1("PieLabelStyle") = "Inside" ' Show labels outside the pie
-        series1.IsValueShownAsLabel = True
+            series1.IsValueShownAsLabel = True
             '  series1.Label = "#PERCENT{P0}"
             ' series1.Label = "#VALX: #VALY"
             ' Or for percentage:
-        ' series1.Label = "#VALX:  #VALY  (#PERCENT)"
-        series1.Label = "#VALY  (#PERCENT)"
+            ' series1.Label = "#VALX:  #VALY  (#PERCENT)"
+            series1.Label = "#VALY  (#PERCENT)"
 
             Chart1.Titles.Add("Title") ' Add a title
 
@@ -426,6 +433,11 @@ Public Class FrmPrincipal
 
 
     End Sub
+#End Region
+
+
+
+
     Private Sub CmdTemas_Click(sender As System.Object, e As System.EventArgs) Handles CmdTemas.Click
         FrmTemas.Show()
         'FrmTemas.lblDescripcion.Text = txtDescripcion.Text

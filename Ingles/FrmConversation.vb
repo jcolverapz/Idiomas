@@ -807,7 +807,9 @@ Public Class FrmConversation
                 AddHandler btnExam.Click, AddressOf SaveExam
                 pEtapa.Controls.Item("pAux_" & nm).Controls.Add(btnExam)
 
+                '=======================================
                 'Personaje
+                '=======================================
                 p = New PictureBox
                 p.Name = "p_" & dt.Rows(i).Item(0)
                 p.Width = 80
@@ -837,7 +839,9 @@ Public Class FrmConversation
                 End Try
 
                
-                'Flecha
+                '=======================================
+                ' Flecha
+                '=======================================
                 pbf = New PictureBox
                 pbf.Name = "pbf_" & dt.Rows(i).Item(0)
                 pbf.Width = 80
@@ -855,8 +859,7 @@ Public Class FrmConversation
                     startPoint = New Point(10, 55)
                     endPoint = New Point(30, 55) ' La línea es horizontal si la coordenada Y es la misma
 
-                    Dim tipPoints As Point() = {
-               endPoint, New Point(endPoint.X - 10, endPoint.Y - 5), New Point(endPoint.X - 10, endPoint.Y + 5)}
+                    Dim tipPoints As Point() = {endPoint, New Point(endPoint.X - 10, endPoint.Y - 5), New Point(endPoint.X - 10, endPoint.Y + 5)}
 
                     g.DrawLine(Pens.Blue, startPoint, endPoint)
                     g.FillPolygon(Brushes.Blue, tipPoints)
@@ -865,8 +868,7 @@ Public Class FrmConversation
                     startPoint = New Point(30, 55)
                     endPoint = New Point(10, 55) ' La línea es horizontal si la coordenada Y es la misma
 
-                    Dim tipPoints As Point() = {
-               endPoint, New Point(endPoint.X + 10, endPoint.Y - 5), New Point(endPoint.X + 10, endPoint.Y + 5)}
+                    Dim tipPoints As Point() = {endPoint, New Point(endPoint.X + 10, endPoint.Y - 5), New Point(endPoint.X + 10, endPoint.Y + 5)}
 
                     g.DrawLine(Pens.Orange, startPoint, endPoint)
                     g.FillPolygon(Brushes.Orange, tipPoints)
@@ -879,7 +881,9 @@ Public Class FrmConversation
                 MsgBox(ex.Message)
             End Try
 
-            'Recuadro de color
+            '=======================================
+            ' Recuadro de color
+            '=======================================
             pb = New PictureBox
             pb.Name = "pb_" & dt.Rows(i).Item(0)
             pb.Width = 1200

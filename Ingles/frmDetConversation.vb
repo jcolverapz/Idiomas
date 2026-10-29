@@ -61,6 +61,7 @@ Public Class frmDetConversation
     Public bandAsignado As Boolean
     Public TipoTicket As String = ""
     Dim Observaciones As String = ""
+    Dim Idioma As String = ""
     Dim OrdenInicio As Integer
     'Traduccion
     Public TextoPlano As String = ""
@@ -86,6 +87,155 @@ Public Class frmDetConversation
     Dim param As String = ""
     Dim q As Integer
 
+#Region " Inicio "
+    Private Sub frmDetConversation_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
+
+        cboTipo.Items.Add("ALL")
+        cboTipo.Items.Add("Saludo")
+        cboTipo.Items.Add("Presentacion")
+        cboTipo.Items.Add("Iniciando")
+        cboTipo.Items.Add("Frases")
+        cboTipo.Items.Add("Conversacion")
+        cboTipo.Items.Add("Conversacion basica")
+        cboTipo.Items.Add("Leccion")
+        cboTipo.Items.Add("Leccion Nivel 1")
+        cboTipo.Items.Add("Leccion Nivel 2")
+        cboTipo.Items.Add("Serie")
+        cboTipo.Items.Add("Audios")
+
+    End Sub
+
+    Public Sub CargarConversation(Id)
+        Dim param As String = " WHERE Oraciones.Id=" & Id
+        Dim resp As Integer
+
+        Dim i, n As Integer
+        Dim IdOracion As Integer
+        Dim _comando As SqlCommand = MetodosDatos.CrearComando()
+        Dim sql As String
+
+        Dim dt As New DataTable
+        Dim da As New SqlDataAdapter
+
+        sqlstring = " SELECT         d.Det_Con, d.Det_OracionId, d.Det_Orden, d.Con_Id, d.Det_Person, d.Det_Par, o.Oracion, "
+        sqlstring = sqlstring & " e.Con_Titulo, e.Con_Id, e.Idioma "
+        sqlstring = sqlstring & " FROM            Det_Conversation d INNER JOIN"
+        sqlstring = sqlstring & "              Enc_Conversation e ON d.Con_Id = e.Con_Id INNER JOIN"
+        sqlstring = sqlstring & "              Oraciones o ON d.Det_OracionId = Oraciones.Id"
+
+        sqlstring = sqlstring & param
+
+        Try
+            _comando.CommandText = sqlstring
+            _comando.Connection.Open()
+
+            da.SelectCommand = _comando
+
+            da.Fill(dt)
+
+            _comando.Connection.Close()
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        Finally
+
+        End Try
+
+        n = dt.Rows.Count
+
+        Do While i <= n - 1
+            Me.cboTipo.Items.Add(New clsItem(dt.Rows(i).Item(7), dt.Rows(i).Item(8)))
+            i = i + 1
+        Loop
+
+
+
+    End Sub
+
+    Public Sub CargarDatos(Id)
+        Dim resp As Integer
+        Dim i, n As Integer
+        Dim IdOracion As Integer
+        Dim _comando As SqlCommand = MetodosDatos.CrearComando()
+        Dim sql As String
+        Dim dt As New DataTable
+        Dim da As New SqlDataAdapter
+
+        Dim carpeta As String = ""
+        Dim filename As String = ""
+
+        Dim param As String = " WHERE Enc_Conversation.Con_Id=" & Id
+
+        sqlstring = "select * from  Enc_Conversation "
+
+        sqlstring = sqlstring & param
+
+        Try
+            _comando.CommandText = sqlstring
+            _comando.Connection.Open()
+
+            da.SelectCommand = _comando
+
+            da.Fill(dt)
+            _comando.Connection.Close()
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        Finally
+
+        End Try
+
+
+        resp = dt.Rows.Count
+
+        If resp = 0 Then Exit Sub
+
+        Id = dt.Rows(0).Item(0)
+
+        txtId.Text = Id
+
+        If Not IsDBNull(dt.Rows(0).Item(1)) Then
+            descripcion = dt.Rows(0).Item(1)
+        End If
+        txtDescripcion.Text = descripcion
+
+        If Not IsDBNull(dt.Rows(0).Item(2)) Then
+            orden = dt.Rows(0).Item(2)
+        End If
+        txtOrden.Text = orden
+
+        If Not IsDBNull(dt.Rows(0).Item(7)) Then
+            avance = dt.Rows(0).Item(7)
+        End If
+        txtavance.Text = avance
+
+        If Not IsDBNull(dt.Rows(0).Item(8)) Then
+            tipo = dt.Rows(0).Item(8)
+        End If
+        cboTipo.Text = tipo
+
+        If Not IsDBNull(dt.Rows(0).Item(11)) Then
+            Inicio = dt.Rows(0).Item(11)
+        End If
+        txtInicio.Text = Inicio
+
+        If Not IsDBNull(dt.Rows(0).Item(12)) Then
+            Observaciones = dt.Rows(0).Item(12)
+        End If
+        txtObserv.Text = Observaciones
+
+        If Not IsDBNull(dt.Rows(0).Item(13)) Then
+            OrdenInicio = dt.Rows(0).Item(13)
+        End If
+        txtOrdenInicio.Text = OrdenInicio
+
+        If Not IsDBNull(dt.Rows(0).Item(16)) Then
+            Idioma = dt.Rows(0).Item(16)
+        End If
+        txtIdioma.Text = Idioma
+
+    End Sub
+#End Region
     ' Dim resp As Nullable(Of Integer)
     'nm = sender.name
     'str = nm.Split("_")
@@ -245,148 +395,7 @@ Public Class frmDetConversation
     
     ''  
      
-    Private Sub frmDetConversation_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
 
-        cboTipo.Items.Add("ALL")
-        cboTipo.Items.Add("Saludo")
-        cboTipo.Items.Add("Presentacion")
-        cboTipo.Items.Add("Iniciando")
-        cboTipo.Items.Add("Frases")
-        cboTipo.Items.Add("Conversacion")
-        cboTipo.Items.Add("Conversacion basica")
-        cboTipo.Items.Add("Leccion")
-        cboTipo.Items.Add("Leccion Nivel 1")
-        cboTipo.Items.Add("Leccion Nivel 2")
-        cboTipo.Items.Add("Serie")
-        cboTipo.Items.Add("Audios")
-
-    End Sub
-
-    Public Sub CargarConversation(Id)
-        Dim param As String = " WHERE Oraciones.Id=" & Id
-        Dim resp As Integer
-
-        Dim i, n As Integer
-        Dim IdOracion As Integer
-        Dim _comando As SqlCommand = MetodosDatos.CrearComando()
-        Dim sql As String
-
-        Dim dt As New DataTable
-        Dim da As New SqlDataAdapter
-
-        sqlstring = " SELECT         Det_Conversation.Det_Con, Det_Conversation.Det_OracionId, Det_Conversation.Det_Orden, Det_Conversation.Con_Id, Det_Conversation.Det_Person, Det_Conversation.Det_Par, Oraciones.Oracion, "
-        sqlstring = sqlstring & " Enc_Conversation.Con_Titulo, Enc_Conversation.Con_Id"
-        sqlstring = sqlstring & " FROM            Det_Conversation d INNER JOIN"
-        sqlstring = sqlstring & "              Enc_Conversation e ON d.Con_Id = e.Con_Id INNER JOIN"
-        sqlstring = sqlstring & "              Oraciones o ON d.Det_OracionId = Oraciones.Id"
-
-        sqlstring = sqlstring & param
-
-        Try
-            _comando.CommandText = sqlstring
-            _comando.Connection.Open()
-
-            da.SelectCommand = _comando
-
-            da.Fill(dt)
-           
-            _comando.Connection.Close()
-
-        Catch ex As Exception
-            MsgBox(ex.Message)
-        Finally
-
-        End Try
-
-        n = dt.Rows.Count
-
-        Do While i <= n - 1
-            Me.cboTipo.Items.Add(New clsItem(dt.Rows(i).Item(7), dt.Rows(i).Item(8)))
-            i = i + 1
-        Loop
-
-
-
-    End Sub
-
-    Public Sub CargarDatos(Id)
-        Dim resp As Integer
-        Dim i, n As Integer
-        Dim IdOracion As Integer
-        Dim _comando As SqlCommand = MetodosDatos.CrearComando()
-        Dim sql As String
-        Dim dt As New DataTable
-        Dim da As New SqlDataAdapter
-
-        Dim carpeta As String = ""
-        Dim filename As String = ""
-
-        Dim param As String = " WHERE Enc_Conversation.Con_Id=" & Id
-
-        sqlstring = "select * from  Enc_Conversation "
-
-        sqlstring = sqlstring & param
-
-        Try
-            _comando.CommandText = sqlstring
-            _comando.Connection.Open()
-
-            da.SelectCommand = _comando
-
-            da.Fill(dt)
-            _comando.Connection.Close()
-
-        Catch ex As Exception
-            MsgBox(ex.Message)
-        Finally
-
-        End Try
-
-
-        resp = dt.Rows.Count
-
-        If resp = 0 Then Exit Sub
-
-        Id = dt.Rows(0).Item(0)
-
-        txtId.Text = Id
-
-        If Not IsDBNull(dt.Rows(0).Item(1)) Then
-            descripcion = dt.Rows(0).Item(1)
-        End If
-        txtDescripcion.Text = descripcion
-
-        If Not IsDBNull(dt.Rows(0).Item(2)) Then
-            orden = dt.Rows(0).Item(2)
-        End If
-        txtOrden.Text = orden
-
-        If Not IsDBNull(dt.Rows(0).Item(7)) Then
-            avance = dt.Rows(0).Item(7)
-        End If
-        txtavance.Text = avance
-
-        If Not IsDBNull(dt.Rows(0).Item(8)) Then
-            tipo = dt.Rows(0).Item(8)
-        End If
-        cboTipo.Text = tipo
-
-        If Not IsDBNull(dt.Rows(0).Item(11)) Then
-            Inicio = dt.Rows(0).Item(11)
-        End If
-        txtInicio.Text = Inicio
-
-        If Not IsDBNull(dt.Rows(0).Item(12)) Then
-            Observaciones = dt.Rows(0).Item(12)
-        End If
-        txtObserv.Text = Observaciones
-
-        If Not IsDBNull(dt.Rows(0).Item(13)) Then
-            OrdenInicio = dt.Rows(0).Item(13)
-        End If
-        txtOrdenInicio.Text = OrdenInicio
-
-    End Sub
 
     'Public Sub CargarHistorial(Id)
     '    Dim param As String = " WHERE Tbl_RT_Historial.Enc_Id=" & Id
@@ -609,6 +618,7 @@ Public Class frmDetConversation
     '    obj.Region = New Region(DGP)
 
     'End Sub
+
     Private Sub DetectChanges(Nombre, valor, NuevoValor, param)
         Dim item As ListViewItem 'Creo el ListViewItem (item) 
         Dim i As Integer
@@ -656,6 +666,7 @@ Public Class frmDetConversation
 
 
     End Sub
+
     Private Sub Solution(Id)
         Dim _comando As SqlCommand = MetodosDatos.CrearComando()
         Dim sqlstring As String
@@ -697,6 +708,7 @@ Public Class frmDetConversation
         End Try
 
     End Sub
+
     'Private Sub MoveDown(sender, e)
     '    Dim _comando As SqlCommand = MetodosDatos.CrearComando()
     '    Dim sqlstring As String
@@ -1423,7 +1435,7 @@ Public Class frmDetConversation
 
         ' Seleccionar Imagen
         Using ofd As New OpenFileDialog
-            ofd.InitialDirectory = "C:\Legacy\Ingles\Imagenes_Ingles\"
+            ofd.InitialDirectory = "C:\Ingles\Imagenes_Ingles\"
             '  = IdPerson
 
             If ofd.ShowDialog = Windows.Forms.DialogResult.OK Then
@@ -1452,7 +1464,7 @@ Public Class frmDetConversation
 
                 _comando.Connection.Close()
                 Try
-                    PictureBox1.Image = Image.FromFile("C:\Legacy\Ingles\Imagenes_Ingles\" & filename)
+                    PictureBox1.Image = Image.FromFile("C:\Ingles\Imagenes_Ingles\" & filename)
 
                 Catch ex As Exception
 
@@ -1536,6 +1548,19 @@ Public Class frmDetConversation
         Catch ex As Exception
 
         End Try
+    End Sub
+
+    Private Sub txtIdioma_TextChanged(sender As System.Object, e As System.EventArgs) Handles txtIdioma.TextChanged
+        
+        Try
+            If txtIdioma.Text <> Idioma Then
+                DetectChanges("Idioma", Idioma, txtIdioma.Text, "")
+                Idioma = txtIdioma.Text
+            End If
+
+        Catch ex As Exception
+        End Try
+
     End Sub
 End Class
 

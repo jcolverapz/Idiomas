@@ -135,11 +135,11 @@ Public Class FrmDetOracion
 
         txtStatus.Text = "Oracion"
 
-
+        '=====================
         'Grupos
+        '======================
         Dim Grupos As New DataTable
 
-        Dim param As String = " WHERE Oraciones_FR.Id=" & Id
         Dim resp As Integer
 
         Dim i, n, nv As Integer
@@ -223,6 +223,7 @@ Public Class FrmDetOracion
         Loop
 
         'cargarConversaciones(IdOracion)
+
         '=================================================
         ' Expresion
         '=================================================
@@ -230,7 +231,9 @@ Public Class FrmDetOracion
         ' i = 0
         'Do While i <= nv - 1
         Me.cboExpresion.Items.Add("Saludo")
+        Me.cboExpresion.Items.Add("Pregunta")
         Me.cboExpresion.Items.Add("Normal")
+        Me.cboExpresion.Items.Add("Mal")
         'i = i + 1
         'Loop
 
@@ -278,6 +281,9 @@ Public Class FrmDetOracion
 
         End If
 
+        '=====================
+        ' Audios
+        '====================
 
         lstAudios.View = View.Details ' Set the view to show details.
         lstAudios.LabelEdit = False ' Allow the user to edit item text.
@@ -314,7 +320,25 @@ Public Class FrmDetOracion
 
         Me.cmbTema.Items.Add("Sin_Tema")
 
+        '===========
+        ' Imagenes
+        '=========
+        Dim fs As FileStream
 
+        fs = New FileStream("C:\Ingles\Imagenes_Ingles\Estrella.png", FileMode.Open, FileAccess.Read)
+
+        Try
+            picFavAmarillo.Image = Image.FromStream(fs).Clone()
+        Finally
+            fs.Close()
+        End Try
+        fs = New FileStream("C:\Ingles\Imagenes_Ingles\EstrellaVerde.png", FileMode.Open, FileAccess.Read)
+
+        Try
+            picFavVerde.Image = Image.FromStream(fs).Clone()
+        Finally
+            fs.Close()
+        End Try
 
     End Sub
 
@@ -334,8 +358,14 @@ Public Class FrmDetOracion
         sqlstring = " SELECT       O.Id, O.Oracion, O.ConceptoID, O.GrupoO, O.Traduccion, O.Campo1, O.Palabra, O.[Delete], O.SEL, "
         sqlstring = sqlstring & "                  O.estatus, O.GrupoId, O.forma, O.STL, O.IMG, O.Orden, O.IPA, O.TextoPlano, O.CursoId, "
         sqlstring = sqlstring & "                  O.Ora_Aprendido, g.Grupo, O.cuentaSTL, O.foco, O.Observaciones, O.tipo, O.Audio, O.rate, O.favorito, O.IPA, o.personaje, o.IMG, o.contexto, o.tema,"
-        sqlstring = sqlstring & " o.Estructura, o.Pregunta, o.voice, o.Expresion"
-        sqlstring = sqlstring & "  FROM            Oraciones_FR O LEFT JOIN"
+        sqlstring = sqlstring & " o.Estructura, o.Pregunta, o.voice, o.Expresion, o.esRespuesta"
+
+        If ModVar.Idioma = "EN" Then
+            sqlstring = sqlstring & "  FROM            Oraciones O LEFT JOIN"
+        Else
+            sqlstring = sqlstring & "  FROM            Oraciones_FR O LEFT JOIN"
+        End If
+
         sqlstring = sqlstring & "                    Grupos_oracion g ON O.GrupoO = g.Id"
 
         sqlstring = sqlstring & param
@@ -522,6 +552,23 @@ Public Class FrmDetOracion
         If Not IsDBNull(dt.Rows(0).Item(35)) Then
             intencion = dt.Rows(0).Item(35)
         End If
+        cboExpresion.Text = intencion
+
+        If Not IsDBNull(dt.Rows(0).Item(36)) Then
+            Tipo = dt.Rows(0).Item(36)
+        End If
+
+        If Tipo = "S" Then
+            EsSaludo.Checked = True
+        ElseIf Tipo = "Q" Then
+            EsPregunta.Checked = True
+        ElseIf Tipo = "R" Then
+            Respuesta.Checked = True
+        ElseIf Tipo = "C" Then
+            EsComentario.Checked = True
+
+        End If
+
         cboExpresion.Text = intencion
 
     End Sub
@@ -2430,10 +2477,17 @@ Public Class FrmDetOracion
             _comando.Parameters.Clear()
 
             If r.SubItems(3).text = "Null" Then
-                sqlstring = "UPDATE Oraciones_FR SET " & r.SubItems(1).Text & " = Null"
-
+                If ModVar.Idioma = "EN" Then
+                    sqlstring = "UPDATE Oraciones SET " & r.SubItems(1).Text & " = Null"
+                Else
+                    sqlstring = "UPDATE Oraciones_FR SET " & r.SubItems(1).Text & " = Null"
+                End If
             Else
-                sqlstring = "UPDATE Oraciones_FR SET " & r.SubItems(1).Text & " = @" & r.SubItems(1).Text
+                If ModVar.Idioma = "EN" Then
+                    sqlstring = "UPDATE Oraciones SET " & r.SubItems(1).Text & " = @" & r.SubItems(1).Text
+                Else
+                    sqlstring = "UPDATE Oraciones_FR SET " & r.SubItems(1).Text & " = @" & r.SubItems(1).Text
+                End If
                 sqlstring = sqlstring & " WHERE Id = @Id"
                 _comando.Parameters.AddWithValue("@" & r.SubItems(1).Text, r.SubItems(3).Text)
 
@@ -3670,7 +3724,7 @@ Public Class FrmDetOracion
         Dim FileToDelete As String
         Dim MoveLocation As String
          
-        If Idioma = "IN" Then
+        If Idioma = "EN" Then
             FileToDelete = "C:\Ingles\Audios3\Femenino\" & IdOracion & ".mp3"
         Else
             FileToDelete = "C:\Frances\Audios\Femenino\" & IdOracion & ".mp3"
@@ -3952,35 +4006,9 @@ Public Class FrmDetOracion
         End If
     End Sub
 
-    Private Sub EsPregunta_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles EsPregunta.CheckedChanged
+    Private Sub EsPregunta_CheckedChanged(sender As System.Object, e As System.EventArgs)
 
-        If EsPregunta.Checked = True Then
-            Dim _comando As SqlCommand = MetodosDatos.CrearComando()
-            Dim sqlstring As String
-
-            Dim i As Integer
-           
-            _comando.Connection.Open()
-
-            _comando.Parameters.Clear()
-
-            sqlstring = "UPDATE Oraciones_FR SET IMG='pensando'"
-            sqlstring = sqlstring & " WHERE Id = @Id"
-            _comando.CommandText = sqlstring
-
-            _comando.Parameters.AddWithValue("@Id", IdOracion)
-
-            Try
-                i = _comando.ExecuteNonQuery
-            Catch ex As Exception
-                MsgBox(ex.Message)
-            End Try
-            _comando.Connection.Close()
-
-        End If
-
-        cmdExit_Click(sender, e)
-
+      
     End Sub
 
     Private Sub EsPersonajeA_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles EsPersonajeA.CheckedChanged
@@ -4324,5 +4352,120 @@ Public Class FrmDetOracion
 
             End Try
         End If
+    End Sub
+
+    Private Sub ActualizaTipo(tipo)
+        Dim _comando As SqlCommand = MetodosDatos.CrearComando()
+        Dim sqlstring As String
+        Dim i As Integer
+
+        _comando.Connection.Open()
+
+        _comando.Parameters.Clear()
+
+        ' If cmdPreguntaRespuesta.Text = "Pregunta" Then
+        'cmdPreguntaRespuesta.Text = "Respuesta"
+        ' cmdPreguntaRespuesta.BackColor = Color.LightGreen
+
+        '  sqlstring = "UPDATE Oraciones SET EsRespuesta='R', IMG='pensando'"
+        '  sqlstring = sqlstring & " WHERE Id = @Id"
+        ' Else
+        ' cmdPreguntaRespuesta.Text = "Pregunta"
+        ' cmdPreguntaRespuesta.BackColor = Color.LightSalmon
+
+        sqlstring = "UPDATE Oraciones SET  EsRespuesta=@EsRespuesta "
+        sqlstring = sqlstring & " WHERE Id = @Id"
+
+        _comando.CommandText = sqlstring
+
+        _comando.Parameters.AddWithValue("@Id", IdOracion)
+        _comando.Parameters.AddWithValue("@EsRespuesta", tipo)
+
+        Try
+            i = _comando.ExecuteNonQuery
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+        _comando.Connection.Close()
+
+        EsSaludo.Checked = False
+        EsPregunta.Checked = False
+        Respuesta.Checked = False
+        EsComentario.Checked = False
+
+        If tipo = "S" Then
+            EsSaludo.Checked = True
+        ElseIf tipo = "Q" Then
+            EsPregunta.Checked = True
+        ElseIf tipo = "R" Then
+            Respuesta.Checked = True
+        ElseIf tipo = "C" Then
+            EsComentario.Checked = True
+        End If
+
+        cmdExit_Click(sender, e)
+
+    End Sub
+#Region " Tipo "
+
+    Private Sub EsSaludo_Click(sender As Object, e As System.EventArgs) Handles EsSaludo.Click
+        Dim _tipo As String
+
+        If EsSaludo.Checked Then
+            _tipo = "S"
+        Else
+            _tipo = "N"
+        End If
+
+        ActualizaTipo(_tipo)
+
+
+    End Sub
+    Private Sub EsComentario_Click(sender As Object, e As System.EventArgs) Handles EsComentario.Click
+        Dim _tipo As String
+
+        If EsComentario.Checked Then
+            _tipo = "C"
+        Else
+            _tipo = "N"
+        End If
+
+        ActualizaTipo(_tipo)
+    End Sub
+    Private Sub EsPregunta_Click(sender As Object, e As System.EventArgs) Handles EsPregunta.Click
+        Dim _tipo As String
+
+        If EsPregunta.Checked Then
+            _tipo = "Q"
+        Else
+            _tipo = "N"
+        End If
+
+        ActualizaTipo(_tipo)
+    End Sub
+    Private Sub Respuesta_Click(sender As Object, e As System.EventArgs) Handles Respuesta.Click
+        Dim _tipo As String
+
+        If Respuesta.Checked Then
+            _tipo = "R"
+        Else
+            _tipo = "N"
+        End If
+
+        ActualizaTipo(_tipo)
+    End Sub
+
+#End Region
+    
+    
+
+     
+
+   
+
+
+     
+    Private Sub EsSaludo_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles EsSaludo.CheckedChanged
+
     End Sub
 End Class

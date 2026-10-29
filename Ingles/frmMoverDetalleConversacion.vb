@@ -473,10 +473,17 @@ Public Class frmMoverDetalleConversacion
 
         sqlstring = " SELECT        d.Det_Con, l.IdOracion, d.Orden, d.Con_Id, o.Traduccion, d.Det_Par, o.Tipo, "
         sqlstring = sqlstring & " o.TextoPlano, l.Orden, l.Id, l.pin, l.personaje, o.NivelCEFR, o.tema , o.EsRespuesta, o.respuesta, o.traducciontexto, o.Conversacion, o.STL, o.SEL, d.status"
-        sqlstring = sqlstring & " FROM            Tbl_Dialogos_fr l INNER JOIN"
-        sqlstring = sqlstring & "                 Oraciones_fr o ON l.IdOracion = o.Id INNER JOIN"
+
+        If ModVar.Idioma = "EN" Then
+            sqlstring = sqlstring & " FROM            Tbl_Dialogos l INNER JOIN"
+            sqlstring = sqlstring & "                 Oraciones o ON l.IdOracion = o.Id INNER JOIN"
+        Else
+            sqlstring = sqlstring & " FROM            Tbl_Dialogos_fr l INNER JOIN"
+            sqlstring = sqlstring & "                 Oraciones_fr o ON l.IdOracion = o.Id INNER JOIN"
+        End If
         sqlstring = sqlstring & "                Det_Conversation  d ON l.IdConversacion = d.Det_Con"
         sqlstring = sqlstring & param
+
         Console.WriteLine(sqlstring)
 
         Try
@@ -502,8 +509,15 @@ Public Class frmMoverDetalleConversacion
         sqlstring = "SELECT d.Con_Id, "
         sqlstring = sqlstring & "COUNT(*) AS TotalDialogos, "
         sqlstring = sqlstring & "SUM(CASE WHEN o.STL = 1 THEN 1 ELSE 0 END) AS TotalSTL "
-        sqlstring = sqlstring & " FROM Tbl_Dialogos_fr l "
-        sqlstring = sqlstring & "INNER JOIN Oraciones_fr o ON l.IdOracion = o.Id "
+
+        If ModVar.Idioma = "EN" Then
+            sqlstring = sqlstring & " FROM Tbl_Dialogos l "
+            sqlstring = sqlstring & "INNER JOIN Oraciones o ON l.IdOracion = o.Id "
+        Else
+            sqlstring = sqlstring & " FROM Tbl_Dialogos_fr l "
+            sqlstring = sqlstring & "INNER JOIN Oraciones_fr o ON l.IdOracion = o.Id "
+
+        End If
         sqlstring = sqlstring & "INNER JOIN Det_Conversation d ON l.IdConversacion = d.Det_Con "
         sqlstring = sqlstring & " WHERE d.Con_Id ='" & Enc_Id & "'"
         sqlstring = sqlstring & "GROUP BY d.Con_Id"

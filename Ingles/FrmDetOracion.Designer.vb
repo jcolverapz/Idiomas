@@ -80,8 +80,6 @@ Partial Class FrmDetOracion
         Me.Label10 = New System.Windows.Forms.Label()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.txtTipo = New System.Windows.Forms.TextBox()
-        Me.txtEsRespuesta = New System.Windows.Forms.TextBox()
-        Me.Label12 = New System.Windows.Forms.Label()
         Me.Label14 = New System.Windows.Forms.Label()
         Me.txtAudio = New System.Windows.Forms.TextBox()
         Me.NumRate = New System.Windows.Forms.NumericUpDown()
@@ -93,9 +91,9 @@ Partial Class FrmDetOracion
         Me.Label18 = New System.Windows.Forms.Label()
         Me.cmdAgregarAudio = New System.Windows.Forms.Button()
         Me.lstAudios = New System.Windows.Forms.ListView()
-        Me.ColumnHeader4 = CType(New System.Windows.Forms.ColumnHeader(),System.Windows.Forms.ColumnHeader)
-        Me.ColumnHeader5 = CType(New System.Windows.Forms.ColumnHeader(),System.Windows.Forms.ColumnHeader)
-        Me.ColumnHeader6 = CType(New System.Windows.Forms.ColumnHeader(),System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader4 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader5 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader6 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.Label19 = New System.Windows.Forms.Label()
         Me.Label21 = New System.Windows.Forms.Label()
         Me.Label22 = New System.Windows.Forms.Label()
@@ -125,7 +123,6 @@ Partial Class FrmDetOracion
         Me.Label32 = New System.Windows.Forms.Label()
         Me.cmdGuardarNuevo = New System.Windows.Forms.Button()
         Me.txtEstructura = New System.Windows.Forms.TextBox()
-        Me.EsPregunta = New System.Windows.Forms.CheckBox()
         Me.EsPersonajeA = New System.Windows.Forms.CheckBox()
         Me.cmdEliminarAudio = New System.Windows.Forms.Button()
         Me.cmdGenerar = New System.Windows.Forms.Button()
@@ -142,10 +139,21 @@ Partial Class FrmDetOracion
         Me.cboExpresion = New System.Windows.Forms.ComboBox()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.checkObjeto = New System.Windows.Forms.CheckBox()
+        Me.Respuesta = New System.Windows.Forms.CheckBox()
+        Me.EsPregunta = New System.Windows.Forms.CheckBox()
+        Me.CheckBox4 = New System.Windows.Forms.CheckBox()
+        Me.EsSaludo = New System.Windows.Forms.CheckBox()
+        Me.EsComentario = New System.Windows.Forms.CheckBox()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.Label37 = New System.Windows.Forms.Label()
+        Me.picFavAmarillo = New System.Windows.Forms.PictureBox()
+        Me.picFavVerde = New System.Windows.Forms.PictureBox()
         Me.Panel2.SuspendLayout()
         CType(Me.NumRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picFavAmarillo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picFavVerde, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Label20
@@ -759,27 +767,6 @@ Partial Class FrmDetOracion
         Me.txtTipo.TabIndex = 419
         Me.txtTipo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
-        'txtEsRespuesta
-        '
-        Me.txtEsRespuesta.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.txtEsRespuesta.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtEsRespuesta.Location = New System.Drawing.Point(983, 164)
-        Me.txtEsRespuesta.Name = "txtEsRespuesta"
-        Me.txtEsRespuesta.Size = New System.Drawing.Size(75, 22)
-        Me.txtEsRespuesta.TabIndex = 419
-        Me.txtEsRespuesta.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'Label12
-        '
-        Me.Label12.AutoSize = True
-        Me.Label12.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label12.Location = New System.Drawing.Point(980, 130)
-        Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(90, 16)
-        Me.Label12.TabIndex = 420
-        Me.Label12.Text = "EsRespuesta"
-        Me.Label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
         'Label14
         '
         Me.Label14.AutoSize = True
@@ -917,7 +904,7 @@ Partial Class FrmDetOracion
         '
         Me.Label19.AutoSize = True
         Me.Label19.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label19.Location = New System.Drawing.Point(1034, 336)
+        Me.Label19.Location = New System.Drawing.Point(1037, 200)
         Me.Label19.Name = "Label19"
         Me.Label19.Size = New System.Drawing.Size(74, 14)
         Me.Label19.TabIndex = 431
@@ -928,7 +915,7 @@ Partial Class FrmDetOracion
         '
         Me.Label21.AutoSize = True
         Me.Label21.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label21.Location = New System.Drawing.Point(1034, 351)
+        Me.Label21.Location = New System.Drawing.Point(1037, 215)
         Me.Label21.Name = "Label21"
         Me.Label21.Size = New System.Drawing.Size(78, 14)
         Me.Label21.TabIndex = 432
@@ -939,7 +926,7 @@ Partial Class FrmDetOracion
         '
         Me.Label22.AutoSize = True
         Me.Label22.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label22.Location = New System.Drawing.Point(1035, 383)
+        Me.Label22.Location = New System.Drawing.Point(1037, 247)
         Me.Label22.Name = "Label22"
         Me.Label22.Size = New System.Drawing.Size(58, 14)
         Me.Label22.TabIndex = 434
@@ -950,7 +937,7 @@ Partial Class FrmDetOracion
         '
         Me.Label23.AutoSize = True
         Me.Label23.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label23.Location = New System.Drawing.Point(1034, 368)
+        Me.Label23.Location = New System.Drawing.Point(1037, 232)
         Me.Label23.Name = "Label23"
         Me.Label23.Size = New System.Drawing.Size(84, 14)
         Me.Label23.TabIndex = 433
@@ -961,7 +948,7 @@ Partial Class FrmDetOracion
         '
         Me.Label26.AutoSize = True
         Me.Label26.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label26.Location = New System.Drawing.Point(1035, 412)
+        Me.Label26.Location = New System.Drawing.Point(1038, 276)
         Me.Label26.Name = "Label26"
         Me.Label26.Size = New System.Drawing.Size(28, 14)
         Me.Label26.TabIndex = 436
@@ -972,7 +959,7 @@ Partial Class FrmDetOracion
         '
         Me.Label27.AutoSize = True
         Me.Label27.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label27.Location = New System.Drawing.Point(1035, 398)
+        Me.Label27.Location = New System.Drawing.Point(1038, 262)
         Me.Label27.Name = "Label27"
         Me.Label27.Size = New System.Drawing.Size(74, 14)
         Me.Label27.TabIndex = 435
@@ -1217,22 +1204,11 @@ Partial Class FrmDetOracion
         Me.txtEstructura.TabIndex = 460
         Me.txtEstructura.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
-        'EsPregunta
-        '
-        Me.EsPregunta.AutoSize = True
-        Me.EsPregunta.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.EsPregunta.Location = New System.Drawing.Point(873, 399)
-        Me.EsPregunta.Name = "EsPregunta"
-        Me.EsPregunta.Size = New System.Drawing.Size(86, 21)
-        Me.EsPregunta.TabIndex = 461
-        Me.EsPregunta.Text = "Pregunta"
-        Me.EsPregunta.UseVisualStyleBackColor = True
-        '
         'EsPersonajeA
         '
         Me.EsPersonajeA.AutoSize = True
         Me.EsPersonajeA.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.EsPersonajeA.Location = New System.Drawing.Point(873, 418)
+        Me.EsPersonajeA.Location = New System.Drawing.Point(1068, 322)
         Me.EsPersonajeA.Name = "EsPersonajeA"
         Me.EsPersonajeA.Size = New System.Drawing.Size(53, 21)
         Me.EsPersonajeA.TabIndex = 462
@@ -1397,11 +1373,117 @@ Partial Class FrmDetOracion
         Me.checkObjeto.Text = "Objeto"
         Me.checkObjeto.UseVisualStyleBackColor = True
         '
+        'Respuesta
+        '
+        Me.Respuesta.AutoSize = True
+        Me.Respuesta.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Respuesta.Location = New System.Drawing.Point(1039, 109)
+        Me.Respuesta.Name = "Respuesta"
+        Me.Respuesta.Size = New System.Drawing.Size(98, 21)
+        Me.Respuesta.TabIndex = 479
+        Me.Respuesta.Text = "Respuesta"
+        Me.Respuesta.UseVisualStyleBackColor = True
+        '
+        'EsPregunta
+        '
+        Me.EsPregunta.AutoSize = True
+        Me.EsPregunta.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.EsPregunta.Location = New System.Drawing.Point(1039, 85)
+        Me.EsPregunta.Name = "EsPregunta"
+        Me.EsPregunta.Size = New System.Drawing.Size(86, 21)
+        Me.EsPregunta.TabIndex = 480
+        Me.EsPregunta.Text = "Pregunta"
+        Me.EsPregunta.UseVisualStyleBackColor = True
+        '
+        'CheckBox4
+        '
+        Me.CheckBox4.AutoSize = True
+        Me.CheckBox4.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBox4.Location = New System.Drawing.Point(1042, 162)
+        Me.CheckBox4.Name = "CheckBox4"
+        Me.CheckBox4.Size = New System.Drawing.Size(70, 21)
+        Me.CheckBox4.TabIndex = 481
+        Me.CheckBox4.Text = "Objeto"
+        Me.CheckBox4.UseVisualStyleBackColor = True
+        '
+        'EsSaludo
+        '
+        Me.EsSaludo.AutoSize = True
+        Me.EsSaludo.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.EsSaludo.Location = New System.Drawing.Point(1039, 61)
+        Me.EsSaludo.Name = "EsSaludo"
+        Me.EsSaludo.Size = New System.Drawing.Size(72, 21)
+        Me.EsSaludo.TabIndex = 482
+        Me.EsSaludo.Text = "Saludo"
+        Me.EsSaludo.UseVisualStyleBackColor = True
+        '
+        'EsComentario
+        '
+        Me.EsComentario.AutoSize = True
+        Me.EsComentario.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.EsComentario.Location = New System.Drawing.Point(1039, 133)
+        Me.EsComentario.Name = "EsComentario"
+        Me.EsComentario.Size = New System.Drawing.Size(103, 21)
+        Me.EsComentario.TabIndex = 483
+        Me.EsComentario.Text = "Comentario"
+        Me.EsComentario.UseVisualStyleBackColor = True
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label12.Location = New System.Drawing.Point(168, 689)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(136, 14)
+        Me.Label12.TabIndex = 484
+        Me.Label12.Text = "Favorito Primera Opcion"
+        Me.Label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label37
+        '
+        Me.Label37.AutoSize = True
+        Me.Label37.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label37.Location = New System.Drawing.Point(168, 725)
+        Me.Label37.Name = "Label37"
+        Me.Label37.Size = New System.Drawing.Size(97, 14)
+        Me.Label37.TabIndex = 485
+        Me.Label37.Text = "Segunda Opcion"
+        Me.Label37.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'picFavAmarillo
+        '
+        Me.picFavAmarillo.ErrorImage = Nothing
+        Me.picFavAmarillo.Location = New System.Drawing.Point(118, 681)
+        Me.picFavAmarillo.Name = "picFavAmarillo"
+        Me.picFavAmarillo.Size = New System.Drawing.Size(30, 30)
+        Me.picFavAmarillo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.picFavAmarillo.TabIndex = 486
+        Me.picFavAmarillo.TabStop = False
+        '
+        'picFavVerde
+        '
+        Me.picFavVerde.ErrorImage = Nothing
+        Me.picFavVerde.Location = New System.Drawing.Point(118, 717)
+        Me.picFavVerde.Name = "picFavVerde"
+        Me.picFavVerde.Size = New System.Drawing.Size(30, 30)
+        Me.picFavVerde.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.picFavVerde.TabIndex = 487
+        Me.picFavVerde.TabStop = False
+        '
         'FrmDetOracion
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1171, 831)
+        Me.Controls.Add(Me.picFavVerde)
+        Me.Controls.Add(Me.picFavAmarillo)
+        Me.Controls.Add(Me.Label37)
+        Me.Controls.Add(Me.Label12)
+        Me.Controls.Add(Me.EsComentario)
+        Me.Controls.Add(Me.EsSaludo)
+        Me.Controls.Add(Me.CheckBox4)
+        Me.Controls.Add(Me.EsPregunta)
+        Me.Controls.Add(Me.Respuesta)
         Me.Controls.Add(Me.checkObjeto)
         Me.Controls.Add(Me.CheckBox1)
         Me.Controls.Add(Me.cboExpresion)
@@ -1418,7 +1500,6 @@ Partial Class FrmDetOracion
         Me.Controls.Add(Me.cmdGenerar)
         Me.Controls.Add(Me.cmdEliminarAudio)
         Me.Controls.Add(Me.EsPersonajeA)
-        Me.Controls.Add(Me.EsPregunta)
         Me.Controls.Add(Me.txtEstructura)
         Me.Controls.Add(Me.cmdGuardarNuevo)
         Me.Controls.Add(Me.Label32)
@@ -1461,9 +1542,7 @@ Partial Class FrmDetOracion
         Me.Controls.Add(Me.NumRate)
         Me.Controls.Add(Me.Label14)
         Me.Controls.Add(Me.txtAudio)
-        Me.Controls.Add(Me.Label12)
         Me.Controls.Add(Me.Label11)
-        Me.Controls.Add(Me.txtEsRespuesta)
         Me.Controls.Add(Me.txtTipo)
         Me.Controls.Add(Me.Label10)
         Me.Controls.Add(Me.txtObserv)
@@ -1503,6 +1582,8 @@ Partial Class FrmDetOracion
         CType(Me.NumRate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picFavAmarillo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picFavVerde, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1560,8 +1641,6 @@ Partial Class FrmDetOracion
     Public WithEvents Label11 As System.Windows.Forms.Label
     Friend WithEvents txtTipo As System.Windows.Forms.TextBox
     Friend WithEvents cmdAudio As System.Windows.Forms.Button
-    Friend WithEvents txtEsRespuesta As System.Windows.Forms.TextBox
-    Public WithEvents Label12 As System.Windows.Forms.Label
     Friend WithEvents cmdPlay As System.Windows.Forms.Button
     Public WithEvents Label14 As System.Windows.Forms.Label
     Friend WithEvents txtAudio As System.Windows.Forms.TextBox
@@ -1610,7 +1689,6 @@ Partial Class FrmDetOracion
     Friend WithEvents Label32 As System.Windows.Forms.Label
     Friend WithEvents cmdGuardarNuevo As System.Windows.Forms.Button
     Friend WithEvents txtEstructura As System.Windows.Forms.TextBox
-    Friend WithEvents EsPregunta As System.Windows.Forms.CheckBox
     Friend WithEvents EsPersonajeA As System.Windows.Forms.CheckBox
     Friend WithEvents cmdEliminarAudio As System.Windows.Forms.Button
     Friend WithEvents cmdGenerar As System.Windows.Forms.Button
@@ -1627,5 +1705,14 @@ Partial Class FrmDetOracion
     Friend WithEvents cboExpresion As System.Windows.Forms.ComboBox
     Friend WithEvents CheckBox1 As System.Windows.Forms.CheckBox
     Friend WithEvents checkObjeto As System.Windows.Forms.CheckBox
+    Friend WithEvents Respuesta As System.Windows.Forms.CheckBox
+    Friend WithEvents EsPregunta As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckBox4 As System.Windows.Forms.CheckBox
+    Friend WithEvents EsSaludo As System.Windows.Forms.CheckBox
+    Friend WithEvents EsComentario As System.Windows.Forms.CheckBox
+    Public WithEvents Label12 As System.Windows.Forms.Label
+    Public WithEvents Label37 As System.Windows.Forms.Label
+    Friend WithEvents picFavAmarillo As System.Windows.Forms.PictureBox
+    Friend WithEvents picFavVerde As System.Windows.Forms.PictureBox
 
 End Class

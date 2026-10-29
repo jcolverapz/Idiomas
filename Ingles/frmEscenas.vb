@@ -310,16 +310,18 @@ Public Class frmEscenas
     'End If
 
     Private Sub frmEscenas_Load(sender As System.Object, e As System.EventArgs) Handles Me.Load
-
-        txtEncId.Text = Id
-        lblTitulo.Text = Titulo
-
         Dim _comando As SqlCommand = MetodosDatos.CrearComando()
         Dim sqlstring As String
 
         Dim dt As New DataTable
         Dim da As New SqlDataAdapter
 
+        txtEncId.Text = Id
+        lblTitulo.Text = Titulo
+
+        '===============================
+        ' Grupos de oraciones
+        '===============================
         sqlstring = "Select * from  Grupos_oracion "
         sqlstring = sqlstring & " ORDER By orden ASC"
 
@@ -362,9 +364,9 @@ Public Class frmEscenas
         ' Ruta Audios
         '=================================
         If ModVar.Idioma = "EN" Then
-            RutaAudiosFemenino2 = "C:\frances\Audios2\Femenino\"
-            RutaAudiosFemenino3 = "C:\frances\Audios3\Femenino\"
-            RutaAudiosMasculino = "C:\frances\Audios3\Masculino\"
+            RutaAudiosFemenino2 = "C:\Ingles\Audios2\Femenino\"
+            RutaAudiosFemenino3 = "C:\Ingles\Audios3\Femenino\"
+            RutaAudiosMasculino = "C:\Ingles\Audios3\Masculino\"
         Else
             RutaAudiosFemenino2 = "C:\frances\Audios\Femenino\"
             RutaAudiosFemenino3 = "C:\frances\Audios\Femenino\"
@@ -516,13 +518,16 @@ Public Class frmEscenas
             archivos.Add("C:\Ingles\Imagenes_Ingles\Personajes\" & voces.Rows(i).Item(1) & "_Serio.jpg")
             archivos.Add("C:\Ingles\Imagenes_Ingles\Personajes\" & voces.Rows(i).Item(1) & "_Saludo.jpg")
             archivos.Add("C:\Ingles\Imagenes_Ingles\Personajes\" & voces.Rows(i).Item(1) & "_Normal.jpg")
+            archivos.Add("C:\Ingles\Imagenes_Ingles\Personajes\" & voces.Rows(i).Item(1) & "_Pregunta.jpg")
             
             i = i + 1
         Loop
 
       
 
+        archivos.Add("C:\Ingles\Imagenes_Ingles\Personajes\Matilda_Pregunta.jpg")
         archivos.Add("C:\Ingles\Imagenes_Ingles\Personajes\Audia_Porfavor.jpg")
+        archivos.Add("C:\Ingles\Imagenes_Ingles\Personajes\Adam_Mal.jpg")
 
 
 
@@ -751,11 +756,18 @@ Public Class frmEscenas
         sqlstring = sqlstring & "    d.Id,    d.IdConversacion,    d.item,    d.orden AS orden_dialogo,    d.IMG AS IMG_Dialogo,"
         sqlstring = sqlstring & "   o.TextoPlano,    o.Traduccion,    o.STL,    o.Exam,    o.foco,    o.CuentaSTL,    o.Oracion,    o.IMG AS IMG_Oracion,"
         sqlstring = sqlstring & "   o.Favorito,    o.IPA,    o.reproduccion,    o.scoreNaturalidad,    o.personaje,"
-        sqlstring = sqlstring & " o.PalabrasClave, o.Id AS IdOracion, o.rate, o.masUsada, o.Tipo, dc.status, dc.Observaciones, o.voice, o.expresion"
-
+        sqlstring = sqlstring & " o.PalabrasClave, o.Id AS IdOracion, o.rate, o.masUsada, o.Tipo, dc.status, dc.Observaciones, o.voice, o.expresion, o.EsRespuesta"
         sqlstring = sqlstring & " FROM Det_Conversation dc"
-        sqlstring = sqlstring & " INNER JOIN Tbl_Dialogos_FR d ON dc.Det_Con = d.IdConversacion"
-        sqlstring = sqlstring & " INNER JOIN Oraciones_FR o ON d.IdOracion = o.Id"
+
+        If ModVar.Idioma = "EN" Then
+            sqlstring = sqlstring & " INNER JOIN Tbl_Dialogos d ON dc.Det_Con = d.IdConversacion"
+            sqlstring = sqlstring & " INNER JOIN Oraciones o ON d.IdOracion = o.Id"
+        Else
+            sqlstring = sqlstring & " INNER JOIN Tbl_Dialogos_FR d ON dc.Det_Con = d.IdConversacion"
+            sqlstring = sqlstring & " INNER JOIN Oraciones_FR o ON d.IdOracion = o.Id"
+
+        End If
+
         sqlstring = sqlstring & " WHERE dc.Con_Id='" & Id & "'"
 
         sqlstring = sqlstring & filtro
@@ -1295,11 +1307,11 @@ Public Class frmEscenas
             pregunta.Width = 25 : pregunta.Height = 25
 
             ' pregunta.Width = 60
-            pregunta.Text = "Question"
+            pregunta.Text = "?"
             pregunta.Location = New Point(imagen.Right + 2, 1)
-            ' personaje.BackColor = Color.Red
+            pregunta.BackColor = Color.LightGray
             pregunta.Cursor = Cursors.Hand
-            AddHandler pregunta.Click, AddressOf CambiarImagenDefault
+            AddHandler pregunta.Click, AddressOf CambiarTipo
 
             pAux.Controls.Add(pregunta)
             ' ===============================
@@ -1631,15 +1643,34 @@ Public Class frmEscenas
                 previousHeight = txt.Height
             End If
 
-            If row("Tipo") = "Q" Then
-                txt.ForeColor = Color.DarkBlue
-            ElseIf row("Tipo") = "R" Then
+            '==============================
+            ' Tipo
+            '==============================
+            If row("EsRespuesta") = "S" Then 'Saludo
                 txt.ForeColor = Color.DarkViolet
-            ElseIf row("Tipo") = "O" Then
+            ElseIf row("EsRespuesta") = "Q" Then  'Pregunta
+                txt.ForeColor = Color.DarkRed
+            ElseIf row("EsRespuesta") = "R" Then  'Respuesta
+                txt.ForeColor = Color.DarkBlue
+            ElseIf row("EsRespuesta") = "C" Then ' Comentario
+                txt.ForeColor = Color.Black
+            ElseIf row("EsRespuesta") = "O" Then ' Oracion
                 txt.ForeColor = Color.SaddleBrown
             Else
                 txt.ForeColor = Color.Black
             End If
+           
+
+            '============================
+            ' IPA
+            '============================
+            If Not IsDBNull(row("IPA")) Then
+                IPA.Text = row("IPA")
+            Else
+                IPA.Text = ""
+            End If
+            IPA.Location = New Point(txt.Left, txt.Bottom)
+
             '' ===============================
             ' Traduccion
             ' ===============================
@@ -1650,15 +1681,22 @@ Public Class frmEscenas
             End If
             trad.Location = New Point(IPA.Left, IPA.Bottom + 1)
 
-            '============================
-            ' IPA
-            '============================
-            If Not IsDBNull(row("IPA")) Then
-                IPA.Text = row("IPA")
+            ' ===============================
+            ' CONTROLES EXISTENTES
+            ' ===============================
+            If cmdMostrarTexto.Text = "Mostrar Texto" Then
+                txt.Visible = False
+                trad.Visible = False
+                IPA.Visible = True
             Else
-                IPA.Text = "NULL"
+                txt.Visible = True
+                trad.Visible = False
+                IPA.Visible = True
             End If
-            IPA.Location = New Point(txt.Left, txt.Bottom)
+
+            'If cmdMostrarTrad.Text = "Mostrar Trad" Then
+            'Else
+            'End If
             ' ===============================
             ''  Favorito
             ' ===============================
@@ -1673,7 +1711,7 @@ Public Class frmEscenas
                     fav.Image = ImageList1.Images(5)
                 End If
             End If
-         
+
             ' ===============================
             ' Reproducciones
             ' ===============================' 
@@ -1681,7 +1719,8 @@ Public Class frmEscenas
             If row("Reproduccion") > LIMITE_MIN Then
                 reproduccion.ForeColor = Color.Green
             Else
-                reproduccion.ForeColor = Color.Salmon
+                ' reproduccion.ForeColor = Color.Salmon
+                reproduccion.ForeColor = Color.Gray
             End If
             reproduccion.Tag = row("Id")
 
@@ -1734,7 +1773,6 @@ Public Class frmEscenas
             status.Text = row("status")
 
 
-
             '================
             ' Personaje
             '================
@@ -1753,9 +1791,10 @@ Public Class frmEscenas
             txtImagen.Tag = row("Id")
 
             '================
-            ' Pregunta
+            ' Tipo : Saludo, Pregunta, Respuesta, etc
             '================
-            pregunta.Tag = row("Id")
+            pregunta.Tag = row("IdOracion")
+            pregunta.Text = row("EsRespuesta")
 
             ' ===============================
             ' Subir
@@ -1781,20 +1820,9 @@ Public Class frmEscenas
             End If
 
 
-            ' ===============================
-            ' CONTROLES EXISTENTES
-            ' ===============================
-            If cmdMostrarTexto.Text = "Mostrar Texto" Then
-                ' txt.Visible = False
-            Else
-                txt.Visible = True
-            End If
+           
 
-            If cmdMostrarTrad.Text = "Mostrar Trad" Then
-                trad.Visible = False
-            Else
-                trad.Visible = True
-            End If
+            'IPA.Visible = False
 
             pd.Visible = True
             pAudio.Visible = True
@@ -1815,6 +1843,7 @@ Public Class frmEscenas
             Dim pAudio = CType(pAux.Controls("pAudio_" & j), CircularPictureBox)
             Dim txt = CType(pAux.Controls("txt_" & j), RichTextBox)
             Dim trad = CType(pAux.Controls("trad_" & j), RichTextBox)
+            Dim ipa = CType(pAux.Controls("ipa_" & j), RichTextBox)
             Dim reproduccion = CType(pAux.Controls("txtreproduccion_" & j), Label)
             Dim aprendido = CType(pAux.Controls("btnaprendido_" & j), Button)
             Dim falta = CType(pAux.Controls("btnfalta_" & j), Button)
@@ -1825,6 +1854,8 @@ Public Class frmEscenas
             pAudio.Visible = False
             txt.Visible = False 'Texto
             trad.Visible = False 'Traduccion
+            ipa.Visible = False 'IPA
+
             reproduccion.Visible = False
             aprendido.BackColor = Color.LightGray
             falta.BackColor = Color.LightGray
@@ -3330,8 +3361,15 @@ Public Class frmEscenas
         IdCurrent = IdDialogo
 
         sqlstring = " SELECT         d.Id, d.IdOracion"
-        sqlstring = sqlstring & " FROM            Tbl_Dialogos_FR d INNER JOIN"
-        sqlstring = sqlstring & "              Oraciones_FR o ON d.IdOracion = o.Id"
+
+        If ModVar.Idioma = "EN" Then
+            sqlstring = sqlstring & " FROM            Tbl_Dialogos d INNER JOIN"
+            sqlstring = sqlstring & "              Oraciones o ON d.IdOracion = o.Id"
+        Else
+            sqlstring = sqlstring & " FROM            Tbl_Dialogos_FR d INNER JOIN"
+            sqlstring = sqlstring & "              Oraciones_FR o ON d.IdOracion = o.Id"
+        End If
+
         sqlstring = sqlstring & " WHERE  d.Id='" & IdDialogo & "'"
         'sqlstring = sqlstring & " ORDER BY  Det_Conversation.Det_Orden ASC"
 
@@ -5943,6 +5981,7 @@ Public Class frmEscenas
 
     End Sub
 
+#Region "Modificar"
     Private Sub CambiarFavorito(sender, e)
         Dim i As Integer
         Dim nm As String
@@ -5952,7 +5991,7 @@ Public Class frmEscenas
         Dim q As Integer
         Dim obj As New Label
 
-        
+
         Dim _comando As SqlCommand = MetodosDatos.CrearComando()
         Dim _rate As Double
         nm = sender.Name
@@ -6116,7 +6155,7 @@ Public Class frmEscenas
         If ModVar.Idioma = "EN" Then
             sqlstring = " SELECT          d.Id, d.IdOracion, o.favorito"
             sqlstring = sqlstring & " FROM            Tbl_Dialogos d INNER JOIN"
-            sqlstring = sqlstring & "                    Oraciones_FR o ON d.IdOracion = o.Id"
+            sqlstring = sqlstring & "                    Oraciones o ON d.IdOracion = o.Id"
             sqlstring = sqlstring & " WHERE  d.Id='" & IdDialogo & "'"
         Else
             sqlstring = " SELECT          d.Id, d.IdOracion, o.favorito"
@@ -6124,7 +6163,7 @@ Public Class frmEscenas
             sqlstring = sqlstring & "                    Oraciones_FR o ON d.IdOracion = o.Id"
             sqlstring = sqlstring & " WHERE  d.Id='" & IdDialogo & "'"
         End If
-       
+
         Dim objDataReader As SqlDataReader
 
         Try
@@ -6149,8 +6188,12 @@ Public Class frmEscenas
                 IdOracionItem = objDataReader(1)
 
                 objDataReader.Close()
+                If ModVar.Idioma = "EN" Then
+                    sqlstring = "UPDATE Oraciones SET rate = @rate"
+                Else
+                    sqlstring = "UPDATE Oraciones_FR SET rate = @rate"
+                End If
 
-                sqlstring = "UPDATE Oraciones_FR SET rate = @rate"
                 sqlstring = sqlstring & " WHERE Id = @Id"
                 _comando.CommandText = sqlstring
                 _comando.Parameters.Clear()
@@ -6185,7 +6228,7 @@ Public Class frmEscenas
     Private Sub CambiarImagen(sender, e)
         Dim sqlstring As String
         Dim IdDialogo As Integer
-       
+
         Dim i As Integer
         Dim indice As Integer
         Dim nm As String
@@ -6267,7 +6310,7 @@ Public Class frmEscenas
 
     Private Sub CambiarPersonaje(sender, e)
         Dim sqlstring As String
-       
+
         Dim i As Integer
         Dim indice As Integer
         Dim nm As String
@@ -6457,8 +6500,225 @@ Public Class frmEscenas
         'da.Fill(dt)
         fila("avatar") = _personaje
 
-     
-       
+
+
+
+
+
+    End Sub
+
+    Private Sub CambiarTipo(sender, e)
+        Dim sqlstring As String
+
+        Dim i As Integer
+        Dim indice As Integer
+        Dim nm As String
+        Dim str() As String
+        Dim tp As String
+        Dim param As String = ""
+        Dim q As Integer
+        Dim _Item As Integer
+
+        nm = sender.name
+        str = nm.Split("_")
+
+        tp = str(0)
+        _Item = str(1)
+
+        Dim txtpersonaje = CType(sender, Button)
+        Dim IdDialogo As Integer = CInt(txtpersonaje.Tag)
+        Dim panel = CType(txtpersonaje.Parent, Panel)
+
+        picDet = CType(panel.Controls("pd_" & _Item), PictureBox)
+
+        Dim txt = CType(panel.Controls("txtReproduccion_" & _Item), Label)
+
+        If Not IsNothing(objtextOver) Then
+            'objtextOver.Font = New Font("Consolas", 11, FontStyle.Regular)
+        End If
+
+        'Dim myPen As New Pen(Color.Red, 2)
+        'Dim myPenClear As New Pen(Color.Beige, 2)
+
+
+        Dim Id As Integer
+        Dim IdPerson As Integer
+        Dim Tipo As String
+
+        Dim resp As Integer
+        Dim obj As PictureBox
+
+        IdOracion = sender.tag
+
+        Dim _comando As SqlCommand
+        Dim filename As String = ""
+
+        Dim Nombre As String
+        Dim objDataReader As SqlDataReader
+
+        Dim _personaje As String
+
+        Tipo = sender.text
+        If Tipo = "S" Then
+            sender.text = "Q"
+            'EsSaludo.Checked = True
+        ElseIf Tipo = "Q" Then
+            sender.text = "R"
+            'EsPregunta.Checked = True
+        ElseIf Tipo = "R" Then
+            sender.text = "C"
+            ' Respuesta.Checked = True
+        ElseIf Tipo = "C" Then
+            sender.text = "O"
+            'EsComentario.Checked = True
+        ElseIf Tipo = "O" Then
+            sender.text = "S"
+        End If
+        Tipo = sender.text
+
+        '' _personaje = InputBox("Ingrese Personaje A:Mujer B:Hombre C:Contexto")
+        'If txtpersonaje.Text = "1" Then
+        '    _personaje = "2"
+        'ElseIf txtpersonaje.Text = "2" Then
+        '    _personaje = "3"
+        'ElseIf txtpersonaje.Text = "3" Then
+        '    _personaje = "4"
+        'ElseIf txtpersonaje.Text = "4" Then
+        '    _personaje = "1"
+        'End If
+        'If Trim(_personaje) = "" Then Exit Sub
+
+
+        'If e.button = MouseButtons.Right Then
+        '    'Oculta texto 
+        '    Exit Sub  'Falta revisar para que sirve
+        '    Dim IdPanel As String
+        '    ' IdPanel = sender.parent
+        '    IdPanel = pEtapa.Controls(sender.parent.name).name
+        '    If Not IsNothing(objtextOver) Then
+        '        'objtextOver.Font = New Font("Consolas", 11, FontStyle.Regular)
+        '    End If
+
+        _comando = MetodosDatos.CrearComando()
+
+        'sqlstring = " SELECT          Id, IdOracion, Orden, personaje"
+        'sqlstring = sqlstring & " FROM            Tbl_Dialogos "
+        'sqlstring = sqlstring & " WHERE  Id='" & IdDialogo & "'"
+        '_comando.CommandText = sqlstring
+
+        'Try
+        '    _comando.Connection.Open()
+
+        'Catch ex As Exception
+        'End Try
+
+        Dim audio As String
+        Dim _gif As String = ""
+        Dim _IMG As String = ""
+        Dim _Texto As String = ""
+        Dim previousHeight As Integer = 0
+        Dim _rate As Double
+        Dim Reproducciones As Integer
+        Dim Personaje As String
+        Dim carpeta As String
+        Dim FileToMove As String
+
+        'Try
+        '    objDataReader = _comando.ExecuteReader
+        '    If objDataReader.HasRows Then
+        '        objDataReader.Read()
+        '        If Not IsDBNull(objDataReader(3)) Then
+        '            Personaje = objDataReader(3)
+        '        End If
+        '        If Not IsDBNull(objDataReader(1)) Then
+        '            IdOracion = objDataReader(1)
+        '        End If
+        '        If Personaje = "1" Then
+        '            carpeta = "C:\Legacy\Ingles\Audios\Femenino\"
+        '        Else
+        '            carpeta = "C:\Legacy\Ingles\Audios\Masculino\"
+        '        End If
+
+        '        FileToMove = carpeta & IdOracion & ".mp3"
+
+        '    Else
+        '    End If
+
+        'Catch ex As Exception
+        '    MsgBox(ex.Message)
+        'End Try
+        '_comando.Connection.Close()
+
+        Dim n As UInteger = 0
+        Dim archivo As String
+
+
+        sqlstring = "UPDATE Oraciones SET EsRespuesta = @EsRespuesta"
+        sqlstring = sqlstring & " WHERE Id = @Id"
+        _comando.CommandText = sqlstring
+        _comando.Parameters.Clear()
+
+        _comando.Parameters.AddWithValue("@EsRespuesta", Tipo)
+        _comando.Parameters.AddWithValue("@Id", IdOracion)
+        _comando.Connection.Open()
+
+        Try
+            i = _comando.ExecuteNonQuery
+
+        Catch ex As Exception
+        End Try
+        _comando.Connection.Close()
+
+        'Mover el audio a la carpeta
+        'Dim carpetaNueva As String
+
+
+        'If _personaje = "1" Then
+        '    carpetaNueva = "C:\Legacy\Ingles\Audios\Femenino\"
+        'Else
+        '    carpetaNueva = "C:\Legacy\Ingles\Audios\Masculino\"
+        'End If
+
+        'Dim MoveLocation As String
+
+        'ofd.InitialDirectory = "C:\Legacy\Ingles\Audios\"
+        ''My.Computer.FileSystem.RenameFile("C:\Ruta\A\documento.txt", "informe.txt")
+        'If ofd.ShowDialog = Windows.Forms.DialogResult.OK Then
+
+        'Dim ruta As String = ""
+
+        'Try
+
+        '    If File.Exists(FileToMove) Then
+        '        ' El archivo existe
+        '        My.Computer.FileSystem.RenameFile("C:\Legacy\Ingles\Audios\" & IdOracion & ".mp3", IdOracion & "_2.mp3")
+        '    Else 'No existe
+        '        'FileToMove = filename
+        '        MoveLocation = carpetaNueva & IdOracion & ".mp3"
+
+        '        System.IO.File.Move(FileToMove, MoveLocation)
+
+        '    End If
+
+        '    'My.Computer.FileSystem.RenameFile(filename, IdOracion & ".mp3")
+
+        'Catch ex As Exception
+
+        'End Try
+
+        'txtpersonaje.Text = _personaje
+
+
+        '' Dim fila As DataRow = dt.Rows(0)
+        'dt.PrimaryKey = New DataColumn() {dt.Columns("Id")}
+        'Dim fila As DataRow = dt.Rows.Find(IdDialogo) ' Id = 1
+        ''dt.AcceptChanges()
+        ''dt.Clear()
+        ''da.Fill(dt)
+        'fila("avatar") = _personaje
+
+
+
 
 
 
@@ -6466,7 +6726,7 @@ Public Class frmEscenas
 
     Private Sub CambiarImagenDefault(sender, e)
         Dim sqlstring As String
-       
+
         Dim i As Integer
         Dim indice As Integer
         Dim nm As String
@@ -6498,7 +6758,7 @@ Public Class frmEscenas
 
         Dim resp As Integer
         Dim obj As PictureBox
-          
+
         Dim _comando As SqlCommand
         Dim filename As String = ""
 
@@ -6513,7 +6773,7 @@ Public Class frmEscenas
         _comando = MetodosDatos.CrearComando()
 
         sqlstring = " SELECT          Id, IdOracion, Orden, Personaje"
-        sqlstring = sqlstring & " FROM            Tbl_Dialogos_FR "
+        sqlstring = sqlstring & " FROM            Tbl_Dialogos "
         sqlstring = sqlstring & " WHERE  Id='" & IdDialogo & "'"
         _comando.CommandText = sqlstring
 
@@ -6546,7 +6806,7 @@ Public Class frmEscenas
         Dim FileToMove As String
         Dim valor As String
 
-        sqlstring = "UPDATE Oraciones_FR SET IMG = @IMG, personaje ='A'"
+        sqlstring = "UPDATE Oraciones SET IMG = @IMG, personaje ='A'"
         sqlstring = sqlstring & " WHERE Id = @Id"
         _comando.CommandText = sqlstring
         _comando.Parameters.Clear()
@@ -6608,11 +6868,11 @@ Public Class frmEscenas
 
 
         _comando = MetodosDatos.CrearComando()
-                  
+
         picDet = CType(panel.Controls("pd_" & _Item), PictureBox)
 
         Dim txt = CType(panel.Controls("txtReproduccion_" & _Item), Label)
-      
+
         sqlstring = " SELECT          d.Id, d.IdOracion, d.Orden, d.IdConversacion"
         sqlstring = sqlstring & " FROM            Tbl_Dialogos d INNER JOIN"
         sqlstring = sqlstring & "                    Oraciones o ON d.IdOracion = o.Id"
@@ -6689,7 +6949,7 @@ Public Class frmEscenas
     Private Sub CambiarStatusConversacion(sender, e)
         Dim _comando As SqlCommand = MetodosDatos.CrearComando()
         Dim sqlstring As String
-      
+
         Dim i As Integer
         Dim indice As Integer
         Dim nm As String
@@ -6752,7 +7012,7 @@ Public Class frmEscenas
 
         _comando.Parameters.AddWithValue("@status", status)
         _comando.Parameters.AddWithValue("@Det_Con", IdDet)
-         
+
         _comando.Connection.Open()
 
         Try
@@ -6777,6 +7037,8 @@ Public Class frmEscenas
 
 
     End Sub
+
+#End Region
 
     Private Sub AbrirDetalle(sender, e)
         Dim frm As New frmMoverDetalleConversacion
@@ -7587,8 +7849,8 @@ Public Class frmEscenas
         If ModVar.Idioma = "EN" Then
             sqlstring = " SELECT          d.Id, d.IdOracion, d.Orden, d.IdConversacion, o.IMG, o.audio, o.rate, o.Gif, o.TextoPlano, o.Reproduccion, d.Personaje, o.personaje, o.voice, o.expresion, o.Tiempos"
             sqlstring = sqlstring & ""
-            sqlstring = sqlstring & " FROM            Tbl_Dialogos_FR d INNER JOIN"
-            sqlstring = sqlstring & "                    Oraciones_FR o ON d.IdOracion = o.Id"
+            sqlstring = sqlstring & " FROM            Tbl_Dialogos d INNER JOIN"
+            sqlstring = sqlstring & "                    Oraciones o ON d.IdOracion = o.Id"
             sqlstring = sqlstring & " WHERE  d.Id='" & IdDialogo & "'"
         Else
             sqlstring = " SELECT          d.Id, d.IdOracion, d.Orden, d.IdConversacion, o.IMG, o.audio, o.rate, o.Gif, o.TextoPlano, o.Reproduccion, d.Personaje, o.personaje, o.voice, o.expresion,"
@@ -7832,7 +8094,7 @@ Public Class frmEscenas
         Else '' El archivo no existe
             'picDet.SendToBack()
 
-            If Idioma = "EN" Then
+            If ModVar.Idioma = "EN" Then
                 archivo_audio = "C:\Ingles\Audios3\femenino\" & IdOracionItem & ".mp3"
             Else
                 archivo_audio = "C:\frances\Audios\femenino\" & IdOracionItem & ".mp3"
@@ -7880,7 +8142,7 @@ Public Class frmEscenas
                 If Reproducciones + 1 >= LIMITE_MIN Then
                     txt.ForeColor = Color.Green
                 Else
-                    txt.ForeColor = Color.Salmon
+                    txt.ForeColor = Color.Gray
                 End If
 
             Else
@@ -9916,8 +10178,10 @@ Public Class frmEscenas
 
                 For Each ctrl As Control In c.controls
                     If TypeOf ctrl Is RichTextBox Then
-                        ' Dim txtBox As TextBox = DirectCast(ctrl, TextBox)
-                        ctrl.Visible = True
+                        'Dim txtBox As TextBox = DirectCast(ctrl, TextBox)
+                        If Not ctrl.Name Like "trad_*" Then
+                            ctrl.Visible = True
+                        End If
                     End If
                 Next
 
