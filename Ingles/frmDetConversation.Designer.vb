@@ -47,6 +47,9 @@ Partial Class frmDetConversation
         Me.txtOrdenInicio = New System.Windows.Forms.TextBox()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.txtIdioma = New System.Windows.Forms.TextBox()
+        Me.cmdAgregarFrases = New System.Windows.Forms.Button()
+        Me.txtStatus = New System.Windows.Forms.TextBox()
+        Me.cmdGeneraAudiosPython = New System.Windows.Forms.Button()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -304,11 +307,43 @@ Partial Class frmDetConversation
         Me.txtIdioma.TabIndex = 377
         Me.txtIdioma.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
+        'cmdAgregarFrases
+        '
+        Me.cmdAgregarFrases.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.cmdAgregarFrases.Location = New System.Drawing.Point(479, 295)
+        Me.cmdAgregarFrases.Name = "cmdAgregarFrases"
+        Me.cmdAgregarFrases.Size = New System.Drawing.Size(82, 39)
+        Me.cmdAgregarFrases.TabIndex = 379
+        Me.cmdAgregarFrases.Text = "Agregar Frases"
+        Me.cmdAgregarFrases.UseVisualStyleBackColor = False
+        '
+        'txtStatus
+        '
+        Me.txtStatus.BackColor = System.Drawing.Color.White
+        Me.txtStatus.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtStatus.Location = New System.Drawing.Point(12, 322)
+        Me.txtStatus.Multiline = True
+        Me.txtStatus.Name = "txtStatus"
+        Me.txtStatus.Size = New System.Drawing.Size(461, 66)
+        Me.txtStatus.TabIndex = 380
+        '
+        'cmdGeneraAudiosPython
+        '
+        Me.cmdGeneraAudiosPython.Location = New System.Drawing.Point(479, 340)
+        Me.cmdGeneraAudiosPython.Name = "cmdGeneraAudiosPython"
+        Me.cmdGeneraAudiosPython.Size = New System.Drawing.Size(77, 46)
+        Me.cmdGeneraAudiosPython.TabIndex = 381
+        Me.cmdGeneraAudiosPython.Text = "Genera Audios F3"
+        Me.cmdGeneraAudiosPython.UseVisualStyleBackColor = True
+        '
         'frmDetConversation
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(751, 346)
+        Me.ClientSize = New System.Drawing.Size(751, 400)
+        Me.Controls.Add(Me.cmdGeneraAudiosPython)
+        Me.Controls.Add(Me.txtStatus)
+        Me.Controls.Add(Me.cmdAgregarFrases)
         Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.txtIdioma)
         Me.Controls.Add(Me.Label7)
@@ -367,4 +402,7 @@ Partial Class frmDetConversation
     Friend WithEvents txtOrdenInicio As System.Windows.Forms.TextBox
     Public WithEvents Label8 As System.Windows.Forms.Label
     Friend WithEvents txtIdioma As System.Windows.Forms.TextBox
+    Friend WithEvents cmdAgregarFrases As System.Windows.Forms.Button
+    Friend WithEvents txtStatus As System.Windows.Forms.TextBox
+    Friend WithEvents cmdGeneraAudiosPython As System.Windows.Forms.Button
 End Class

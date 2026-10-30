@@ -85,7 +85,7 @@ Public Class frmDetConversation
     Dim str() As String
     Dim tp As String
     Dim param As String = ""
-    Dim q As Integer
+    Dim q As Integer 
 
 #Region " Inicio "
     Private Sub frmDetConversation_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
@@ -1560,6 +1560,132 @@ Public Class frmDetConversation
 
         Catch ex As Exception
         End Try
+
+    End Sub
+
+    Private Sub cmdAgregarFrases_Click(sender As System.Object, e As System.EventArgs) Handles cmdAgregarFrases.Click
+        Dim rutaArchivo As String = ""
+
+        ' ==========================
+        ' SELECCIONAR ARCHIVO WORD
+        ' ==========================
+
+        Using ofd As New OpenFileDialog()
+
+            ofd.Title = "Seleccionar documento Word"
+            ofd.InitialDirectory = "C:\Ingles\archivos"
+            ofd.Filter = "Documentos Word (*.docx)|*.docx|Todos los archivos (*.*)|*.*"
+            ofd.FilterIndex = 1
+            ofd.Multiselect = False
+
+            If ofd.ShowDialog() = DialogResult.OK Then
+
+                rutaArchivo = ofd.FileName
+
+            Else
+                Exit Sub
+            End If
+
+        End Using
+
+
+        Dim psi As New ProcessStartInfo()
+        psi.FileName = "python"
+        'psi.Arguments = "-u ""C:\legacy\Programas\Voz_Natural\ordenporId.py"" " & Enc_Id
+        psi.Arguments = "-u ""C:\legacy\Programas\Voz_Natural\GeneraEncabezado5.py"" """ & rutaArchivo & """ " & Id.ToString()
+        psi.UseShellExecute = False
+        psi.RedirectStandardOutput = True
+        psi.RedirectStandardError = True
+        psi.CreateNoWindow = True
+
+        Dim p As New Process()
+        p.StartInfo = psi
+        p.EnableRaisingEvents = True
+
+        AddHandler p.OutputDataReceived,
+            Sub(senderObj, args)
+                If args.Data IsNot Nothing Then
+                    Me.BeginInvoke(Sub()
+                                       txtStatus.Text &= vbCrLf & args.Data
+                                       txtStatus.SelectionStart = txtStatus.TextLength
+                                       txtStatus.ScrollToCaret()
+                                   End Sub)
+                End If
+            End Sub
+
+        AddHandler p.ErrorDataReceived,
+            Sub(senderObj, args)
+                If args.Data IsNot Nothing Then
+                    Me.BeginInvoke(Sub()
+                                       txtStatus.Text &= vbCrLf & args.Data
+                                       txtStatus.SelectionStart = txtStatus.TextLength
+                                       txtStatus.ScrollToCaret()
+                                   End Sub)
+                End If
+            End Sub
+
+        AddHandler p.Exited,
+            Sub()
+                Me.BeginInvoke(Sub()
+                                   'txtStatus.Text &= vbCrLf & args.Data
+                                   'txtStatus.Text = "Proceso finalizado"
+                               End Sub)
+            End Sub
+
+        p.Start()
+        p.BeginOutputReadLine()
+        p.BeginErrorReadLine()
+
+    End Sub
+
+    Private Sub cmdGeneraAudiosPython_Click(sender As System.Object, e As System.EventArgs) Handles cmdGeneraAudiosPython.Click
+       
+        Dim psi As New ProcessStartInfo()
+        psi.FileName = "python"
+        'psi.Arguments = "-u ""C:\legacy\Programas\Voz_Natural\ordenporId.py"" " & Enc_Id
+        psi.Arguments = "-u ""C:\legacy\Programas\Voz_Natural\GeneraAudiosF3.py"" " & Id.ToString()
+        psi.UseShellExecute = False
+        psi.RedirectStandardOutput = True
+        psi.RedirectStandardError = True
+        psi.CreateNoWindow = True
+
+        Dim p As New Process()
+        p.StartInfo = psi
+        p.EnableRaisingEvents = True
+
+        AddHandler p.OutputDataReceived,
+            Sub(senderObj, args)
+                If args.Data IsNot Nothing Then
+                    Me.BeginInvoke(Sub()
+                                       txtStatus.Text &= vbCrLf & args.Data
+                                       txtStatus.SelectionStart = txtStatus.TextLength
+                                       txtStatus.ScrollToCaret()
+                                   End Sub)
+                End If
+            End Sub
+
+        AddHandler p.ErrorDataReceived,
+            Sub(senderObj, args)
+                If args.Data IsNot Nothing Then
+                    Me.BeginInvoke(Sub()
+                                       txtStatus.Text &= vbCrLf & args.Data
+                                       txtStatus.SelectionStart = txtStatus.TextLength
+                                       txtStatus.ScrollToCaret()
+                                   End Sub)
+                End If
+            End Sub
+
+        AddHandler p.Exited,
+            Sub()
+                Me.BeginInvoke(Sub()
+                                   'txtStatus.Text &= vbCrLf & args.Data
+                                   'txtStatus.Text = "Proceso finalizado"
+                               End Sub)
+            End Sub
+
+        p.Start()
+        p.BeginOutputReadLine()
+        p.BeginErrorReadLine()
 
     End Sub
 End Class

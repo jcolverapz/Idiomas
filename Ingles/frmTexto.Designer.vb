@@ -119,6 +119,7 @@ Partial Class frmTexto
         '
         'Button1
         '
+        Me.Button1.Enabled = False
         Me.Button1.Location = New System.Drawing.Point(1024, 12)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(103, 35)

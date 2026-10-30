@@ -935,39 +935,179 @@ Public Class frmEscenas
 
     End Sub
 
+#Region " Panel "
+
     Sub InicializarPanel(pAux As Panel)
 
         ' Dim lblIndex As New Label
         ' pAux.Controls.Add(lblIndex)
+        Dim pd As PictureBox
+        Dim pAudio As CircularPictureBox
 
         Dim PosX As Integer = 0
+        Dim PosY As Integer = 0
 
         Dim items(3) As ItemPanel
 
+
+
+
         For j = 0 To 3   ' máximo 4 items
-            PosX = (j * 450) + 87
 
-            '' ===============================
-            '' Imagen
-            '' ===============================
+            PosX = (j * 450) + 200
 
-            Dim pd As New PictureBox
-            pd.Name = "pd_" & j
-            pd.BorderStyle = BorderStyle.None
-            '   pd.BackColor = Color.Black
-            pd.Cursor = Cursors.Hand
-            pd.Size = New Size(320, 180)
-            ' pd.Size = New Size(320, 200)
-            pd.SizeMode = PictureBoxSizeMode.Zoom
+            If j = 0 Then 'Panel # 1
+                '' ===============================
+                '' Imagen
+                '' ===============================
 
-            '  pd.Visible = False
+                pd = New PictureBox
+                pd.Name = "pd_" & j
+                pd.BorderStyle = BorderStyle.None
+                '   pd.BackColor = Color.Black
+                pd.Cursor = Cursors.Hand
+                pd.Size = New Size(320, 180)
+                ' pd.Size = New Size(320, 200)
+                pd.SizeMode = PictureBoxSizeMode.Zoom
 
-            pd.BringToFront()
+                '  pd.Visible = False
 
-            AddHandler pd.Click, AddressOf CambiarImagenDialogo
-            pAux.Controls.Add(pd)
+                pd.BringToFront()
 
-            pd.Location = New Point(PosX, 26)
+                AddHandler pd.Click, AddressOf CambiarImagenDialogo
+                pAux.Controls.Add(pd)
+
+                pd.Location = New Point(PosX, 26)
+                '' ===============================
+                '' BOTÓN AUDIO 
+                '' ===============================
+                pAudio = New CircularPictureBox
+                pAudio.Name = "pAudio_" & j
+                pAudio.Size = New Size(60, 60)
+                pAudio.SizeMode = PictureBoxSizeMode.Zoom
+                pAudio.Cursor = Cursors.Hand
+                pAudio.BackColor = Color.LightGray
+                ' AddHandler pAudio.Click, AddressOf CambiarImagen
+                AddHandler pAudio.MouseHover, AddressOf ReproducirAudio
+                AddHandler pAudio.Click, AddressOf ReproducirAudio
+                AddHandler pAudio.LostFocus, AddressOf QuitarMouse
+
+                pAux.Controls.Add(pAudio)
+
+                ' pAudio.Visible = True
+                'pAudio.Image = imgSonido
+                pAudio.Location = New Point(pd.Left - 75, pAux.Bottom - 100)
+
+
+            ElseIf j = 1 Then 'Panel # 2
+
+                '' ===============================
+                '' Imagen
+                '' ===============================
+
+                pd = New PictureBox
+                pd.Name = "pd_" & j
+                pd.BorderStyle = BorderStyle.None
+                '   pd.BackColor = Color.Black
+                pd.Cursor = Cursors.Hand
+                pd.Size = New Size(320, 180)
+                ' pd.Size = New Size(320, 200)
+                pd.SizeMode = PictureBoxSizeMode.Zoom
+
+                '  pd.Visible = False
+
+                pd.BringToFront()
+
+                AddHandler pd.Click, AddressOf CambiarImagenDialogo
+                pAux.Controls.Add(pd)
+
+                pd.Location = New Point(PosX, 26)
+                '' ===============================
+                '' BOTÓN AUDIO 
+                '' ===============================
+                pAudio = New CircularPictureBox
+                pAudio.Name = "pAudio_" & j
+                pAudio.Size = New Size(60, 60)
+                pAudio.SizeMode = PictureBoxSizeMode.Zoom
+                pAudio.Cursor = Cursors.Hand
+                pAudio.BackColor = Color.LightGray
+                ' AddHandler pAudio.Click, AddressOf CambiarImagen
+                AddHandler pAudio.MouseHover, AddressOf ReproducirAudio
+                AddHandler pAudio.Click, AddressOf ReproducirAudio
+                AddHandler pAudio.LostFocus, AddressOf QuitarMouse
+
+                pAux.Controls.Add(pAudio)
+
+                ' pAudio.Visible = True
+                'pAudio.Image = imgSonido
+                pAudio.Location = New Point(pd.Left - 75, pAux.Bottom - 100)
+
+
+            ElseIf j = 2 Then 'Panel # 3
+                PosX = (1 * 450) + 150
+                'PosY = -50
+
+                '' ===============================
+                '' BOTÓN AUDIO 
+                '' ===============================
+                pAudio = New CircularPictureBox
+                pAudio.Name = "pAudio_" & j
+                pAudio.Size = New Size(60, 60)
+                pAudio.SizeMode = PictureBoxSizeMode.Zoom
+                pAudio.Cursor = Cursors.Hand
+                pAudio.BackColor = Color.LightGray
+                ' AddHandler pAudio.Click, AddressOf CambiarImagen
+                AddHandler pAudio.MouseHover, AddressOf ReproducirAudio
+                AddHandler pAudio.Click, AddressOf ReproducirAudio
+                AddHandler pAudio.LostFocus, AddressOf QuitarMouse
+
+                pAux.Controls.Add(pAudio)
+
+                pAudio.Visible = True
+                'pAudio.Image = imgSonido
+                pAudio.Location = New Point(pd.Right + 40, pAux.Bottom - 100)
+
+            ElseIf j = 3 Then 'Panel # 4
+                PosX = (1 * 450) + 100
+                PosY -= 50
+                '' ===============================
+                '' BOTÓN AUDIO 
+                '' ===============================
+                pAudio = New CircularPictureBox
+                pAudio.Name = "pAudio_" & j
+                pAudio.Size = New Size(60, 60)
+                pAudio.SizeMode = PictureBoxSizeMode.Zoom
+                pAudio.Cursor = Cursors.Hand
+                pAudio.BackColor = Color.LightGray
+                ' AddHandler pAudio.Click, AddressOf CambiarImagen
+                AddHandler pAudio.MouseHover, AddressOf ReproducirAudio
+                AddHandler pAudio.Click, AddressOf ReproducirAudio
+                AddHandler pAudio.LostFocus, AddressOf QuitarMouse
+
+                pAux.Controls.Add(pAudio)
+
+                pAudio.Visible = True
+                'pAudio.Image = imgSonido
+                pAudio.Location = New Point(pd.Right + 40, pAux.Bottom - 200)
+            End If
+
+            ' ===============================
+            ' Reproducciones
+            ' ===============================' 
+            Dim txtReproduccion As New Label
+            txtReproduccion.Name = "txtReproduccion_" & j
+            'txtReproduccion.Width = 30 : btnVoz.Height = 25 ': btnTask.Text = "Report"
+            ' txtReproduccion.BorderStyle = BorderStyle.Fixed3D
+            txtReproduccion.Font = New System.Drawing.Font("Consolas", 18, FontStyle.Bold)
+            txtReproduccion.TextAlign = ContentAlignment.MiddleCenter
+            txtReproduccion.AutoSize = True
+
+
+            pAux.Controls.Add(txtReproduccion)
+
+            txtReproduccion.Location = New Point(pAudio.Left + 7, pAudio.Bottom + 4)
+            txtReproduccion.Visible = True
+
 
             '' ===============================
             '' Reproductor
@@ -988,25 +1128,6 @@ Public Class frmEscenas
 
 
 
-            '' ===============================
-            '' BOTÓN AUDIO (reutilizable)
-            '' ===============================
-            Dim pAudio As New CircularPictureBox
-            pAudio.Name = "pAudio_" & j
-            pAudio.Size = New Size(60, 60)
-            pAudio.SizeMode = PictureBoxSizeMode.Zoom
-            pAudio.Cursor = Cursors.Hand
-            pAudio.BackColor = Color.LightGray
-            ' AddHandler pAudio.Click, AddressOf CambiarImagen
-            AddHandler pAudio.MouseHover, AddressOf ReproducirAudio
-            AddHandler pAudio.Click, AddressOf ReproducirAudio
-            AddHandler pAudio.LostFocus, AddressOf QuitarMouse
-
-            pAux.Controls.Add(pAudio)
-
-            ' pAudio.Visible = True
-            'pAudio.Image = imgSonido
-            pAudio.Location = New Point(pd.Left - 75, pAux.Bottom - 120)
             '===========
             'Test
             '===========
@@ -1051,7 +1172,7 @@ Public Class frmEscenas
 
             pAux.Controls.Add(txt)
 
-          
+
 
             ' ===============================
             ' IPA
@@ -1073,7 +1194,7 @@ Public Class frmEscenas
             IPA.Width = 300
             IPA.Height = IPA.PreferredHeight
 
-            IPA.Visible = True
+            IPA.Visible = False
 
             IPA.Location = New Point(txt.Left, txt.Bottom + 2)
 
@@ -1097,25 +1218,35 @@ Public Class frmEscenas
 
             traduccion.Width = 300
             traduccion.Height = traduccion.PreferredHeight
-            traduccion.Visible = True
+            traduccion.Visible = False
 
             traduccion.Location = New Point(IPA.Left + 5, IPA.Bottom + 2)
 
             pAux.Controls.Add(traduccion)
 
+            '==============================================================================================
+            ' Botones
+            '==============================================================================================
+
             '' ===============================
             '' btnLeer
             '' ===============================
 
-            Dim btnLeer As New Button
-            btnLeer.Name = "btnLeer_" & j
-            btnLeer.Width = 25 : btnLeer.Height = 25
-            btnLeer.Cursor = Cursors.Hand
-            btnLeer.Location = New Point(pd.Left - 15, 1)
-            btnLeer.Visible = True
-            AddHandler btnLeer.Click, AddressOf AbrirDetalle
-            pAux.Controls.Add(btnLeer)
-            '  btnLeer.BackColor = Color.Green
+            'Dim btnLeer As New Button
+            'btnLeer.Name = "btnLeer_" & j
+            'btnLeer.Width = 25 : btnLeer.Height = 25
+            'btnLeer.Cursor = Cursors.Hand
+            'btnLeer.Visible = True
+            'AddHandler btnLeer.Click, AddressOf AbrirDetalle
+            'btnLeer.Location = New Point(pd.Left - 15, 1)
+
+            'If j > 1 Then
+            '    btnLeer.Visible = False
+            '    btnLeer.Location = New Point(pAudio.Left - 30, pAudio.Bottom + 10)
+            'End If
+            'btnLeer.BackColor = Color.Green
+
+            'pAux.Controls.Add(btnLeer)
 
             ' ===============================
             '' Show / Hide
@@ -1127,7 +1258,11 @@ Public Class frmEscenas
             btnHide.Text = "-"
             btnHide.Cursor = Cursors.Hand
             AddHandler btnHide.Click, AddressOf Show
-            btnHide.Location = New Point(btnLeer.Right + 1, 1)
+            btnHide.Location = New Point(pAudio.Right + 1, 1)
+
+            If j > 1 Then
+                btnHide.Location = New Point(pAudio.Left - 30, pAudio.Bottom + 7)
+            End If
 
             pAux.Controls.Add(btnHide)
 
@@ -1144,7 +1279,12 @@ Public Class frmEscenas
 
             AddHandler btnAprendido.Click, AddressOf StatusControl
             btnAprendido.Location = New Point(btnHide.Right + 1, 1)
+
             btnAprendido.Visible = True
+
+            If j > 1 Then
+                btnAprendido.Location = New Point(btnHide.Left, btnHide.Top - 25)
+            End If
 
             'If Not IsDBNull(row("Reproduccion")) Then
             '    If row("Reproduccion") <= 0 Then
@@ -1172,10 +1312,15 @@ Public Class frmEscenas
 
             AddHandler btnFalta.Click, AddressOf StatusControl
 
-            btnFalta.Location = New Point(btnAprendido.Right + 1, 1)
             btnFalta.Visible = True
             btnFalta.BackColor = Color.LightGray
 
+            btnFalta.Location = New Point(btnAprendido.Right + 1, 1)
+
+            If j > 1 Then
+                'btnFalta.Visible = False
+                btnFalta.Location = New Point(btnAprendido.Left, btnAprendido.Top - 25)
+            End If
             pAux.Controls.Add(btnFalta)
 
             ' ===============================
@@ -1191,9 +1336,14 @@ Public Class frmEscenas
 
             AddHandler btnMover.Click, AddressOf MoverDialogo
 
-            btnMover.Location = New Point(btnFalta.Right + 1, 1)
             btnMover.Visible = True
 
+            btnMover.Location = New Point(btnFalta.Right + 1, 1)
+
+            If j > 1 Then
+                btnMover.Visible = False
+                ' btnMover.Location = New Point(btnFalta.Left, btnFalta.Top - 25)
+            End If
             pAux.Controls.Add(btnMover)
 
             ' ===============================
@@ -1207,11 +1357,15 @@ Public Class frmEscenas
             'btnDelete.Tag = rw.Item(0)
             btnDelete.Cursor = Cursors.Hand
             AddHandler btnDelete.Click, AddressOf Delete
-            ' btnDelete.BackColor = Color.Red
+            btnDelete.BackColor = Color.Red
 
             btnDelete.Visible = True
-            btnDelete.Location = New Point(btnMover.Right + 1, 1)
 
+            btnDelete.Location = New Point(btnMover.Right + 1, 1)
+            If j > 1 Then
+                btnDelete.Visible = False
+                'btnDelete.Location = New Point(btnMover.Left, btnMover.Top - 25)
+            End If
             pAux.Controls.Add(btnDelete)
 
             ' ===============================
@@ -1225,8 +1379,13 @@ Public Class frmEscenas
             'btnEditar.Tag = rw.Item(0)
             AddHandler btnEditar.Click, AddressOf Editar
             btnEditar.Visible = True
+
             btnEditar.Location = New Point(btnDelete.Right + 0.5, 1)
             ' btnEditar.BackColor = Color.Red
+            If j > 1 Then
+                btnEditar.Visible = False
+                ' btnEditar.Location = New Point(btnDelete.Left, btnDelete.Top - 25)
+            End If
 
             pAux.Controls.Add(btnEditar)
 
@@ -1260,6 +1419,10 @@ Public Class frmEscenas
             btnStatus.Visible = True
             btnStatus.Location = New Point(btnEditar.Right + 1, 1)
 
+            If j > 1 Then
+                'btnStatus.Visible = False
+                btnStatus.Location = New Point(btnFalta.Left, btnFalta.Top - 25)
+            End If
 
             pAux.Controls.Add(btnStatus)
 
@@ -1273,11 +1436,17 @@ Public Class frmEscenas
             ' AddHandler txtScore.Click, AddressOf SeleccionarPersona
             personaje.Width = 25 : personaje.Height = 25
             personaje.Text = "-"
-            personaje.Location = New Point(btnStatus.Right + 1, 1)
             ' personaje.BackColor = Color.LightGray
             'personaje.BackColor = Color.Red
             personaje.Cursor = Cursors.Hand
             AddHandler personaje.Click, AddressOf CambiarPersonaje
+
+            personaje.Location = New Point(btnStatus.Right + 1, 1)
+
+            If j > 1 Then
+                personaje.Visible = False
+                ' personaje.Location = New Point(btnStatus.Left, btnStatus.Top + 1)
+            End If
 
             pAux.Controls.Add(personaje)
 
@@ -1292,10 +1461,14 @@ Public Class frmEscenas
             ' AddHandler txtScore.Click, AddressOf SeleccionarPersona
             'imagen.Width = 60
             imagen.Text = "Like"
-            imagen.Location = New Point(personaje.Right + 2, 1)
             ' personaje.BackColor = Color.Red
             imagen.Cursor = Cursors.Hand
             AddHandler imagen.Click, AddressOf CambiarImagenDefault
+            imagen.Location = New Point(personaje.Right + 2, 1)
+
+            If j > 1 Then
+                imagen.Location = New Point(personaje.Left, personaje.Top - 25)
+            End If
 
             pAux.Controls.Add(imagen)
             ' ===============================
@@ -1308,10 +1481,15 @@ Public Class frmEscenas
 
             ' pregunta.Width = 60
             pregunta.Text = "?"
-            pregunta.Location = New Point(imagen.Right + 2, 1)
             pregunta.BackColor = Color.LightGray
             pregunta.Cursor = Cursors.Hand
             AddHandler pregunta.Click, AddressOf CambiarTipo
+            pregunta.Location = New Point(imagen.Right + 2, 1)
+
+            If j > 1 Then
+                pregunta.Location = New Point(imagen.Left, imagen.Top - 25)
+
+            End If
 
             pAux.Controls.Add(pregunta)
             ' ===============================
@@ -1325,6 +1503,10 @@ Public Class frmEscenas
             ' pregunta.Width = 60
             subir.Text = "^"
             subir.Location = New Point(pregunta.Right + 2, 1)
+            If j > 1 Then
+                subir.Visible = False
+                ' subir.Location = New Point(pregunta.Left, pregunta.Top - 10)
+            End If
             ' personaje.BackColor = Color.Red
             subir.Cursor = Cursors.Hand
             AddHandler subir.Click, AddressOf subirDialogo
@@ -1341,11 +1523,17 @@ Public Class frmEscenas
             'Favorito.Image = ImageList1.Images(5)
             'Favorito.SizeMode = PictureBoxSizeMode.Zoom
 
-            Favorito.Location = New Point(subir.Right + 0.5, 1)
             Favorito.Visible = True
             ' Favorito.BackColor = Color.Red
 
             AddHandler Favorito.Click, AddressOf CambiarFavorito
+            Favorito.Location = New Point(subir.Right + 0.5, 1)
+
+            If j > 1 Then
+                Favorito.Visible = False
+                'Favorito.Location = New Point(subir.Left, subir.Top - 10)
+            End If
+
             pAux.Controls.Add(Favorito)
 
             ' ===============================
@@ -1360,29 +1548,14 @@ Public Class frmEscenas
             ' Score.BackColor = Color.Red
             AddHandler Score.Click, AddressOf CambiarScore
             Score.Cursor = Cursors.Hand
-            Score.Location = New Point(Favorito.Right + 2, Favorito.Top + 5)
             Score.Visible = True
+            Score.Location = New Point(Favorito.Right + 2, Favorito.Top + 5)
+
+            If j > 1 Then
+                Score.Location = New Point(Favorito.Left, Favorito.Top - 25)
+            End If
 
             pAux.Controls.Add(Score)
-
-
-            ' ===============================
-            ' Reproducciones
-            ' ===============================' 
-            Dim txtReproduccion As New Label
-            txtReproduccion.Name = "txtReproduccion_" & j
-            'txtReproduccion.Width = 30 : btnVoz.Height = 25 ': btnTask.Text = "Report"
-            ' txtReproduccion.BorderStyle = BorderStyle.Fixed3D
-            txtReproduccion.Font = New System.Drawing.Font("Consolas", 18, FontStyle.Bold)
-            txtReproduccion.TextAlign = ContentAlignment.MiddleCenter
-            txtReproduccion.AutoSize = True
-
-
-            pAux.Controls.Add(txtReproduccion)
-
-            txtReproduccion.Location = New Point(pAudio.Left + 8, pAudio.Bottom + 8)
-            txtReproduccion.Visible = True
-
 
 
             'pAux.Controls.Add(pd)
@@ -1398,7 +1571,7 @@ Public Class frmEscenas
                 .trad = traduccion,
                 .IPA = IPA,
                 .audio = pAudio,
-                .btnHide = btnHide,
+                .hide = btnHide,
                 .favorito = Favorito,
                 .reproduccion = txtReproduccion,
                 .score = Score,
@@ -1524,7 +1697,7 @@ Public Class frmEscenas
             Dim aprendido = item.aprendido
             Dim falta = item.falta
             Dim editar = item.editar
-            Dim hide = item.btnHide
+            Dim hide = item.hide
             Dim status = item.status
             Dim txtpersonaje = item.personaje
             Dim txtImagen = item.imagen
@@ -1584,7 +1757,6 @@ Public Class frmEscenas
             ' ===============================
             ' BOTÓN AUDIO 
             '' ===============================
-            leer.Tag = row("Id")
 
             pAudio.Tag = row("Id")
 
@@ -1659,7 +1831,7 @@ Public Class frmEscenas
             Else
                 txt.ForeColor = Color.Black
             End If
-           
+
 
             '============================
             ' IPA
@@ -1759,10 +1931,12 @@ Public Class frmEscenas
             ' ===============================
             ' btn Leer
             '' ===============================
+            'leer.Tag = row("Id")
+
             If Not IsDBNull(row("MasUsada")) Then
                 ' leer.Text = Mid(row("Tipo"), 1, 1)
                 If row("MasUsada") = "S" Then
-                    leer.BackColor = Color.Green
+                    ' leer.BackColor = Color.Green
                 End If
             End If
 
@@ -1820,7 +1994,7 @@ Public Class frmEscenas
             End If
 
 
-           
+
 
             'IPA.Visible = False
 
@@ -1837,7 +2011,7 @@ Public Class frmEscenas
 
         'Limpiar basura
 
-        For j = i To 3
+        For j = i To 2
 
             Dim pd = CType(pAux.Controls("pd_" & j), PictureBox)
             Dim pAudio = CType(pAux.Controls("pAudio_" & j), CircularPictureBox)
@@ -1850,7 +2024,7 @@ Public Class frmEscenas
             Dim fav = CType(pAux.Controls("btnfavorito_" & j), PictureBox)
             Dim txtpersonaje = CType(pAux.Controls("txtpersonaje_" & j), Button)
 
-            pd.Visible = False
+            'pd.Visible = False
             pAudio.Visible = False
             txt.Visible = False 'Texto
             trad.Visible = False 'Traduccion
@@ -2097,6 +2271,9 @@ Public Class frmEscenas
         End If
         Return cacheImagenes(ruta)
     End Function
+
+#End Region
+
 
     Function CargarImagenSeguro(ruta As String) As Image
 
@@ -3533,7 +3710,12 @@ Public Class frmEscenas
         tp = str(0)
         _Item = str(1)
 
-        picDet = CType(panel.Controls("pd_" & _Item), PictureBox)
+        If _Item > 1 Then
+            picDet = CType(panel.Controls("pd_" & 1), PictureBox)
+        Else
+            picDet = CType(panel.Controls("pd_" & _Item), PictureBox)
+        End If
+
         Dim texto = CType(panel.Controls("txt_" & _Item), RichTextBox)
         Dim pAudio = CType(panel.Controls("pAudio_" & _Item), CircularPictureBox)
 
@@ -3546,7 +3728,7 @@ Public Class frmEscenas
 
             sender.text = "."
             picDet.Size = New Size(320, 180)
-            texto.Location = New Point(pAudio.Right + 10, picDet.Bottom + 5)
+            texto.Location = New Point(pAudio.Right + 10, pAudio.Bottom + 5)
 
         Else
             panel.Controls.Item("txt_" & _Item).Visible = False
@@ -7817,7 +7999,13 @@ Public Class frmEscenas
 
         Dim panel = CType(pAudio.Parent, Panel)
         Dim orden As Integer
-        picDet = CType(panel.Controls("pd_" & _Item), PictureBox)
+
+        If _Item <> 0 Then
+            picDet = CType(panel.Controls("pd_" & 1), PictureBox)
+        Else
+            picDet = CType(panel.Controls("pd_" & 0), PictureBox)
+
+        End If
 
         wmp.Location = picDet.Location
 

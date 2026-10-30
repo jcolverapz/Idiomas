@@ -3301,9 +3301,9 @@ Public Class FrmDetOracion
     End Sub
 #End Region
 
-   
+#Region "Lo demas II"
     Private Sub cmdAbrirAudio_Click(sender As System.Object, e As System.EventArgs) Handles cmdAbrirAudio.Click
- 
+
         Dim searchLocation As String = "C:\Legacy\Ingles\Audios\"
 
         ' Format the search command with the protocol
@@ -3323,7 +3323,7 @@ Public Class FrmDetOracion
     End Sub
 
     Private Sub cmdAgregarGif_Click(sender As System.Object, e As System.EventArgs) Handles cmdAgregarGif.Click
-        
+
         Dim i As Integer
 
         Using ofd As New OpenFileDialog
@@ -3442,7 +3442,7 @@ Public Class FrmDetOracion
         If lstAudios.SelectedItems.Count > 0 Then
 
             Voz = lstAudios.SelectedItems.Item(0).SubItems(1).Text
-              
+
             Select Case Voz
 
                 Case Is = "Voz 1"
@@ -3486,8 +3486,8 @@ Public Class FrmDetOracion
         End If
     End Sub
 
-     
-    
+
+
     Private Sub cmdQuitarAudio_Click(sender As System.Object, e As System.EventArgs) Handles cmdQuitarAudio.Click
         Dim i As Integer
         Dim carpeta As String
@@ -3539,7 +3539,7 @@ Public Class FrmDetOracion
 
         '    End If
 
-       
+
 
 
         ' End Using
@@ -3568,62 +3568,62 @@ Public Class FrmDetOracion
         Dim Id, j As Integer
         Dim sqlstring As String
         Dim i As Integer
-        
+
         Dim valorActual As String
         Dim valorModificado As String
-         
+
         Dim frase As String = ""
         Dim numeroDePalabras As Integer
-        
-          
+
+
         frase = descripcion
         _comando.Connection.Open()
 
-            Dim palabras() As String = frase.Split({" "}, StringSplitOptions.RemoveEmptyEntries) ' Divide la frase en un array de palabras usando el espacio como separador
-            Dim IPA As String = ""
+        Dim palabras() As String = frase.Split({" "}, StringSplitOptions.RemoveEmptyEntries) ' Divide la frase en un array de palabras usando el espacio como separador
+        Dim IPA As String = ""
 
-            For Each p In palabras
+        For Each p In palabras
 
-                sqlstring = " SELECT         Concepto, IPA"
-                sqlstring = sqlstring & " FROM            Conceptos"
-                sqlstring = sqlstring & " WHERE  Concepto = @Concepto"
-                _comando.CommandText = sqlstring
+            sqlstring = " SELECT         Concepto, IPA"
+            sqlstring = sqlstring & " FROM            Conceptos"
+            sqlstring = sqlstring & " WHERE  Concepto = @Concepto"
+            _comando.CommandText = sqlstring
 
-                _comando.Parameters.Clear()
+            _comando.Parameters.Clear()
 
-                _comando.Parameters.AddWithValue("@Concepto", p)
+            _comando.Parameters.AddWithValue("@Concepto", p)
 
-                Dim objDataReader As SqlDataReader
-                objDataReader = _comando.ExecuteReader
+            Dim objDataReader As SqlDataReader
+            objDataReader = _comando.ExecuteReader
 
-                If objDataReader.HasRows Then
+            If objDataReader.HasRows Then
 
-                    objDataReader.Read()
+                objDataReader.Read()
 
-                    IPA = IPA & " " & objDataReader(1)
-                Else
-                    IPA = IPA & " " & p
+                IPA = IPA & " " & objDataReader(1)
+            Else
+                IPA = IPA & " " & p
 
-                End If
-
-                objDataReader.Close()
-
-            Next
-
-            If IPA <> "" Then
-                sqlstring = " UPDATE Oraciones Set IPA = @IPA"
-            sqlstring = sqlstring & " WHERE (Id = '" & IdOracion & "')"
-                _comando.CommandText = sqlstring
-
-                _comando.Parameters.Clear()
-                _comando.Parameters.AddWithValue("@IPA", IPA)
-
-                Try
-                    j = _comando.ExecuteNonQuery
-                Catch ex As Exception
-                End Try
             End If
-             
+
+            objDataReader.Close()
+
+        Next
+
+        If IPA <> "" Then
+            sqlstring = " UPDATE Oraciones Set IPA = @IPA"
+            sqlstring = sqlstring & " WHERE (Id = '" & IdOracion & "')"
+            _comando.CommandText = sqlstring
+
+            _comando.Parameters.Clear()
+            _comando.Parameters.AddWithValue("@IPA", IPA)
+
+            Try
+                j = _comando.ExecuteNonQuery
+            Catch ex As Exception
+            End Try
+        End If
+
         _comando.Connection.Close()
 
         txtIPA.Text = IPA
@@ -3631,7 +3631,7 @@ Public Class FrmDetOracion
     End Sub
 
     Private Sub txtIPA_TextChanged(sender As System.Object, e As System.EventArgs) Handles txtIPA.TextChanged
-         
+
         If Me.txtIPA.Text <> IPA Then
             Try
                 DetectChanges("IPA", IPA, txtIPA.Text, "")
@@ -3723,14 +3723,14 @@ Public Class FrmDetOracion
 
         Dim FileToDelete As String
         Dim MoveLocation As String
-         
+
         If Idioma = "EN" Then
             FileToDelete = "C:\Ingles\Audios3\Femenino\" & IdOracion & ".mp3"
         Else
             FileToDelete = "C:\Frances\Audios\Femenino\" & IdOracion & ".mp3"
 
         End If
-        
+
 
         Try
 
@@ -3852,7 +3852,7 @@ Public Class FrmDetOracion
 
     End Sub
 
-     
+
     Private Sub txtIMG_TextChanged(sender As System.Object, e As System.EventArgs) Handles txtIMG.TextChanged
         If Me.txtIMG.Text <> Imagen Then
             Try
@@ -3954,7 +3954,7 @@ Public Class FrmDetOracion
         Dim da As New SqlDataAdapter
         Dim i As Integer
         Dim GrupoO As Integer
-         
+
         'GrupoO = cboGrupo.Items(cboGrupo.SelectedIndex).ItemData()
 
         sqlstring = "Insert into Oraciones (Oracion, TextoPlano, Traduccion, GrupoO)"
@@ -3968,7 +3968,7 @@ Public Class FrmDetOracion
         _comando.Parameters.AddWithValue("@TextoPlano", OracionEN)
         _comando.Parameters.AddWithValue("@Traduccion", OracionES)
         _comando.Parameters.AddWithValue("@GrupoO", 1050)
-         
+
         '   _comando.Parameters.AddWithValue("@foco", 1)
         'Else
         '    _comando.Parameters.AddWithValue("@foco", 0)
@@ -3992,7 +3992,7 @@ Public Class FrmDetOracion
         txtOracionNueva.Text = ""
         txtTraduccionNueva.Text = ""
 
-         
+
     End Sub
 
     Private Sub cmbTema_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles cmbTema.SelectedIndexChanged
@@ -4008,7 +4008,7 @@ Public Class FrmDetOracion
 
     Private Sub EsPregunta_CheckedChanged(sender As System.Object, e As System.EventArgs)
 
-      
+
     End Sub
 
     Private Sub EsPersonajeA_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles EsPersonajeA.CheckedChanged
@@ -4108,7 +4108,7 @@ Public Class FrmDetOracion
         MessageBox.Show(resultado)
     End Sub
 
-  
+
 
     Private Sub txtPregunta_TextChanged(sender As System.Object, e As System.EventArgs) Handles txtPregunta.TextChanged
         If Me.txtPregunta.Text <> Pregunta Then
@@ -4178,12 +4178,12 @@ Public Class FrmDetOracion
         _comando.Connection.Close()
     End Sub
 
-     
+
 
     Private Sub cmdEliminarVideo_Click(sender As System.Object, e As System.EventArgs) Handles cmdEliminarVideo.Click
         Dim i As Integer
         Dim carpeta As String
-         
+
         Dim FileToDelete As String
         Dim MoveLocation As String
 
@@ -4311,7 +4311,7 @@ Public Class FrmDetOracion
 
     End Sub
 
-    
+
 
     Private Sub cboVoice_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles cboVoice.SelectedIndexChanged
         If Me.cboVoice.Text <> voice Then
@@ -4334,7 +4334,7 @@ Public Class FrmDetOracion
             End Try
         End If
     End Sub
- 
+
     Private Sub checkObjeto_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles checkObjeto.CheckedChanged
         Dim _personajeNuevo As String
 
@@ -4354,6 +4354,9 @@ Public Class FrmDetOracion
         End If
     End Sub
 
+#End Region
+
+#Region " Tipo "
     Private Sub ActualizaTipo(tipo)
         Dim _comando As SqlCommand = MetodosDatos.CrearComando()
         Dim sqlstring As String
@@ -4406,8 +4409,6 @@ Public Class FrmDetOracion
         cmdExit_Click(sender, e)
 
     End Sub
-#Region " Tipo "
-
     Private Sub EsSaludo_Click(sender As Object, e As System.EventArgs) Handles EsSaludo.Click
         Dim _tipo As String
 
@@ -4456,16 +4457,9 @@ Public Class FrmDetOracion
     End Sub
 
 #End Region
-    
-    
-
-     
-
-   
-
-
-     
+      
     Private Sub EsSaludo_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles EsSaludo.CheckedChanged
 
     End Sub
+
 End Class

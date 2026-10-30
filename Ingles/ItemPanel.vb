@@ -10,7 +10,7 @@
     Public reproduccion As Label
     Public score As Label
     Public editar As Button
-    Public btnHide As Button
+    Public hide As Button
     Public aprendido As Button
     Public status As Button
     Public personaje As Button

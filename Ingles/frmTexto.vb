@@ -140,16 +140,24 @@ Public Class frmTexto
 
         sqlstring = ""
 
-        descripcion = txtDescripcion.Text
+       
 
-        If descripcion = "" Then Exit Sub
+        '=====================
+        ' Grupo
+        '======================
 
         Dim GrupoId As Integer
 
-        If cboGrupo.SelectedIndex = -1 Then Exit Sub
+        If cboGrupo.SelectedIndex = -1 Then
+            MsgBox("Seleccione un grupo", MsgBoxStyle.Exclamation)
+            Exit Sub
+        End If
         GrupoId = cboGrupo.Items(cboGrupo.SelectedIndex).ItemData()
 
         If Con_Id = 0 Then
+            descripcion = txtDescripcion.Text
+
+            If descripcion = "" Then Exit Sub
             Con_Id = frmNewConversation.GuardarConversation(descripcion, "N")
         End If
        
@@ -165,14 +173,15 @@ Public Class frmTexto
 
             textoModificado = Trim(OracionEN.Replace("?", "")) ' Reemplaza el símbolo de ? por ""
 
+            '============================================
             'buscar en Conversaciones
+            '============================================
             If ModVar.Idioma = "EN" Then
                 sqlstring = " SELECT Id, TextoPlano, Traduccion  FROM Oraciones"
             Else
                 sqlstring = " SELECT Id, TextoPlano, Traduccion  FROM Oraciones_FR"
             End If
 
-            'sqlstring = " SELECT Id, TextoPlano, Traduccion  FROM Oraciones"
 
             sqlstring = sqlstring & " Where TextoPlano = '@TextoPlano' "
 
@@ -239,7 +248,7 @@ Public Class frmTexto
             objDataReader.Close()
 
             'Detalle conversation
-            sqlstring = "Insert into det_Conversation (Det_OracionId, Det_Orden, Con_Id, Det_Person)"
+            sqlstring = "Insert into det_Conversation (Det_OracionId, Orden, Con_Id, Det_Person)"
             sqlstring = sqlstring & " Values ('" & IdOracion & "', '" & j & "', '" & Con_Id & "', '0')"
             _comando.CommandText = sqlstring
 
